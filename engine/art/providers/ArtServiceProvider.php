@@ -21,9 +21,7 @@ class ArtServiceProvider extends ServiceProvider {
      */
     public function register() {
 
-        $this->app->bind('path.public', function() {
-            return realpath(base_path() . '/..');
-        });
+
         if (!defined('LAZER_DATA_PATH')) {
 
             define('LAZER_DATA_PATH', base_path() . '/' . Env("LAZER_DATA_PATH"));

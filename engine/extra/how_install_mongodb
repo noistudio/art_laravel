@@ -1,0 +1,17 @@
+Как установить монгу
+Для того чтобы установить монгу  вам нужно подключить библиотеку https://github.com/jenssegers/laravel-mongodb
+Скопировать папку /extra/mg в /engine/plugins/mg
+После этого вам нужно раскоментировать все события связанные с /mg/* 
+в файле /engine/Providers/EventServiceProvider.php
+
+После этого в .env файле прописать данные для монги.
+
+Если вам нужно сделать так чтобы все работало только на МонгоДБ,то вам нужно файл /extra/SqlDocument.php поместить
+в папку /engine/art/db/SqlDocument.php 
+это заменит хранение внутренних параметров с mysql на mongodb 
+После этого в .env файле ,вам нужно поставить DB_CONNECTION=mongodb
+
+После этого вам нужно закоментировать все события связанные с /content/* 
+в файле /engine/Providers/EventServiceProvider.php
+
+
