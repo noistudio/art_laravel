@@ -209,7 +209,8 @@ class ManageContent extends \managers\backend\AdminController {
         $row = \content\models\RowModel::editFields($nametable, array(), false);
         AppConfig::set("subnav", $nametable);
         if (is_array($row) and count($row) > 0) {
-            $model = new \content\models\DynamicTables($nametable);
+            // $model = new \content\models\DynamicTables($nametable);
+            $model = \content\models\MasterTable::find($nametable);
             $data = array();
             $data['table'] = $model->getTable();
             $data['row'] = $row;
@@ -248,7 +249,7 @@ class ManageContent extends \managers\backend\AdminController {
 
 
         $row = \db\SqlQuery::get(array('last_id' => $id), $nametable);
-        $model = new \content\models\DynamicTables($nametable);
+        $model = \content\models\MasterTable::find($nametable);
         AppConfig::set("subnav", $nametable);
         if (is_array($row)) {
             $data = array();

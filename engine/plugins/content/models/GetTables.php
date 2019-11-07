@@ -10,22 +10,6 @@ use plugsystem\GlobalParams;
 
 class GetTables {
 
-    static function replace_action($document, $html) {
-        if (is_null($html)) {
-            return $html;
-        }
-        $json = json_decode($document['action'], true);
-        $action_html = "";
-        if (is_array($json)) {
-            $action_html = call_user_func($json['namespace'] . '::' . $json['static_method'], $json, $document['uid'], $document);
-            if (!is_string($action_html)) {
-                $action_html = "";
-            }
-        }
-        $html = str_replace("{action}", $action_html, $html);
-        return $html;
-    }
-
     static function one($nametable, $id) {
         $table = \db\JsonQuery::get($nametable, "tables", "name");
 
@@ -98,7 +82,8 @@ class GetTables {
 
 
         if (isset($orderby) and is_array($orderby) and count($orderby) > 0) {
-            $query->orderBy(SqlQuery::order_array_to_raw($orderby));
+
+            $query->orderByRaw(SqlQuery::order_array_to_raw($orderby));
         } else {
             $query->orderByRaw(GetTables::orderby($table));
         }
@@ -133,7 +118,7 @@ class GetTables {
         }
         $table = \db\JsonQuery::get($nametable, "tables", "name");
 
-        $paginator = new \plugcomponents\Paginator;
+        $paginator = new \core\Paginator();
         $result = array();
         $result_rows = array();
         $query = \DB::table($nametable);
@@ -203,7 +188,8 @@ class GetTables {
         $query->orderByRaw(GetTables::orderby($table));
         $query = GetTables::parse_query_list($query, $table);
 
-        $cache_key = $table->name . "_" . json_encode($query->where) . "_" . $offset . "_" . $limit;
+
+        $cache_key = $table->name . "_" . json_encode($query->wheres) . "_" . $offset . "_" . $limit;
 
 // build and execute the query
 //        echo $query->createCommand()->rawSql;

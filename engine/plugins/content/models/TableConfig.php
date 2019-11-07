@@ -57,13 +57,15 @@ class TableConfig {
     }
 
     static function delete($nametable) {
+
         $table = TableConfig::get($nametable);
+        if (isset($table) and is_object($table) and ! is_null($table->name)) {
+            return false;
+        }
         Lazer::table('tables')->where('name', '=', $nametable)->find()->delete();
 
 
-        if (is_null($table)) {
-            return false;
-        }
+
         //\db\SqlQuery::delete($nametable, array());
         \Schema::dropIfExists($nametable);
     }
@@ -507,7 +509,7 @@ class TableConfig {
     static function get($table) {
 
         $row = \db\JsonQuery::get($table, "tables", "name");
-        if (!is_object($row)) {
+        if (!(is_object($row) and isset($row->name) and ! is_null($row->name))) {
             return null;
         } else {
 

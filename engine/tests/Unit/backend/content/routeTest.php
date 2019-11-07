@@ -52,6 +52,7 @@ class routeTest extends TestCase {
 
         $result = $this->withSession($this->session)->post(route('backend/content/tables/ajaxadd'), $post)->decodeResponseJson();
         if (!(isset($result['type']) and $result['type'] == "success" )) {
+            fwrite(STDERR, print_r($result));
             $this->fail("В ответе type должен быть success");
         }
 

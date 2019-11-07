@@ -21,7 +21,7 @@ class SetupAdminTest extends TestCase {
      * @return void
      */
     public function testEditSuccess() {
-        $response = $this->withSession(array('admin_is_login' => true, 'admin_login' => 'admin', 'admin_password' => 'admin', 'admin_is_root' => true))->post(route('backend/setup/save'), [
+        $response = $this->withSession(array('admin_is_login' => true, 'admin_login' => \core\ManagerConf::get("admin_login", "backend"), 'admin_password' => \core\ManagerConf::get("admin_password", "backend"), 'admin_is_root' => true))->post(route('backend/setup/save'), [
             'css' => 'amethyst.css',
             'name' => "edit from php unit",
             'link' => "https://ya.ru",

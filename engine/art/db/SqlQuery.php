@@ -302,7 +302,13 @@ class SqlQuery {
     static function get($condition, $nametable) {
 
         $query = \DB::table($nametable);
-        $query->where($condition);
+        if (isset($condition)) {
+            if (is_array($condition) and isset($condition['raw']) and isset($condition['vars'])) {
+                $query->whereRaw($condition['raw'], $condition['vars']);
+            } else {
+                $query->where($condition);
+            }
+        }
 
         $result = $query->first();
         $result = Helper::toArray($result);

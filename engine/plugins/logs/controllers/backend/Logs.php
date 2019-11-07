@@ -89,7 +89,7 @@ class Logs extends \managers\backend\AdminController {
 
     public function actionDelete($last_id) {
 
-        \core\JsonQuery::delete((int) $last_id, "id", "logs");
+        \db\JsonQuery::delete((int) $last_id, "id", "logs");
 
         return back();
     }

@@ -167,9 +167,9 @@ class ContentBlock extends AbstractBlock {
                     }
                 }
             }
-            $order_type = "asc";
+            $order_type = "ASC";
             if (isset($this->params['order_type']) and $this->params['order_type'] == "desc") {
-                $order_type = "desc";
+                $order_type = "DESC";
             }
             $newparams['order_field'] = $order_field;
             $newparams['order_type'] = $order_type;

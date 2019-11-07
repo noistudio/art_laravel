@@ -21,6 +21,7 @@ abstract class TestCase extends BaseTestCase {
 
         if (!\core\ManagerConf::isOnlyMongodb()) {
             \db\SqlQuery::delete("elfinder_files", null);
+            \content\models\TableConfig::delete('phpunit_mysql');
         }
 
 

@@ -70,6 +70,7 @@ class AbstractFieldTest extends TestCase {
 
     public function testSetOtherField() {
         $this->model->setOtherField("test", "test2");
+        \core\AppConfig::set("sql_params", null);
     }
 
     public function testSet() {

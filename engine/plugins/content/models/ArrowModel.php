@@ -20,21 +20,23 @@ class ArrowModel {
             return false;
         }
 
-        $query = new Query();
 
-        \Yii::$app->db->createCommand()
-                ->update($nametable, ['sort' => new \yii\db\Expression('sort + 1')], array("and", array(">=", "sort", $newpos), array("!=", "last_id", $id)))
-                ->execute();
+
+
+        $raw_condition = SqlQuery::array_to_raw(array("and", array(">=", "sort", $newpos), array("!=", "last_id", $id)));
+
+
+        \DB::table($nametable)->whereRaw($raw_condition['raw'], $raw_condition['vars'])->increment('sort', 1);
+
 
         $update['sort'] = $newpos;
-        SqlQuery::update($nametable, $update, array("last_id" => $id));
+        SqlQuery::update($nametable, $update, SqlQuery::array_to_raw(array("last_id" => $id), false, false));
     }
 
     public static function up($nametable, $id) {
-        $get_vars = \yii::$app->request->get();
+        $get_vars = request()->query->all();
         $primarykey = "last_id";
-        $query = new Query();
-        $query->select("*")->from($nametable);
+
         $model = \content\models\MasterTable::find($nametable);
         $table = $model->getTable();
         $json_fields = json_decode($table->fields, true);
@@ -59,33 +61,34 @@ class ArrowModel {
                 $types_array = array("=", "!=", ">", ">=", "<", "<=", 'LIKE');
 
 
-                if (isset($_GET['type_' . $namefield]) and is_string($_GET['type_' . $namefield]) and in_array($_GET['type_' . $namefield], $types_array)) {
+                if (isset($get_vars['type_' . $namefield]) and is_string($get_vars['type_' . $namefield]) and in_array($get_vars['type_' . $namefield], $types_array)) {
 
                     $class = "\\content\\fields\\" . $typefield[$namefield]['type'];
-                    $obj = new $class($_GET[$namefield], $namefield, $typefield[$namefield]['options']);
+                    $obj = new $class($get_vars[$namefield], $namefield, $typefield[$namefield]['options']);
                     $curval = $obj->set();
 
                     if (is_null($curval) or strlen($curval) == 0) {
                         
                     } else {
 
-                        $condition[] = array($_GET['type_' . $namefield], $nametable . "." . $namefield, $curval);
+                        $condition[] = array($get_vars['type_' . $namefield], $nametable . "." . $namefield, $curval);
                     }
-                } else if (!(isset($_GET['type_' . $namefield]) )) {
+                } else if (!(isset($get_vars['type_' . $namefield]) )) {
                     
                 } else {
                     
                 }
             }
         }
-        $query->where($condition);
-        $result = $query->one();
+
+
+        $result = SqlQuery::get(SqlQuery::array_to_raw($condition), $nametable);
+
 
 
 
         if (is_array($result)) {
-            $query2 = new Query();
-            $query2->select("*")->from($nametable);
+
 
             $condition = array('and');
             $condition[] = array("<", "sort", $result['sort']);
@@ -96,28 +99,27 @@ class ArrowModel {
                     $types_array = array("=", "!=", ">", ">=", "<", "<=", 'LIKE');
 
 
-                    if (isset($_GET['type_' . $namefield]) and is_string($_GET['type_' . $namefield]) and in_array($_GET['type_' . $namefield], $types_array)) {
+                    if (isset($get_vars['type_' . $namefield]) and is_string($get_vars['type_' . $namefield]) and in_array($get_vars['type_' . $namefield], $types_array)) {
 
                         $class = "\\content\\fields\\" . $typefield[$namefield]['type'];
-                        $obj = new $class($_GET[$namefield], $namefield, $typefield[$namefield]['options']);
+                        $obj = new $class($get_vars[$namefield], $namefield, $typefield[$namefield]['options']);
                         $curval = $obj->set();
 
                         if (is_null($curval) or strlen($curval) == 0) {
                             
                         } else {
 
-                            $condition[] = array($_GET['type_' . $namefield], $nametable . "." . $namefield, $curval);
+                            $condition[] = array($get_vars['type_' . $namefield], $nametable . "." . $namefield, $curval);
                         }
-                    } else if (!(isset($_GET['type_' . $namefield]) )) {
+                    } else if (!(isset($get_vars['type_' . $namefield]) )) {
                         
                     } else {
                         
                     }
                 }
             }
-            $query2->where($condition);
-            $query2->orderBy(array('sort' => SORT_DESC));
-            $next = $query2->one();
+
+            $next = SqlQuery::get(SqlQuery::array_to_raw($condition), $nametable);
 
 
             if (is_array($next)) {
@@ -133,8 +135,7 @@ class ArrowModel {
 
     public static function down($nametable, $id) {
         $primarykey = "last_id";
-        $query = new Query();
-        $query->select("*")->from($nametable);
+
         $model = \content\models\MasterTable::find($nametable);
         $table = $model->getTable();
         $json_fields = json_decode($table->fields, true);
@@ -153,38 +154,40 @@ class ArrowModel {
         $condition = array('and');
         $condition[] = array("=", $primarykey, $id);
         $fields_search = \content\models\RowModel::editFields($nametable, $forarray, false);
+        $get_vars = request()->query->all();
+
+
         if (count($fields_search) > 0) {
             foreach ($fields_search as $search_field) {
                 $namefield = $search_field['name'];
                 $types_array = array("=", "!=", ">", ">=", "<", "<=", 'LIKE');
 
 
-                if (isset($_GET['type_' . $namefield]) and is_string($_GET['type_' . $namefield]) and in_array($_GET['type_' . $namefield], $types_array)) {
+                if (isset($get_vars['type_' . $namefield]) and is_string($get_vars['type_' . $namefield]) and in_array($get_vars['type_' . $namefield], $types_array)) {
 
                     $class = "\\content\\fields\\" . $typefield[$namefield]['type'];
-                    $obj = new $class($_GET[$namefield], $namefield, $typefield[$namefield]['options']);
+                    $obj = new $class($get_vars[$namefield], $namefield, $typefield[$namefield]['options']);
                     $curval = $obj->set();
 
                     if (is_null($curval) or strlen($curval) == 0) {
                         
                     } else {
 
-                        $condition[] = array($_GET['type_' . $namefield], $nametable . "." . $namefield, $curval);
+                        $condition[] = array($get_vars['type_' . $namefield], $nametable . "." . $namefield, $curval);
                     }
-                } else if (!(isset($_GET['type_' . $namefield]) )) {
+                } else if (!(isset($get_vars['type_' . $namefield]) )) {
                     
                 } else {
                     
                 }
             }
         }
-        $query->where($condition);
 
-        $result = $query->one();
+
+        $result = SqlQuery::get(SqlQuery::array_to_raw($condition), $nametable);
 
         if (is_array($result)) {
-            $query2 = new Query();
-            $query2->select("*")->from($nametable);
+
             $condition = array('and');
             $condition[] = array(">", "sort", $result['sort']);
             $fields_search = \content\models\RowModel::editFields($nametable, $forarray, false);
@@ -194,28 +197,27 @@ class ArrowModel {
                     $types_array = array("=", "!=", ">", ">=", "<", "<=", 'LIKE');
 
 
-                    if (isset($_GET['type_' . $namefield]) and is_string($_GET['type_' . $namefield]) and in_array($_GET['type_' . $namefield], $types_array)) {
+                    if (isset($get_vars['type_' . $namefield]) and is_string($get_vars['type_' . $namefield]) and in_array($get_vars['type_' . $namefield], $types_array)) {
 
                         $class = "\\content\\fields\\" . $typefield[$namefield]['type'];
-                        $obj = new $class($_GET[$namefield], $namefield, $typefield[$namefield]['options']);
+                        $obj = new $class($get_vars[$namefield], $namefield, $typefield[$namefield]['options']);
                         $curval = $obj->set();
 
                         if (is_null($curval) or strlen($curval) == 0) {
                             
                         } else {
 
-                            $condition[] = array($_GET['type_' . $namefield], $nametable . "." . $namefield, $curval);
+                            $condition[] = array($get_vars['type_' . $namefield], $nametable . "." . $namefield, $curval);
                         }
-                    } else if (!(isset($_GET['type_' . $namefield]) )) {
+                    } else if (!(isset($get_vars['type_' . $namefield]) )) {
                         
                     } else {
                         
                     }
                 }
             }
-            $query2->where($condition);
-            $query2->orderBy(array('sort' => SORT_ASC));
-            $down = $query2->one();
+
+            $down = SqlQuery::get(SqlQuery::array_to_raw($condition), $nametable);
 
             if (is_array($down)) {
                 $update = array();

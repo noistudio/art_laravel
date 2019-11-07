@@ -9,11 +9,8 @@ class AppConfig {
     static $params = array();
 
     static function set($name, $value) {
-        if (isset($name) and is_string($name) and strlen($name) > 0) {
-            AppConfig::$params[$name] = $value;
-            return true;
-        }
-        return null;
+        AppConfig::$params[$name] = $value;
+        return true;
     }
 
     static function get($name) {

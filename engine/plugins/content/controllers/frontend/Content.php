@@ -34,7 +34,7 @@ class Content extends \managers\frontend\Controller {
                 $data = \content\models\GetTables::block($table, $condition, $limit, $orderby);
                 $data['block'] = $block;
 
-                $result = view("app::plugin/content/" . $table . "_list" . $postfix, $data)->render();
+                $result = view("app_frontend::plugin/content/" . $table . "_list" . $postfix, $data)->render();
 
 
 
@@ -48,21 +48,21 @@ class Content extends \managers\frontend\Controller {
     public function oneDocument($table, $id, $postfix = "", $block = array()) {
         $row = \content\models\GetTables::one($table, $id);
         if (is_array($row)) {
-            $params = GlobalParams::params();
+
 
             $data = array();
             $data['document'] = $row;
             $data['block'] = $block;
-            $data['url'] = $params['current_url'];
+            $data['url'] = url()->current();
 
-            $result = \core\View::render("content/" . $table . "_one" . $postfix, $data, "frontend", true);
+
+            $result = view("app_frontend::plugin/content/" . $table . "_one" . $postfix, $data)->render();
+
 
             $row['uid'] = "/content/" . $table . "/" . $id;
             $row['prefix'] = $table . "_";
 
-            if (!is_null($result)) {
-                return \content\models\GetTables::replace_action($row, $result);
-            }
+            return $result;
         }
     }
 
