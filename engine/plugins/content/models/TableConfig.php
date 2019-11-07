@@ -19,13 +19,20 @@ class TableConfig {
         $class = "\\content\\fields\\" . $field['type'];
 
         $obj = new $class($key, $key);
-        $additional_sql = $obj->_raw_create_sql();
-
-        $sql = ' ALTER TABLE `' . $table->name . '`
-          ADD COLUMN ' . $additional_sql . ' AFTER `last_id`;';
 
 
-        $result = \DB::statement($sql);
+
+
+
+
+        $result = \Schema::table($table->name, function ( $table) use ($obj) {
+                    $obj->setTypeLaravel($table);
+                });
+
+
+//        $sql = ' ALTER TABLE `' . $table->name . '`
+//          ADD COLUMN ' . $additional_sql . ' AFTER `last_id`;';
+        // $result = \DB::statement($sql);
     }
 
     static function deleteField($table, $field) {
@@ -38,9 +45,14 @@ class TableConfig {
         $object->fields = json_encode($table['fields']);
 
 
-        $sql = 'ALTER TABLE `' . $table['name'] . '` 
-DROP COLUMN `' . $field . '`;';
-        $result = \DB::statement($sql);
+//        $sql = 'ALTER TABLE `' . $table['name'] . '` 
+//DROP COLUMN `' . $field . '`;';
+//        $result = \DB::statement($sql);
+
+
+        $result = \Schema::table($table['name'], function ( $table_obj) use ($field) {
+                    $table_obj->dropColumn($field);
+                });
         $object->save();
     }
 
@@ -421,26 +433,35 @@ DROP COLUMN `' . $field . '`;';
         $fields = json_decode($table->fields, true);
         $additional_sql = "";
 
-        foreach ($fields as $key => $field) {
+
+        $result = \Schema::create($table->name, function($table) use ($fields) {
+                    $table->increments('last_id');
+                    $table->integer("enable")->nullable()->default(0);
+                    $table->binary("action")->nullable();
+                    $table->integer("sort")->nullable();
+                    $table->string("_lng", 200)->nullable();
+                    foreach ($fields as $key => $field) {
 
 
-            $class = "\\content\\fields\\" . $field['type'];
+                        $class = "\\content\\fields\\" . $field['type'];
 
-            $obj = new $class($key, $key);
-            $additional_sql .= $obj->_raw_create_sql() . ",";
-        }
-
-        $sql = 'CREATE TABLE `' . $table->name . '` (
-  `last_id` INT NOT NULL AUTO_INCREMENT,
-  ' . $additional_sql . '
-  `sort` INT NULL,`_lng` VARCHAR(200)  NULL,
-   `action` BLOB NULL,
-  `enable` INT NULL DEFAULT 0,
-  PRIMARY KEY (`last_id`));';
+                        $obj = new $class($key, $key);
+                        $obj->setTypeLaravel($table);
+                    }
+                });
 
 
-
-        $result = \DB::statement($sql);
+//        $sql = 'CREATE TABLE `' . $table->name . '` (
+//  `last_id` INT NOT NULL AUTO_INCREMENT,
+//  ' . $additional_sql . '
+//  `sort` INT NULL,`_lng` VARCHAR(200)  NULL,
+//   `action` BLOB NULL,
+//  `enable` INT NULL DEFAULT 0,
+//  PRIMARY KEY (`last_id`));';
+//
+//
+//
+//        $result = \DB::statement($sql);
     }
 
     static function isExist($nametable) {

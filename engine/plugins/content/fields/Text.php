@@ -25,4 +25,8 @@ class Text extends AbstractField {
         return $result;
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->text($this->name);
+    }
+
 }

@@ -57,4 +57,8 @@ class Tags extends AbstractField {
         return $result;
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->string($this->name, 200);
+    }
+
 }

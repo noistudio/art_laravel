@@ -15,6 +15,10 @@ class Checkbox extends AbstractField {
         }
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->integer($this->name);
+    }
+
     public function get() {
         return $this->render();
     }

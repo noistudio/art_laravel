@@ -19,6 +19,10 @@ class Femail extends AbstractField {
         return $this->render();
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->string($this->name, 200);
+    }
+
     public function getFieldTitle() {
 
         return __("backend/content.field_femail");

@@ -28,6 +28,10 @@ class Fdate extends AbstractField {
         return $result;
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->date($this->name);
+    }
+
     public function getFieldTitle() {
 
         return __("backend/content.field_fdate");

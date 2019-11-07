@@ -28,6 +28,10 @@ class Ftime extends AbstractField {
         return $result;
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->dateTime($this->name);
+    }
+
     public function getFieldTitle() {
 
         return __("backend/content.field_ftime");

@@ -198,6 +198,10 @@ class Multielfinder extends AbstractField {
         return $result;
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->integer($this->name);
+    }
+
     public function make_thumb_width($src, $dest, $desired_width) {
 
         /* read the source image */

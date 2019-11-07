@@ -18,6 +18,10 @@ class Elfinder extends AbstractField {
         return $result;
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->string($this->name, 250);
+    }
+
     public function set() {
         if (file_exists($_SERVER['DOCUMENT_ROOT'] . $this->value) and strlen($this->value) > 1) {
             $isimage = $this->option("isimage");

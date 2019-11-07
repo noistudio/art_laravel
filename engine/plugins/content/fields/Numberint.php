@@ -25,6 +25,10 @@ class Numberint extends AbstractField {
         return $result;
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->integer($this->name);
+    }
+
     public function getFieldTitle() {
 
         return __("backend/content.field_numberint");

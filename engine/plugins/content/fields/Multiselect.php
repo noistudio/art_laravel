@@ -169,6 +169,10 @@ class Multiselect extends AbstractField {
         return $result;
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->integer($this->name);
+    }
+
     private function getData() {
         $this->option['rows'] = array();
         if (is_null($this->option("table")) or is_null($this->option("pk"))) {

@@ -21,6 +21,10 @@ class Numberfloat extends AbstractField {
         return $result;
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->float($this->name);
+    }
+
     public function getFieldTitle() {
 
         return __("backend/content.field_numberfloat");

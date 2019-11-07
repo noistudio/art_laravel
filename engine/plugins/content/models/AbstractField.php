@@ -128,6 +128,8 @@ abstract class AbstractField {
 
     abstract public function _raw_create_sql();
 
+    abstract public function setTypeLaravel($table_obj);
+
     abstract public function set();
 
     abstract public function get();

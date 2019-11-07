@@ -28,6 +28,10 @@ class Select extends AbstractField {
         return $result;
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->integer($this->name);
+    }
+
     public function parse_query_list($query, $table) {
         $rand = rand(10000, 9999999);
         $shortname = "t" . (string) $rand;

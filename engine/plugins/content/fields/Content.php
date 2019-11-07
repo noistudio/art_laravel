@@ -15,6 +15,10 @@ class Content extends AbstractField {
         return $this->render();
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->text($this->name);
+    }
+
     public function getFieldTitle() {
 
         return __("backend/content.field_content");

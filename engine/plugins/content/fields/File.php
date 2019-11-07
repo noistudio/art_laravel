@@ -16,6 +16,10 @@ class File extends AbstractField {
         return $this->upload($type);
     }
 
+    public function setTypeLaravel($table_obj) {
+        $table_obj->string($this->name, 200);
+    }
+
     public function getConfigOptions() {
 
         return array('isimage' => array('type' => 'bool', 'title' => __("backend/content.field_elfinder_isimage")));
