@@ -1,0 +1,31 @@
+<?php
+
+namespace core;
+
+class Helper {
+
+    static function toArray($result) {
+        if (is_null($result)) {
+            return null;
+        }
+
+
+        $collection = collect($result);
+
+        $newresult = $collection->toArray();
+
+        if (isset($newresult[0]) and is_object($newresult[0])) {
+            $newresult = json_encode($newresult);
+            $newresult = json_decode($newresult, true);
+        }
+
+
+
+
+
+
+
+        return $newresult;
+    }
+
+}

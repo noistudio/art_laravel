@@ -1,0 +1,28 @@
+<?php
+
+return array(
+    'all_blocks' => 'Все блоки',
+    'blocks' => 'Блоки',
+    'add_block' => 'Добавить блок',
+    'show_html' => 'Показывать HTML',
+    'title_block' => 'Название блока',
+    'type' => 'Тип',
+    'html' => 'HTML',
+    'code_html' => 'Код для вставки',
+    'is_publishing' => 'Опубликован?',
+    'editing_block' => 'Редактировать блок',
+    'enable' => 'Включить',
+    'disable' => 'Выключить',
+    'delete' => 'Удалить',
+    'status' => 'Статус',
+    'title' => 'Название',
+    'edit_btn' => 'Редактирование',
+    'want_delete' => 'Вы действительно хотите удалить?',
+    'not_filled_title_block' => 'Вы не указали название блока!',
+    'not_choose_type_block' => 'Вы не выбрали тип блока!',
+    'rule_create' => 'Создание блоков',
+    'rule_delete' => 'Удаление блоков',
+    'rule_access' => 'Доступ к блоку :name',
+    'rule_see' => 'Просмотр блоков',
+    'b_not_found' => 'Блок не найден!',
+);

@@ -1,0 +1,23 @@
+SetEnvIfNoCase Request_URI "\\.(gif|jpe?g|png|bmp)$" let_me_in
+
+Order Deny,Allow
+Deny from All
+# Allow accesses only if an images was requested
+Allow from env=let_me_in
+#Satisfy Any
+#<Files ~ "^\w+\.(gif|jpe?g|png|zip|jpg)$">
+#order deny,allow
+#allow from all
+#</Files>
+# If the URI is an image then we allow accesses
+RemoveHandler .php
+RemoveType .php
+AddType text/plain php
+<FilesMatch "\.((php[0-9]?)|p?html?|pl|sh|java|cpp|c|h|js|rc)$">
+    SetHandler None
+    </FilesMatch>
+
+#<Files "\.(jpe?g|png|gif|bmp|tiff|swf|flv|mov|avi|mp4)$">
+#  order deny,allow
+#  deny from all
+#</Files>
