@@ -29,7 +29,8 @@ return str;
   
   var path_admin=$("#pathadmin").data("path");
   var url_dialog=$("#pathadmin").data("path")+"files/dialog"
-      var url_connector=$("#pathadmin").data("path")+"files/connector/index"
+      var url_connector=$("#pathadmin").data("path")+"files/elfinder/connector";
+      
 function elFinderBrowser (field_name, url, type, win) {
 
 
@@ -532,7 +533,7 @@ if($(".dialog_elfinder").length){
   var rails_csrf = {};
 rails_csrf[param] = token;
 
- var url_path=$("#pathadmin").data("path")+"files/connector/index"
+ var url_path=$("#pathadmin").data("path")+"files/elfinder/connector/index"
   var options = {
     lang: 'ru',
     url : url_path,
@@ -552,7 +553,7 @@ rails_csrf[param] = token;
     var rails_csrf = {};
   rails_csrf[param] = token;
 
-   var url_path=$("#pathadmin").data("path")+"files/connector/index"
+   var url_path=$("#pathadmin").data("path")+"files/elfinder/connector/index"
     var options = {
       lang: 'ru',
       url : url_path,

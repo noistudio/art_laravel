@@ -78,7 +78,7 @@ class Select extends AbstractField {
 
 
         if (is_numeric($value)) {
-            $query = new Query;
+
 // compose the query
 
 
