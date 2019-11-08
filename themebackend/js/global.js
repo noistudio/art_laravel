@@ -204,9 +204,13 @@ rails_csrf[param] = token;
              },
               customData: rails_csrf,
              getFileCallback: function(file, el){
+                 
+                 var url = document.createElement('a');
+url.href = file.url;
+ 
+           
 
-
-               $(global_this).parent().find(".file_input").val(file.url);
+               $(global_this).parent().find(".file_input").val(url.pathname);
  $(global_this).parent().find(".file_input").trigger( "change" );
   $(global_this).parent().find(".file_input").trigger( "blur" );
   parent.location.hash = '';
@@ -251,11 +255,13 @@ rails_csrf[param] = token;
               customData: rails_csrf,
              getFileCallback: function(file, el){
 
-
-               $(global_this).parent().find("a.namefile").attr("href",file.url);
+var url = document.createElement('a');
+url.href = file.url;
+ 
+               $(global_this).parent().find("a.namefile").attr("href",url.pathname);
 
                $(global_this).parent().find("a.namefile").html(file.name);
-                $(global_this).parent().find(".choose_value_"+name).val(file.url);
+                $(global_this).parent().find(".choose_value_"+name).val(url.pathname);
                $(global_this).parent().find("a.namefile").show();
              },
              title               : 'Файловый менеджер',
