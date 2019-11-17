@@ -13,7 +13,7 @@ class Logs extends \managers\backend\AdminController {
     public function actionIndex() {
 
 
-        //   \Log::alert('123123123');
+        \Log::info('123123123');
 
         $data = array();
         $data['rows'] = \db\JsonQuery::all("logs");

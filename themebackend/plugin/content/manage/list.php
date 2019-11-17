@@ -45,7 +45,7 @@ if ($needroute) {
     <form action='' method='GET'>
         <table class="table">
             <?php
-            if (\languages\models\LanguageHelp::is()) {
+            if (\languages\models\LanguageHelp::is("frontend")) {
                 ?>
                 <tr>
 
@@ -56,7 +56,7 @@ if ($needroute) {
                     <td>  <select class="form-control" name="_lng">
                             <option value='null'></option>
                             <?php
-                            $languages = \languages\models\LanguageHelp::getAll();
+                            $languages = \languages\models\LanguageHelp::getAll("frontend");
                             if (count($languages)) {
                                 foreach ($languages as $language) {
                                     $selected = "";
@@ -165,7 +165,7 @@ if ($needroute) {
                     <th><input type="checkbox" class="allcheckbox" ></th>
                     <th></th>
                     <?php
-                    if (\languages\models\LanguageHelp::is()) {
+                    if (\languages\models\LanguageHelp::is("frontend")) {
                         ?>
                         <th><?php echo __("backend/content.language") ?></th>
                         <?php
@@ -228,7 +228,7 @@ if ($needroute) {
                             }
                             ?>
                             <?php
-                            if (\languages\models\LanguageHelp::is()) {
+                            if (\languages\models\LanguageHelp::is("frontend")) {
                                 ?>
                                 <td><?php
                                     if (!is_null($row['_lng'])) {

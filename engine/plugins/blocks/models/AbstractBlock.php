@@ -9,6 +9,7 @@ abstract class AbstractBlock {
     protected $op = null;
     protected $value = null;
     protected $params = null;
+    protected $old_params = array();
     private $error = null;
     public $block = array();
 
@@ -21,6 +22,10 @@ abstract class AbstractBlock {
         $this->params = $params;
 
         $this->block = $block;
+    }
+
+    public function setOldParams($old_params) {
+        $this->old_params = $old_params;
     }
 
     public function addError($title) {

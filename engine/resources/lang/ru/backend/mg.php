@@ -143,5 +143,7 @@ return array(
     'f_text' => 'Обычный текст',
     'err1' => 'Значение :value  поля :title  уже есть в базе ',
     'err2' => 'Вы не заполнили поле :title',
+    'f_multiselect' => 'Мультиселект',
+    'f_editorjs' => 'Редактор  editor.js',
 );
 

@@ -9,14 +9,24 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "artesaos/seotools": "^0.16.0",
         "barryvdh/laravel-elfinder": "^0.4.3",
+        "codex-team/editor.js": "dev-master",
+        "dg/twitter-php": "^4.0",
+        "facebook/graph-sdk": "^5.7",
         "fideloper/proxy": "^4.0",
         "greg0/lazer-database": "^1.1",
         "guzzlehttp/guzzle": "^6.3",
-        "jenssegers/mongodb": "^3.6",
-        "josegonzalez/dotenv": "dev-master",
+       "josegonzalez/dotenv": "dev-master",
+        "krishnakodoth/log-editor": "dev-master",
         "laravel/framework": "^6.0",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "laravelium/sitemap": "^6.0",
+        "pcinaglia/laraupdater": "^1.0",
+        "spatie/laravel-backup": "^6.7",
+        "telegram-bot/api": "^2.3",
+        "vkcom/vk-php-sdk": "^5.101",
+        "webwizo/laravel-shortcodes": "1.0.*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

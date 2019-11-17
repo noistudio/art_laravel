@@ -112,8 +112,8 @@ class RowModel {
             }
             $update['enable'] = $enable;
             $update['action'] = $action;
-            if (\languages\models\LanguageHelp::is()) {
-                $languages = \languages\models\LanguageHelp::getAll();
+            if (\languages\models\LanguageHelp::is("frontend")) {
+                $languages = \languages\models\LanguageHelp::getAll("frontend");
                 if (isset($post['_lng']) and is_string($post['_lng']) and in_array($post['_lng'], $languages)) {
                     $update['_lng'] = $post['_lng'];
                 } else {

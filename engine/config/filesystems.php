@@ -41,6 +41,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
+        'forbackup' => [
+            'driver' => 'local',
+            'root' => storage_path('backups'),
+        ],
         'elfinder' => [
             'driver' => 'local',
             'root' => public_path("files"),

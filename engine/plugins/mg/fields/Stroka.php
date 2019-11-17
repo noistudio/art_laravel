@@ -8,7 +8,11 @@ class Stroka extends AbstractField {
 
     public function set() {
         $value = strip_tags($this->value);
-        return $value;
+        if (strlen($value) > 0) {
+            return $value;
+        } else {
+            return null;
+        }
     }
 
     public function get() {

@@ -106,7 +106,7 @@ class GetCollections {
         $paginator = new \core\Paginator;
 
         $result_rows = array();
-        $query = new Query;
+
         // compose the query
 
         $condition = array("enable" => 1);

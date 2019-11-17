@@ -16,8 +16,8 @@
         <p><?php echo __("backend/mg.rss_url"); ?></p>
         <p>http://<?php echo $http_host; ?>/mg/rss/<?php echo $collection['name']; ?></p>
         <?php
-        if (\languages\models\LanguageHelp::is()) {
-            $languages = \languages\models\LanguageHelp::getAll();
+        if (\languages\models\LanguageHelp::is("frontend")) {
+            $languages = \languages\models\LanguageHelp::getAll("frontend");
             foreach ($languages as $lang) {
                 ?>
                 <p>http://<?php echo $http_host; ?>/<?php echo $lang; ?>/mg/rss/<?php echo $collection['name']; ?></p>

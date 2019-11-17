@@ -45,7 +45,7 @@ return [
       | your application so that it is used when running Artisan tasks.
       |
      */
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://noi.studio'),
     'asset_url' => env('ASSET_URL', null),
     /*
       |--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ return [
       | ahead and set this to a sensible default for you out of the box.
       |
      */
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Moscow',
     /*
       |--------------------------------------------------------------------------
       | Application Locale Configuration
@@ -140,6 +140,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -151,12 +152,13 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
+        // App\Providers\RouteServiceProvider::class,
         \art\providers\ArtServiceProvider::class,
         \art\providers\RouteServiceProvider::class,
         Barryvdh\Elfinder\ElfinderServiceProvider::class,
-        Jenssegers\Mongodb\MongodbServiceProvider::class,
+        KrishnaKodoth\LogEditor\LogEditorServiceProvider::class,
+        pcinaglia\laraupdater\LaraUpdaterServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
@@ -204,5 +206,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'SEOMeta' => Artesaos\SEOTools\Facades\SEOMeta::class,
+        'OpenGraph' => Artesaos\SEOTools\Facades\OpenGraph::class,
+        'Twitter' => Artesaos\SEOTools\Facades\TwitterCard::class,
+        'JsonLd' => Artesaos\SEOTools\Facades\JsonLd::class,
+        'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
     ],
 ];

@@ -18,3 +18,6 @@ Route::any($admin_url . "/forms/manage/template/{val_0?}", "\\forms\\controllers
 Route::any($admin_url . "/forms/manage/ajaxedit/{val_0?}", "\\forms\\controllers\\backend\\ManageForms@actionAjaxedit")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/forms/manage/ajaxedit');
 Route::any($admin_url . "/forms/manage/index/{val_0?}", "\\forms\\controllers\\backend\\ManageForms@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/forms/manage/index');
 Route::any($admin_url . "/forms/manage/{val_0?}", "\\forms\\controllers\\backend\\ManageForms@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/forms/manage');
+
+
+Route::post("/sendform/{id}", "\\forms\\controllers\\frontend\Forms@send")->name("frontend/sendform");

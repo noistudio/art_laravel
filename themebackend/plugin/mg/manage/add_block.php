@@ -79,12 +79,12 @@
         <td>
             <select name="{param}[order_type]" class="form-control">
                 <option <?php
-                if (isset($paramss['order_type']) and $paramss['order_type'] == "asc") {
+                if (isset($params['order_type']) and $params['order_type'] == "asc") {
                     echo "selected";
                 }
                 ?> value="asc"><?php echo __("backend/mg.sort_asc"); ?></option> 
                 <option <?php
-                if (isset($paramss['order_type']) and $paramss['order_type'] == "desc") {
+                if (isset($params['order_type']) and $params['order_type'] == "desc") {
                     echo "selected";
                 }
                 ?> value="desc"><?php echo __("backend/mg.sort_desc"); ?></option> 

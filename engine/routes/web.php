@@ -11,9 +11,15 @@
   |
  */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+Route::get("/", "\\managers\\frontend\\controllers\\SiteController@actionIndex")->name("frontend/");
+
+
+
+
+
+
 $dynamic_route = new core\DynamicRoute();
 $routes = $dynamic_route->getRules();
 
@@ -57,6 +63,17 @@ Route::any($admin_url . "/", "\\managers\\backend\\controllers\\DefaultBackend@a
 Route::any($admin_url, "\\managers\\backend\\controllers\\DefaultBackend@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name("backend");
 
 Route::any($admin_url . "/index", "\\managers\\backend\\controllers\\DefaultBackend@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name("backend/index");
+
+
+Route::any($admin_url . "/backup", "\\managers\\backend\\controllers\\BackupBackend@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name("backend/backup");
+Route::any($admin_url . "/createbackup", "\\managers\\backend\\controllers\\BackupBackend@actionCreate")->middleware(env("BACKEND_MIDDLEWARE"))->name("backend/backup/create");
+Route::any($admin_url . "/createonlydb", "\\managers\\backend\\controllers\\BackupBackend@actionCreateonlyDB")->middleware(env("BACKEND_MIDDLEWARE"))->name("backend/backup/createonlydb");
+
+
+Route::any($admin_url . "/backup/delete/{filename}", "\\managers\\backend\\controllers\\BackupBackend@actionDelete")->middleware(env("BACKEND_MIDDLEWARE"))->name("backend/backup/delete");
+
+Route::any($admin_url . "/download/{filename}", "\\managers\\backend\\controllers\\BackupBackend@actionDownload")->middleware(env("BACKEND_MIDDLEWARE"))->name("backend/backup/download");
+
 Route::any($admin_url . "/setup", "\\managers\\backend\\controllers\\SetupBackend@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name("backend/setup");
 Route::any($admin_url . "/setup/save", "\\managers\\backend\\controllers\\SetupBackend@actionSave")->middleware(env("BACKEND_MIDDLEWARE"))->name("backend/setup/save");
 
@@ -82,6 +99,19 @@ Route::get($admin_url . '/setlanguage/{locale}', function ($locale) {
 })->name("backend/setlanguage");
 
 
+Route::get('/setlang/{locale}', function ($locale) {
+
+
+    languages\models\LanguageHelp::set($locale);
+    return back();
+    //
+})->name("frontend/setlanguage");
+
+
+
+
+
+
 if (isset($run_on_end) and is_array($run_on_end) and count($run_on_end) > 0) {
     foreach ($routes as $route) {
         if ((isset($route['on_end']))) {
@@ -100,3 +130,75 @@ if (isset($run_on_end) and is_array($run_on_end) and count($run_on_end) > 0) {
         }
     }
 }
+
+
+Route::get('sitemap', function() {
+
+    // create new sitemap object
+    $sitemap = App::make('sitemap');
+
+    // set cache key (string), duration in minutes (Carbon|Datetime|int), turn on/off (boolean)
+    // by default cache is disabled
+    $sitemap->setCache('laravel.sitemap', 60);
+
+    // check if there is cached sitemap and build new only if is not
+    if (!$sitemap->isCached()) {
+        $sitemap->add(route('frontend/targets'));
+        $sitemap->add(route("frontend/about"));
+        $sitemap->add(route("frontend/projects"));
+        $sitemap->add(route('frontend/services'));
+        $sitemap->add(route('frontend/hobby'));
+
+        $pages = mg\MongoQuery::all("pages", array('enable' => 1), array('last_id' => 1));
+        if (count($pages)) {
+            foreach ($pages as $page) {
+                $sitemap->add(route("frontend/mg/pages/one", $page['last_id']));
+            }
+        }
+
+
+        $types = mg\MongoQuery::all("types", array('enable' => 1), array('last_id' => 1));
+        if (count($types)) {
+            foreach ($types as $type) {
+                $sitemap->add(route("frontend/projects/type", $type['last_id']));
+            }
+        }
+
+        $categorys = mg\MongoQuery::all("categorys", array('enable' => 1), array('last_id' => 1));
+        if (count($categorys)) {
+            foreach ($categorys as $cat) {
+                $sitemap->add(route("frontend/blog/cat", $cat['last_id']));
+            }
+        }
+
+
+        $services = mg\MongoQuery::all("services", array('enable' => 1), array('last_id' => 1));
+        if (count($services)) {
+            foreach ($services as $service) {
+                $sitemap->add(route("frontend/services/one", $service['last_id']));
+            }
+        }
+
+        $projects = mg\MongoQuery::all("projects", array('enable' => 1), array('last_id' => 1));
+        if (count($projects)) {
+            foreach ($projects as $project) {
+                $sitemap->add(route("frontend/projects/one", $project['last_id']));
+            }
+        }
+
+
+        // add item to the sitemap (url, date, priority, freq)
+        $posts = mg\MongoQuery::all("posts", array("enable" => 1, 'date' => array('$exists' => true)), array('date' => 1));
+        if (count($posts)) {
+            foreach ($posts as $post) {
+
+                $sitemap->add(route('frontend/mg/pages/one', $post['last_id']), date("Y-m-d\Th:m:s+00:00", \mg\MongoHelper::time($post['date'])), '1.0', 'daily');
+            }
+        }
+    }
+
+    // show your sitemap (options: 'xml' (default), 'html', 'txt', 'ror-rss', 'ror-rdf')
+    return $sitemap->render('xml');
+});
+
+

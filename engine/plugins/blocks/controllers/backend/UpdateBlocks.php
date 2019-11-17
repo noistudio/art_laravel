@@ -51,7 +51,12 @@ class UpdateBlocks extends \managers\backend\AdminController {
         }
         if ($json['type'] == "success") {
             \cache\models\Model::removeAll();
-            $json['link'] = \core\ManagerConf::link("blocks/update/" . $id);
+            $lang = "null";
+            $lang_post = request()->post("lang");
+            if (isset($lang_post)) {
+                $lang = $lang_post;
+            }
+            $json['link'] = \core\ManagerConf::link("blocks/update/" . $id . "?lang=" . $lang);
         }
 
         return $json;

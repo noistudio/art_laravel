@@ -1,8 +1,8 @@
 <ol class="breadcrumb">
     @if(isset($current_link))
     <ol class="breadcrumb">
-        <li><a href="{!! $admin_url !!}adminmenu/index">{{ __('backend/adminmenu.setup_admin_menu') }}</a></li>
-        <li class="active">Редактирование</li>
+        <li><a href="{{route('backend/adminmenu/index')}}">{{ __('backend/adminmenu.setup_admin_menu') }}</a></li>
+        <li class="active">{{ __("backend/adminmenu.edit") }}</li>
     </ol>
     @else
     <li class="active">{{ __('backend/adminmenu.setup_admin_menu') }}</li>

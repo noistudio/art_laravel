@@ -1,86 +1,76 @@
-APP_NAME=Laravel
+APP_NAME=noi.studio
+ASSET_URL=http://localhost/
+APP_TITLE=
+APP_DESCRIPTION="Здесь описание по умолчанию"
 APP_ENV=local
 APP_KEY=
-APP_DEBUG=true
+APP_DEBUG=
 APP_URL=http://localhost
 APP_MANAGERS=frontend,backend
 APP_LOCALE=ru
 APP_BACKEND_CSS=amethyst.css
-APP_BACKEND_COPYRIGHT_TITLE="edit from php unit"
-APP_BACKEND_COPYRIGHT_LINK=https://ya.ru
+APP_BACKEND_COPYRIGHT_TITLE="Библиотека ART"
+APP_BACKEND_COPYRIGHT_LINK=https://noi.studio
 MAX_FILE_SIZE_KB=1024
-
+OFFER_FOOTER="<p>Пример админки(где вы будете менять информацию на сайте и управлять пользователями)</p><p>http://demo.noi.studio/demo2admin/index</p><p>логин demo</p><p>пароль demo</p><p>Мои контакты</p><p>Telegram @noitech</p><p>Skype  noi.studio</p><p>Телефон +7917-324-85-24</p>"
 APP_FOLDER_VIEWS_CONTROLLER=plugin/
 APP_FOLDER_PLUGINS=plugins
 LAZER_DATA_PATH=db_json/
-
-
-
 BACKEND=1
 BACKEND_THEME_PATH=themebackend
-BACKEND_ACCESS=/adminsystem
+BACKEND_ACCESS=/artadmin
 BACKEND_ADMIN_LOGIN=admin
 BACKEND_ADMIN_PASSWORD=admin
+
+
 
 FRONTEND=1
 FRONTEND_THEME_PATH=themefrontend
 FRONTEND_ACCESS=
 BACKEND_MAIN_CSS=builder.css
 BACKEND_DEFAULT_PAGINATOR_FILE=themefrontend/paginator.php
-
-
-
 APP_PATH_RESIZE_FOLDER=files/_resize
 APP_PATH_FILES=files
 APP_ELFINDER_FILES_PATH=files/tmpfiles
 APP_FILES_DIR=files
-
 BACKEND_MIDDLEWARE=admin_check
-
-
-
+FRONTEND_MIDDLEWARE=seo_frontend
 LOG_CHANNEL=single
-
-DB_CONNECTION=mysql
+DB_CONNECTION=mongodb
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=laravel_clear
+DB_DATABASE=
 DB_USERNAME=
 DB_PASSWORD=
+MONGO_DB_HOST=
 
 
 
-MONGO_DB_HOST=localhost
-MONGO_DB_PORT=27017
-MONGO_DB_DATABASE=laravel_clear
-
-
+MONGO_DB_PORT=
+MONGO_DB_DATABASE=
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
 QUEUE_CONNECTION=sync
 SESSION_DRIVER=file
 SESSION_LIFETIME=120
-
 REDIS_HOST=127.0.0.1
 REDIS_PASSWORD=null
 REDIS_PORT=6379
-
 MAIL_DRIVER=sendmail
 MAIL_HOST=localhost
 MAIL_PORT=25
 MAIL_USERNAME=phpunit@phpunit.test
 MAIL_PASSWORD=12312312
 MAIL_ENCRYPTION=null
-
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 AWS_DEFAULT_REGION=us-east-1
 AWS_BUCKET=
-
 PUSHER_APP_ID=
 PUSHER_APP_KEY=
 PUSHER_APP_SECRET=
 PUSHER_APP_CLUSTER=mt1
-
 MIX_PUSHER_APP_KEY=${PUSHER_APP_KEY}
 MIX_PUSHER_APP_CLUSTER=${PUSHER_APP_CLUSTER}
+APP_DISABLED_MESSAGE="Скоро откроемся. На данный момент на реконструкции"
+APP_DISABLED=

@@ -17,8 +17,8 @@
         <p>http://<?php echo request()->server('HTTP_HOST'); ?>/content/rss/<?php echo $table['name']; ?></p>
 
         <?php
-        if (\languages\models\LanguageHelp::is()) {
-            $languages = \languages\models\LanguageHelp::getAll();
+        if (\languages\models\LanguageHelp::is("frontend")) {
+            $languages = \languages\models\LanguageHelp::getAll("frontend");
             foreach ($languages as $lang) {
                 ?>
                 <p>http://<?php echo request()->server('HTTP_HOST'); ?>/<?php echo $lang; ?>/content/rss/<?php echo $table['name']; ?></p>

@@ -92,7 +92,7 @@
                         </td>
                     </tr>
                     <?php
-                    if (\languages\models\LanguageHelp::is()) {
+                    if (\languages\models\LanguageHelp::is("frontend")) {
                         ?>
                         <tr class="field_ajax_nid">
                             <td><?php echo __("backend/mg.field_is_multilanguage") ?></td>

@@ -28,11 +28,12 @@ class AdminController extends \App\Http\Controllers\Controller {
         $data['mainmenu'] = \adminmenu\models\MenuModel::getResult();
 
         $data['flash_success'] = \core\Notify::get("success");
+
         $data['flash_error'] = \core\Notify::get("error");
 
 
         $data['current_lang'] = \languages\models\LanguageHelp::get();
-        $data['languages'] = \languages\models\LanguageHelp::getAll();
+        $data['languages'] = \languages\models\LanguageHelp::getAll("backend");
         $dir = 'packages/barryvdh/elfinder';
 
         $locale = false;

@@ -59,8 +59,8 @@
                 <td><textarea class='form-control tiny' name="html"><?php echo $block['html']; ?></textarea></td>
             </tr>
             <?php
-            if (languages\models\LanguageHelp::is()) {
-                $languages = languages\models\LanguageHelp::getAll();
+            if (languages\models\LanguageHelp::is("frontend")) {
+                $languages = languages\models\LanguageHelp::getAll("frontend");
                 if (count($languages)) {
                     foreach ($languages as $lang) {
                         ?>

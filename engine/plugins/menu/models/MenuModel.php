@@ -18,17 +18,28 @@ class MenuModel {
     }
 
     static function replace($url, $newtoold = true) {
-        if ($newtoold) {
-            $tmp = \db\JsonQuery::get($url, "routes", "new_url");
-            if (is_object($tmp)) {
-                $url = $tmp->old_url;
-            }
-        } else {
-            $tmp = \db\JsonQuery::get($url, "routes", "old_url");
-            if (is_object($tmp)) {
-                $url = $tmp->new_url;
-            }
+        $begin_url = $url;
+
+        try {
+
+            $url = route($url);
+
+            return $url;
+        } catch (\Exception $e) {
+            return $begin_url;
         }
+
+//        if ($newtoold) {
+//            $tmp = \db\JsonQuery::get($url, "routes", "new_url");
+//            if (is_object($tmp)) {
+//                $url = $tmp->old_url;
+//            }
+//        } else {
+//            $tmp = \db\JsonQuery::get($url, "routes", "old_url");
+//            if (is_object($tmp)) {
+//                $url = $tmp->new_url;
+//            }
+//        }
         return $url;
     }
 
@@ -82,9 +93,9 @@ class MenuModel {
 
         $languages = array();
         $current = "null";
-        if (\languages\models\LanguageHelp::is()) {
+        if (\languages\models\LanguageHelp::is("frontend")) {
             $current = \languages\models\LanguageHelp::get();
-            $languages = \languages\models\LanguageHelp::getAll();
+            $languages = \languages\models\LanguageHelp::getAll("frontend");
         }
         if (count($all)) {
             foreach ($all as $menu) {
@@ -99,7 +110,7 @@ class MenuModel {
                         $tmp['old_link'] = $tmp['link'];
                         $tmp['link'] = MenuModel::replace($tmp['link'], false);
                         $tmp['target'] = $link['target'];
-                        $tmp['title'] = $link['title'];
+                        $tmp['title'] = __($link['title']);
                         $tmp['language'] = "null";
                         if (isset($link['language'])) {
                             $tmp['language'] = $link['language'];
@@ -123,7 +134,8 @@ class MenuModel {
                                 if (isset($sublink['language'])) {
                                     $tmp2['language'] = $sublink['language'];
                                 }
-                                $tmp2['title'] = $sublink['title'];
+                                //    $tmp2['title'] = $sublink['title'];
+                                $tmp2['title'] = __($sublink['title']);
                                 $tmp2['choose'] = false;
                                 if ($url == $tmp2['old_link']) {
                                     $tmp2['choose'] = true;
@@ -228,9 +240,9 @@ class MenuModel {
 
         $languages = array();
         $current = "null";
-        if (\languages\models\LanguageHelp::is()) {
+        if (\languages\models\LanguageHelp::is("frontend")) {
             $current = \languages\models\LanguageHelp::get();
-            $languages = \languages\models\LanguageHelp::getAll();
+            $languages = \languages\models\LanguageHelp::getAll("frontend");
         }
 
 
@@ -608,8 +620,8 @@ class MenuModel {
         $tmp['target'] = $link['target'];
         $tmp['link'] = $link['link'];
         $tmp['sort'] = $link['sort'];
-        if (\languages\models\LanguageHelp::is()) {
-            $languages = \languages\models\LanguageHelp::getAll();
+        if (\languages\models\LanguageHelp::is("frontend")) {
+            $languages = \languages\models\LanguageHelp::getAll("frontend");
             if (isset($post['language']) and is_string($post['language']) and in_array($post['language'], $languages)) {
                 $tmp['language'] = $post['language'];
             }
@@ -664,8 +676,8 @@ class MenuModel {
             return $result;
         }
         $arr = array('title' => $post['title'], "target" => $post['target'], "link" => $post['link']);
-        if (\languages\models\LanguageHelp::is()) {
-            $languages = \languages\models\LanguageHelp::getAll();
+        if (\languages\models\LanguageHelp::is("frontend")) {
+            $languages = \languages\models\LanguageHelp::getAll("frontend");
             if (isset($post['language']) and is_string($post['language']) and in_array($post['language'], $languages)) {
                 $arr['language'] = $post['language'];
             }

@@ -194,6 +194,7 @@ class Block extends AbstractBlock {
             if (isset($this->params['order_type']) and $this->params['order_type'] == "desc") {
                 $order_type = "desc";
             }
+
             $newparams['order_field'] = $order_field;
             $newparams['order_type'] = $order_type;
             $conditions = array();
@@ -231,11 +232,15 @@ class Block extends AbstractBlock {
                             $this->addError(__("backend/mg.error_value") . " " . $name_field . "!");
                             return null;
                         }
-                        $class = "\\content\\fields\\" . $option_fields[$name_field]['type'];
-
-                        $obj = new $class($this->params['val_' . $name_field], $name_field, $option_fields[$name_field]['options']);
+                        $class = "\\mg\\fields\\" . $option_fields[$name_field]['type'];
+                        $cur_options = $option_fields[$name_field]['options'];
+                        $cur_options['not_need_null'] = true;
+                        $obj = new $class($this->params['val_' . $name_field], $name_field, $cur_options);
                         $_POST[$name_field] = $this->params['val_' . $name_field];
+
                         $curval = $obj->set();
+
+
 
 
                         if (is_null($curval)) {
@@ -250,6 +255,8 @@ class Block extends AbstractBlock {
 
             $newparams['fields'] = $fields;
             $newparams['conditions'] = $conditions;
+
+
 
             return $newparams;
         } else {

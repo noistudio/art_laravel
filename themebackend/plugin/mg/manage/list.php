@@ -9,16 +9,11 @@
 
 </div>
 
+
+<div class="block_need_url" data-url="<?php echo route("frontend/mg/" . $collection->name . "/list", array(), false); ?>"></div>
 <?php
-if ($needroute) {
-    ?>
-    <div class="block_need_url" data-url="/<?php echo $route; ?>/<?php echo $collection->name; ?>/index"></div>
-    <?php
-}
-
-
-if (\languages\models\LanguageHelp::is()) {
-    $languages = \languages\models\LanguageHelp::getAll();
+if (\languages\models\LanguageHelp::is("frontend")) {
+    $languages = \languages\models\LanguageHelp::getAll("frontend");
     ?>
     <div class="well">
         <p><strong><?php echo __("backend/mg.choose_lng"); ?>:</strong>
@@ -210,6 +205,7 @@ if (\languages\models\LanguageHelp::is()) {
                         ?> 
                     </div>
                     <div class="col-md-3">
+
                         <p><a class="btn btn-primary" href="{pathadmin}mg/manage/update/<?= $collection->name; ?>/<?= $row['last_id']; ?>/<?php echo $lang; ?>"><i class="fa fa-pencil-square-o"></i> <?php echo __("backend/mg.btn_edit"); ?></a></p>
                         <p><a class="deleteerror btn btn-danger" data-msg="<?php echo __("backend/mg.want_del_row"); ?>" href="{pathadmin}mg/manage/delete/<?= $collection->name; ?>/<?= $row['last_id']; ?>"><i class="fa fa-remove"></i> <?php echo __("backend/mg.btn_delete"); ?></a></p>
                         <p><a class=" btn btn-danger"  href="{pathadmin}mg/manage/clone/<?= $collection->name; ?>/<?= $row['last_id']; ?>"> <?php echo __("backend/mg.btn_clone"); ?></a></p>

@@ -32,9 +32,9 @@ class BlocksModel {
             $result['html'] = $object->html;
 
 
-            if (\languages\models\LanguageHelp::is()) {
+            if (\languages\models\LanguageHelp::is("frontend")) {
 
-                $languages = \languages\models\LanguageHelp::getAll();
+                $languages = \languages\models\LanguageHelp::getAll("frontend");
                 $current = \languages\models\LanguageHelp::get();
                 foreach ($languages as $lang) {
                     $result['html_' . $lang] = "";
@@ -56,7 +56,7 @@ class BlocksModel {
         }
     }
 
-    static function find_between($string = "", $start = "", $end = "", $greedy = false) {
+    static function find_between($string = "", $start = "", $end = "", $greedy = false, $isunique = false) {
         if (is_null($string)) {
             $string = "";
         }
@@ -71,7 +71,13 @@ class BlocksModel {
         $pattern = sprintf($format, $start, $end);
         preg_match_all($pattern, $string, $matches);
 
-        return $matches[2];
+        $results = $matches[2];
+        $old_results = $results;
+        if ($isunique == true) {
+            $results = array_unique($results);
+            $results = array_values($results);
+        }
+        return $results;
     }
 
     public static function execute($first = true) {
@@ -126,7 +132,7 @@ class BlocksModel {
                     if (isset($blocks[(int) $id])) {
                         $block = $blocks[(int) $id];
                         if ($block['type'] == "html") {
-                            if (\languages\models\LanguageHelp::is()) {
+                            if (\languages\models\LanguageHelp::is("frontend")) {
                                 $current_lang = \languages\models\LanguageHelp::get();
                                 if (isset($block['html_languages'][$current_lang])) {
                                     $block['html'] = $block['html_languages'][$current_lang];
@@ -240,9 +246,9 @@ class BlocksModel {
         if (isset($post['html']) and is_string($post['html'])) {
             $block['html'] = $post['html'];
         }
-        if (\languages\models\LanguageHelp::is()) {
+        if (\languages\models\LanguageHelp::is("frontend")) {
             $block['html_languages'] = array();
-            $languages = \languages\models\LanguageHelp::getAll();
+            $languages = \languages\models\LanguageHelp::getAll("frontend");
             if (count($languages)) {
                 foreach ($languages as $lang) {
                     if (isset($post['html_' . $lang]) and is_string($post['html_' . $lang])) {
@@ -274,7 +280,8 @@ class BlocksModel {
         }
 
         if (isset($post['param']) and is_array($post['param']) and count($post['param'])) {
-            $block['params'] = BlockType::validate($block['type'], $post['param']);
+
+            $block['params'] = BlockType::validate($block['type'], $post['param'], $block['params']);
             if (!is_array($block['params'])) {
                 return false;
             }
@@ -291,11 +298,13 @@ class BlocksModel {
         if (isset($types) and is_array($types)) {
             return $types;
         }
+        \Debugbar::startMeasure('list_block_types', 'Start search block types event');
         $type = new \blocks\events\BlockType();
         event($type);
         $result = $type->get();
 
         \core\AppConfig::set("app.block_types", $result);
+        \Debugbar::stopMeasure('list_block_types');
         return $result;
     }
 
@@ -320,8 +329,8 @@ class BlocksModel {
             $result['type'] = $object->type;
             $result['status'] = $object->status;
             $result['html'] = $object->html;
-            if (\languages\models\LanguageHelp::is()) {
-                $languages = \languages\models\LanguageHelp::getAll();
+            if (\languages\models\LanguageHelp::is("frontend")) {
+                $languages = \languages\models\LanguageHelp::getAll("frontend");
                 foreach ($languages as $lang) {
                     $result['html_' . $lang] = "";
                     if (isset($html_languages[$lang])) {

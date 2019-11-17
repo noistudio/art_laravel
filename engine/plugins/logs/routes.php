@@ -13,3 +13,4 @@ Route::any($admin_url . "/logs/delete/{val_0?}", "\\logs\\controllers\\backend\\
 Route::any($admin_url . "/logs/update/index/{val_0?}", "\\logs\\controllers\\backend\\UpdateLogs@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/logs/update/index');
 Route::any($admin_url . "/logs/update/{val_0}", "\\logs\\controllers\\backend\\UpdateLogs@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/logs/update');
 Route::any($admin_url . "/logs/update/ajaxedit/{val_0?}", "\\logs\\controllers\\backend\\UpdateLogs@actionAjaxedit")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/logs/update/ajaxedit');
+Route::get($admin_url . "/logs/see", '\\KrishnaKodoth\\LogEditor\\LogEditorController@getLogEditor')->middleware(env("BACKEND_MIDDLEWARE"))->name("backend/logs/see");

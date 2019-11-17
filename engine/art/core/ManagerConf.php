@@ -74,7 +74,7 @@ class ManagerConf {
         return null;
     }
 
-    static function getTemplateFolder($full_dir = false, $manager = null) {
+    static function getTemplateFolder($full_dir = false, $manager = null, $forasset = false) {
         if (is_null($manager)) {
             $manager = ManagerConf::current();
         }
@@ -90,6 +90,9 @@ class ManagerConf {
                 }
                 $result = str_replace(public_path(), "", $result);
 
+                if ($forasset == true) {
+                    return $theme_path . "/";
+                }
                 return $result;
             }
         }

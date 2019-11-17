@@ -69,6 +69,7 @@ class RowModel {
 
         $row = RowModel::editFields($name_table, $row, true, "", "", $lang);
 
+
         if (is_array($row) and count($row)) {
             foreach ($row as $field) {
                 $update[$field['name']] = $field['value'];
@@ -182,8 +183,8 @@ class RowModel {
     }
 
     public static function editFields($name_table, $array = array(), $update = false, $prefixname = "", $postfix = "", $lang = "null") {
-        if (\languages\models\LanguageHelp::is() and is_string($lang)) {
-            $all = \languages\models\LanguageHelp::getAll();
+        if (\languages\models\LanguageHelp::is("frontend") and is_string($lang)) {
+            $all = \languages\models\LanguageHelp::getAll("frontend");
             if (!in_array($lang, $all)) {
                 $lang = "null";
             }
@@ -200,15 +201,26 @@ class RowModel {
                 $field['name'] = $key;
                 $field['option'] = $field['options'];
 
-                $fields[] = $field;
+                $fieldclass = '\\mg\\fields\\' . ucfirst($field['type']);
+                $obj = new $fieldclass("test", "test", array());
+
+
+
                 if ($lang != "null" and isset($field['language']) and $field['language'] == 1) {
+                    if (!$obj->isShowOnlyMultilangField()) {
+                        $fields[] = $field;
+                    }
                     $second = $field;
                     $second['name'] = $second['name'] . "_" . $lang;
                     $second['title'] = $second['title'] . "(" . $lang . ")";
                     $fields[] = $second;
+                } else {
+                    $fields[] = $field;
                 }
             }
         }
+
+
 
 
         $result = array();

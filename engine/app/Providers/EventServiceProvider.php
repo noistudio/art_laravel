@@ -13,6 +13,7 @@ use forms\events\FormAfterSend;
 use forms\events\FormBeforeSend;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use core\FrontendEvent;
 
 class EventServiceProvider extends ServiceProvider {
 
@@ -22,6 +23,10 @@ class EventServiceProvider extends ServiceProvider {
      * @var array
      */
     protected $listen = [
+        FrontendEvent::class => [
+            \menu\events\MenuFrontendListener::class,
+            \blocks\events\BlockFrontendListener::class,
+        ],
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
@@ -29,16 +34,16 @@ class EventServiceProvider extends ServiceProvider {
             \admins\events\ListenerAdminLink::class,
             \logs\events\ListenerAdminLink::class,
             \blocks\events\ListenerAdminLink::class,
-            \content\events\ListenerAdminLink::class,
+            // \content\events\ListenerAdminLink::class,
             \mg\events\ListenerAdminLink::class,
             \menu\events\ListenerAdminLink::class,
             \forms\events\ListenerAdminLink::class,
             \files\events\ListenerAdminLink::class,
             \mailer\events\ListenerAdminLink::class,
             \cache\events\ListenerAdminLink::class,
-            \builder\events\ListenerAdminLink::class,
             \languages\events\ListenerAdminLink::class,
             \routes\events\ListenerAdminLink::class,
+            \share\events\ListenerAdminLink::class,
         ],
         EventAdminRule::class => [
             \logs\events\AdminRule::class,
@@ -50,19 +55,17 @@ class EventServiceProvider extends ServiceProvider {
             \forms\events\AdminRule::class,
             \files\events\AdminRule::class,
             \mailer\events\AdminRule::class,
-            \builder\events\AdminRule::class,
         ],
         BlockType::class => [
+            \editjs\events\EditjsBlockType::class,
             \content\events\ContentBlockType::class,
             \mg\events\MgBlockType::class,
             \menu\events\MenuBlockType::class,
             \forms\events\FormBlockType::class,
-            \builder\events\BuilderBlockType::class,
         ],
         MenuLink::class => [
             \content\events\ContentMenuLink::class,
             \mg\events\MgMenuLink::class,
-            \builder\events\BuilderMenuLink::class,
         ],
         FormAfterSend::class => [],
         FormBeforeSend::class => [],

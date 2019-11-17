@@ -39,8 +39,12 @@ class LanguageParse {
                                 $newresult[$key] = $result[$key . "_" . $current];
                             }
                         } else {
+                            if (isset($result[$key . "_" . $current])) {
 
-                            $newresult[$key] = LanguageParse::start_one($val);
+                                $newresult[$key] = $result[$key . "_" . $current];
+                            } else {
+                                $newresult[$key] = LanguageParse::start_one($val);
+                            }
                         }
                     }
                 }

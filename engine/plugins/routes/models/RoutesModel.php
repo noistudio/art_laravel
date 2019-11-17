@@ -17,6 +17,20 @@ class RoutesModel {
         }
     }
 
+    static function getInfoBy($url) {
+        $result = \db\JsonQuery::get($url, "routes", "old_url");
+        if (is_object($result) and isset($result->id) and ! is_null($result->id)) {
+            return $result;
+        }
+
+        $result = \db\JsonQuery::get($url, "routes", "new_url");
+        if (is_object($result) and isset($result->id) and ! is_null($result->id)) {
+            return $result;
+        }
+
+        return null;
+    }
+
     public static function get($url) {
         $result = parse_url($url);
         if (isset($result['path']) and ! isset($result['host'])) {
@@ -225,8 +239,8 @@ class RoutesModel {
                 $langs = array();
             }
         }
-        if (\languages\models\LanguageHelp::is()) {
-            $languages = \languages\models\LanguageHelp::getAll();
+        if (\languages\models\LanguageHelp::is("frontend")) {
+            $languages = \languages\models\LanguageHelp::getAll("frontend");
             if (count($languages)) {
                 foreach ($languages as $lang) {
 

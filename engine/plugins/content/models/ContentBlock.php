@@ -17,7 +17,7 @@ class ContentBlock extends AbstractBlock {
         if ($this->value == "list") {
             $conditions = array('and');
 
-            if (\languages\models\LanguageHelp::is()) {
+            if (\languages\models\LanguageHelp::is("frontend")) {
                 $conditions[] = array($this->op . ".enable" => 1);
                 $conditions[] = array($this->op . "._lng" => \languages\models\LanguageHelp::get());
             } else {

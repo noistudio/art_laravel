@@ -29,8 +29,57 @@ return str;
   
   var path_admin=$("#pathadmin").data("path");
   var url_dialog=$("#pathadmin").data("path")+"files/dialog"
-      var url_connector=$("#pathadmin").data("path")+"files/elfinder/connector";
+      var url_connector=$("#pathadmin").data("elfinder-connector");
       
+      
+ function load_editor_image(el){
+      var current_obj=el
+            var param = $('meta[name=csrf-param]').attr("content");
+            var token = $('meta[name=csrf-token]').attr("content");
+            var rails_csrf = {};
+            rails_csrf[param] = token;
+
+
+            var opts = {
+            url : url_connector,
+            lang : 'ru',
+            cur:$(this),
+            commandsOptions:{
+            getfile: {
+            //onlyURL: true,
+            folders: false,
+            multiple: false,
+            oncomplete: "destroy"
+            }
+            },
+            current_object:current_obj,
+            customData: rails_csrf,
+            getFileCallback: function(file, el){
+
+            var url = document.createElement('a');
+            url.href = file.url;
+                     
+
+            current_obj.innerHTML="<b data-name='"+current_obj.name+"' name='"+current_obj.name+"'  class='file_val'>"+url.pathname+"</b>"
+          //  current_obj.innerHTML="<img src='"+url.pathname+"' name='"+current_obj.name+"' class='img img-thumbnail image_val'>";
+            // current_obj.innerHTML="Выбрать изображение("+url.pathname+")";
+
+
+            return false;
+            },
+            title               : 'Файловый менеджер',
+            width               : 960,
+            height              : 500,
+            resizable           : false,
+            rememberLastDir     : false,
+            autoOpen            : true,
+            destroyOnClose      : true,
+            debug               : false
+            };
+            return   $("<div>").dialogelfinder(opts);
+     console.log(el);
+     return false;
+ }     
 function elFinderBrowser (field_name, url, type, win) {
 
 
@@ -90,6 +139,11 @@ var success=$(this).data("success");
 
 })
 
+
+//$("body").on("keyup",".textarea-cdx",function(){
+//   var text=$(this).html();
+//   
+//});
 
 $("body").on("click",".dynamic_delete",function(){
     $(this).parents(".parent").detach();
@@ -230,6 +284,54 @@ $("<div>").dialogelfinder(opts);
 return false;
 })
 
+$("body").on("click",".choose_file_editjs_old",function(){
+    var current_obj=$(this);
+  
+
+global_this=this;
+  var param = $('meta[name=csrf-param]').attr("content");
+  var token = $('meta[name=csrf-token]').attr("content");
+  var rails_csrf = {};
+rails_csrf[param] = token;
+
+
+  var opts = {
+             url : url_connector,
+             lang : 'ru',
+             cur:$(this),
+             commandsOptions:{
+                 getfile: {
+                     //onlyURL: true,
+                     folders: false,
+                     multiple: false,
+                     oncomplete: "destroy"
+                 }
+             },
+              customData: rails_csrf,
+             getFileCallback: function(file, el){
+
+var url = document.createElement('a');
+url.href = file.url;
+ 
+               current_obj.data("val",url.pathname);
+               current_obj.text("Выбрать изображение("+url.pathname+")");
+
+               
+             },
+             title               : 'Файловый менеджер',
+             width               : 960,
+             height              : 500,
+             resizable           : false,
+             rememberLastDir     : false,
+             autoOpen            : true,
+             destroyOnClose      : true,
+             debug               : false
+         };
+$("<div>").dialogelfinder(opts);
+return false;
+})
+
+
 $(document).on("click",".choose_file",function(){
   var name=$(this).data("name");
 
@@ -333,7 +435,35 @@ $(document).ready(function(){
   $( ".result" ).html( data );
     $(".field_others").html(data);
     $(".field_others").show();
+ if($("#editorjs").length>0){
+  var saveButton = document.getElementById($('#editorjs').data("btn"));
+   var const_editor_options=editor_options;
+  
+    
+    console.log(const_editor_options);
+    
+    const_editor_options['onReady']=function(){
+saveButton.click();  
+};
+ const_editor_options['onChange']=function(){
+saveButton.click();  
+};
+const_editor_options['data']={};
+const_editor_options['data']['blocks']=editorjs_value;
+
+
+   const editor = new EditorJS(const_editor_options);
  
+    saveButton.addEventListener('click', function () {
+      editor.saver.save().then((savedData) => {
+          var newval=JSON.stringify(savedData);
+          console.log(savedData);
+          $("#"+$("#editorjs").data("output-id")).val(newval);
+  });
+     
+ 
+    });
+}
 });
         
         
@@ -446,6 +576,77 @@ $(sample).insertBefore($(this));
 //	// Adds a menu item to the tools menu
 //	 
 //});
+ if($("#editorjs").length>0){
+  var saveButton = document.getElementById($('#editorjs').data("btn"));
+   var const_editor_options=editor_options;
+  
+    
+    console.log(const_editor_options);
+    
+    const_editor_options['onReady']=function(){
+saveButton.click();  
+};
+ const_editor_options['onChange']=function(){
+saveButton.click();  
+};
+const_editor_options['data']={};
+const_editor_options['data']['blocks']=editorjs_value;
+
+
+   const editor = new EditorJS(const_editor_options);
+ 
+    saveButton.addEventListener('click', function () {
+      editor.saver.save().then((savedData) => {
+          var newval=JSON.stringify(savedData);
+          console.log(savedData);
+          $("#"+$("#editorjs").data("output-id")).val(newval);
+  });
+     
+ 
+    });
+}
+
+
+
+
+   editorjs_configs.forEach(function(item, i, arr) {
+       console.log(editor_options);
+       var editor_options_tmp=editor_options;
+   var name_editor=item.name;    
+ 
+ 
+  
+  
+    
+    editor_options_tmp['holder']=name_editor;
+ 
+ 
+ 
+    
+    editor_options_tmp['onReady']=function(){
+document.getElementById($("#"+name_editor).data("btn")).click();  
+};
+ editor_options_tmp['onChange']=function(){
+document.getElementById($("#"+name_editor).data("btn")).click();  
+};
+editor_options_tmp['data']={};
+editor_options_tmp['data']['blocks']=item.value;
+
+ 
+ console.log(editor_options_tmp);
+ 
+  item.editor = new EditorJS(editor_options_tmp);
+ 
+    document.getElementById($("#"+name_editor).data("btn")).addEventListener('click', function () {
+       item.editor.saver.save().then((savedData) => {
+          var newval=JSON.stringify(savedData);
+          console.log(savedData);
+          $("#"+$('#editorjs_'+name_editor).data("output-id")).val(newval);
+  });
+     
+ 
+    });
+});
 $('.tiny').trumbowyg({semantic: false});
 //  tinymce.init({
 //       selector : ".tiny",

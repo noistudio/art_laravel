@@ -43,7 +43,7 @@ class LoginBackend extends \managers\backend\AdminController {
         $data['flash_success'] = \core\Notify::get("success");
         $data['flash_error'] = \core\Notify::get("error");
         $data['current_lang'] = \languages\models\LanguageHelp::get();
-        $data['languages'] = \languages\models\LanguageHelp::getAll();
+        $data['languages'] = \languages\models\LanguageHelp::getAll("backend");
 
         $result = view("app::login", $data)->render();
         $result = $this->_after_render($result);

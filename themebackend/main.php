@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
 
-        <title>Административная панель</title>
+        <title><?php echo __('backend/main.title'); ?></title>
 
 
         <meta name="robots" content="noindex, nofollow">
@@ -16,48 +16,50 @@
 
         <!-- Icons -->
         <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
-        <link rel="shortcut icon" href="{asset}img/favicon.png">
-        <link rel="apple-touch-icon" href="{asset}img/icon57.png" sizes="57x57">
-        <link rel="apple-touch-icon" href="{asset}img/icon72.png" sizes="72x72">
-        <link rel="apple-touch-icon" href="{asset}img/icon76.png" sizes="76x76">
-        <link rel="apple-touch-icon" href="{asset}img/icon114.png" sizes="114x114">
-        <link rel="apple-touch-icon" href="{asset}img/icon120.png" sizes="120x120">
-        <link rel="apple-touch-icon" href="{asset}img/icon144.png" sizes="144x144">
-        <link rel="apple-touch-icon" href="{asset}img/icon152.png" sizes="152x152">
-        <link rel="apple-touch-icon" href="{asset}img/icon180.png" sizes="180x180">
+        <link rel="shortcut icon" href="<?php echo asset("{asset}img/favicon.png"); ?>">
+        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon57.png"); ?>" sizes="57x57">
+        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon72.png"); ?>" sizes="72x72">
+        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon76.png"); ?>" sizes="76x76">
+        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon114.png"); ?>" sizes="114x114">
+        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon120.png"); ?>" sizes="120x120">
+        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon144.png"); ?>" sizes="144x144">
+        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon152.png"); ?>" sizes="152x152">
+        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon180.png"); ?>" sizes="180x180">
         <!-- END Icons -->
 
         <!-- Stylesheets -->
         <!-- Bootstrap is included in its original form, unaltered -->
-        <link rel="stylesheet" href="{asset}css/bootstrap.min.css">
+        <link rel="stylesheet" href="<?php echo asset("{asset}css/bootstrap.min.css"); ?>">
 
         <!-- Related styles of various icon packs and plugins -->
-        <link rel="stylesheet" href="{asset}css/plugins.css">
+        <link rel="stylesheet" href="<?php echo asset("{asset}css/plugins.css"); ?>">
 
         <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
-        <link rel="stylesheet" href="{asset}css/main.css">
+        <link rel="stylesheet" href="<?php echo asset("{asset}css/main.css"); ?>">
 
         <!-- Include a specific file here from css/themes/ folder to alter the default theme of the template -->
 
         <!-- The themes stylesheet of this template (for using specific theme color in individual elements - must included last) -->
-        <link rel="stylesheet" href="{asset}css/themes.css">
-        <link rel="stylesheet" href="{asset}css/themes/<?php echo Env('APP_BACKEND_CSS'); ?>">
+        <link rel="stylesheet" href="<?php echo asset("{asset}css/themes.css"); ?>">
+        <link rel="stylesheet" href="<?php echo asset("{asset}css/themes/" . Env('APP_BACKEND_CSS')); ?>">
 
         <!--        <link rel="stylesheet" href="{asset}css/themes/classy.css">-->
         <!-- END Stylesheets -->
-        <link rel="stylesheet" type="text/css" href="{asset}js/packages/barryvdh/elfinder/css/elfinder.min.css">
-        <link rel="stylesheet" type="text/css" href="{asset}js/packages/barryvdh/elfinder/css/theme.css">
-        <link rel="stylesheet" href="{asset}js/newgui/dist/ui/trumbowyg.min.css"> 
+        <link rel="stylesheet" type="text/css" href="<?php echo asset("{asset}js/packages/barryvdh/elfinder/css/elfinder.min.css"); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo asset("{asset}js/packages/barryvdh/elfinder/css/theme.css"); ?>">
+        <link rel="stylesheet" href="<?php echo asset("{asset}js/newgui/dist/ui/trumbowyg.min.css"); ?>"> 
 
         <!-- Mac OS X Finder style for jQuery UI smoothness theme (OPTIONAL) -->
         <!-- Modernizr (browser feature detection library) -->
-        <script src="{asset}js/vendor/modernizr-3.3.1.min.js"></script>
-
+        <script src="<?php echo asset("{asset}js/vendor/modernizr-3.3.1.min.js"); ?>"></script>
+        <script>
+            var editorjs_configs = [];
+        </script>
     </head>
     <?php
     $query_string = \admins\models\AdminModel::getQueryString();
     ?>
-    <body id="pathadmin" data-path="{pathadmin}" data-elfinder-connector="<?= route("elfinder.connector") ?>">
+    <body id="pathadmin" data-link-fetchurl="<?php echo route('backend/editjs/link/fetch'); ?>"   data-file-upload="<?php echo route('backend/editjs/image/upload'); ?>" data-path="{pathadmin}" data-elfinder-connector="<?= route("elfinder.connector") ?>">
         <!-- Page Wrapper -->
         <!-- In the PHP version you can set the following options from inc/config file -->
         <!--
@@ -382,8 +384,9 @@
                             <?php
                             if (\admins\models\AdminAuth::isRoot()) {
                                 ?>
+
                                 <li class="<?php
-                                if ($query_string == "adminmenu/index") {
+                                if (\Route::current()->getName() == "backend/adminmenu/index") {
                                     echo 'active_top';
                                 }
                                 ?>">
@@ -391,6 +394,16 @@
                                         <i class="fa fas fa-cog"></i> <?php echo __("backend/main.adminmenu"); ?>
                                     </a>
                                 </li>
+                                <li class="<?php
+                                if (\Route::current()->getName() == "backend/backup") {
+                                    echo 'active_top';
+                                }
+                                ?>">
+                                    <a href="<?php echo route("backend/backup") ?>" >
+                                        <i class="fa fas fa-cog"></i> <?php echo __("backend/main.backups_link"); ?>
+                                    </a>
+                                </li>
+
                                 <?php
                             }
 
@@ -398,7 +411,7 @@
                             if (\admins\models\AdminAuth::isRoot()) {
                                 ?>
                                 <li class="<?php
-                                if ($query_string == "setup/conf/index") {
+                                if (\Route::current()->getName() == "backend/setup") {
                                     echo 'active_top';
                                 }
                                 ?>">
@@ -413,7 +426,7 @@
                             if (\admins\models\AdminAuth::isRoot()) {
                                 ?>
                                 <li class="<?php
-                                if ($query_string == "admins/rules/index") {
+                                if (\Route::current()->getName() == "backend/admins/rules/index") {
                                     echo 'active_top';
                                 }
                                 ?>">
@@ -430,7 +443,7 @@
                             if (!\admins\models\AdminAuth::isRoot()) {
                                 ?> 
                                 <li class="<?php
-                                if ($query_string == "admins/edit") {
+                                if (\Route::current()->getName() == "backend/admins/edit") {
                                     echo 'active_top';
                                 }
                                 ?>">
@@ -485,18 +498,18 @@
         <!-- END Page Wrapper -->
 
         <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
-        <script src="{asset}js/vendor/jquery-2.2.4.min.js"></script>
-        <script src="{asset}js/vendor/bootstrap.min.js"></script>
-        <script src="{asset}js/plugins.js"></script>
-        <script src="{asset}js/app.js"></script>
+        <script src="<?php echo asset("{asset}js/vendor/jquery-2.2.4.min.js") ?>"></script>
+        <script src="<?php echo asset("{asset}js/vendor/bootstrap.min.js") ?>"></script>
+        <script src="<?php echo asset("{asset}js/plugins.js"); ?>"></script>
+        <script src="<?php echo asset("{asset}js/app.js") ?>"></script>
 
         <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-        <script src="{asset}js/packages/barryvdh/elfinder/js/elfinder.min.js"></script>
+        <script src="<?php echo asset("{asset}js/packages/barryvdh/elfinder/js/elfinder.min.js") ?>"></script>
 
         <?php if ($locale) { ?>
             <!-- elFinder translation (OPTIONAL) -->
-            <script src="{asset}js/packages/barryvdh/elfinder/js/i18n/elfinder.$locale.js"></script>
+            <script src="<?php echo asset("{asset}js/packages/barryvdh/elfinder/js/i18n/elfinder." . $locale . ".js"); ?>"></script>
         <?php } ?>
         <!--        <-- Import Trumbowyg -->
 
@@ -522,9 +535,10 @@
         <!--        <-- Import Trumbowyg plugins... -->
         <!--        <script src="{asset}js/newgui/plugins/upload/trumbowyg.cleanpaste.min.js"></script>
         -->
-        <script src="{asset}js/newgui/dist/trumbowyg.elfinder.js"></script>
-        <script src="{asset}js/newgui/plugins/pasteimage/trumbowyg.pasteimage.js"></script>
-        <script src="{asset}js/newgui/dist/trumbowyg.js"></script>
+        <script src="<?php echo asset("{asset}js/newgui/dist/trumbowyg.elfinder.js"); ?>"></script>
+        <script src="<?php echo asset("{asset}js/newgui/plugins/pasteimage/trumbowyg.pasteimage.js"); ?>"></script>
+        <script src="<?php echo asset("{asset}js/newgui/dist/trumbowyg.js"); ?>"></script>
+
         <!--        <-- Init Trumbowyg -->
         <script>
                                     // Doing this in a loaded JS file is better, I put this here for simplicity
@@ -532,37 +546,50 @@
         </script>
 
 
-        <link rel="stylesheet" href="{asset}notify/themes/alertify.core.css" />
-        <link rel="stylesheet" href="{asset}notify/themes/alertify.default.css" id="toggleCSS" />
-        <script src="{asset}notify/lib/alertify.min.js"></script>
-        <script type="text/javascript" src="{asset}js/global.js"></script>
+        <link rel="stylesheet" href="<?php echo asset("{asset}notify/themes/alertify.core.css"); ?>" />
+        <link rel="stylesheet" href="<?php echo asset("{asset}notify/themes/alertify.default.css"); ?>" id="toggleCSS" />
+        <script src="<?php echo asset("{asset}notify/lib/alertify.min.js"); ?>"></script>
+
         <script>
-
-
-        </script>
-        <!--        start inlcude builder_js -->
-        <script src="{asset}builder_js/js/jquery.hotkeys.js"></script>
-
-        <!-- bootstrap-->
-        <script src="{asset}builder_js/js/popper.min.js"></script>
-
-
-        <!-- builder code-->
-        <script src="{asset}builder_js/libs/builder/builder.js"></script>	
-        <!-- undo manager-->
-        <script src="{asset}builder_js/libs/builder/undo.js"></script>	
-        <!-- inputs-->
-        <script src="{asset}builder_js/libs/builder/inputs.js"></script>	
-        <!-- components-->
-        <script src="{asset}builder_js/libs/builder/components-bootstrap4.js"></script>	
-        <script src="{asset}builder_js/libs/builder/components-widgets.js"></script>	
-        <script type="text/javascript">
-
+        
+        
         </script>
 
-        <link rel="stylesheet" href="{asset}notify/themes/alertify.core.css" />
-        <link rel="stylesheet" href="{asset}notify/themes/alertify.default.css" id="toggleCSS" />
-        <script src="{asset}notify/lib/alertify.min.js"></script>
+
+
+
+        <script src="<?php echo asset("{asset}js/editor.js/json-preview.js"); ?>" type="text/javascript"></script>
+        <script src="<?php echo asset("{asset}js/editor.js/plugin_paragraph.js"); ?>"></script>
+        <script src="<?php echo asset("{asset}js/editor.js/plugin_header.js"); ?>"></script>
+        <script src="<?php echo route('backend/editjs/blocks.js'); ?>" type="text/javascript"></script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@2.1.3/dist/bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@1.1.0/dist/bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/warning@1.1.1/dist/bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/warning@latest"></script> 
+
+
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script> 
+        <script src="<?php echo route('backend/editjs/config.js'); ?>"></script>
+        <script src="<?php echo asset("{asset}js/editor.js/editor.js"); ?>" type="text/javascript">
+    
+        </script>
+        <script type="text/javascript" src="<?php echo asset("{asset}js/global.js"); ?>"></script>
+        <link rel="stylesheet" href="<?php echo asset("{asset}notify/themes/alertify.core.css"); ?>" />
+        <link rel="stylesheet" href="<?php echo asset("{asset}notify/themes/alertify.default.css"); ?>" id="toggleCSS" />
+        <script src="<?php echo asset("{asset}notify/lib/alertify.min.js"); ?>"></script>
         <script>
 <?php
 if (isset($flash_success)) {

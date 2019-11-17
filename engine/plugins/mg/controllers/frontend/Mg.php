@@ -10,15 +10,17 @@ class Mg extends \managers\frontend\Controller {
         parent::__construct();
     }
 
-    public function actionIndex($table, $val2) {
+    public function actionIndex($table) {
+
         if (\mg\core\CollectionModel::isExist($table)) {
-            if (!(isset($val2) and is_numeric($val2) and (int) $val2 > 0)) {
-                $data = \mg\models\GetCollections::all($table);
-                return $this->render($table . "_list", $data);
-            } else {
-                return $this->oneDocument($table, $val2);
-            }
+            $data = \mg\models\GetCollections::all($table);
+            return $this->render($table . "_list", $data);
         }
+    }
+
+    public function actionOne($id, $table) {
+
+        return $this->oneDocument($table, $id);
     }
 
     public function block($table, $postfix = "", $condition = null, $limit = null, $orderby = null, $block = array()) {
@@ -49,9 +51,8 @@ class Mg extends \managers\frontend\Controller {
             $data['block'] = $block;
             $data['url'] = url()->current();
             $result = $this->render($table . "_one" . $postfix, $data);
-            $row['uid'] = route("frontend/mg", array('val_0' => $table, 'val_1' => $id));
 
-            $row['prefix'] = $table . "_";
+
 
             return $result;
         }

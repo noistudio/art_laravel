@@ -29,6 +29,12 @@ class ComposerServiceProvider extends ServiceProvider {
 //                    '*', 'managers\models\AdminComposer'
 //            );
         }
+        if ($manager == "frontend") {
+//            View::composer('*', function ($view) {
+//
+//                $view->withShortcodes();
+//            });
+        }
         //
     }
 

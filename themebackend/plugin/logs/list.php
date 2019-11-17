@@ -9,6 +9,8 @@
         <div class="block-options pull-right">
             <div class="btn-group">
 
+                <a target="_blank" href="<?php echo route('backend/logs/see'); ?>" class="btn btn-danger"><?php echo __("backend/logs.see_logs"); ?></a>
+
                 <a href="<?php echo $admin_url; ?>logs/add/index" class="btn btn-danger"><i class="fa fa-plus"></i><?php echo __("backend/logs.add"); ?></a>
 
             </div>

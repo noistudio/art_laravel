@@ -38,8 +38,8 @@ class ContentMenuLink {
 
                     $event->add('/content/' . $table->name . "/index", __("backend/content.list_raz", array("title" => $table->title)));
 
-                    if (\languages\models\LanguageHelp::is()) {
-                        $languages = \languages\models\LanguageHelp::getAll();
+                    if (\languages\models\LanguageHelp::is("frontend")) {
+                        $languages = \languages\models\LanguageHelp::getAll("frontend");
                         foreach ($languages as $language) {
                             $event->add("/" . $language . '/content/' . $table->name . "/index", __("backend/content.list_raz_lng", array("title" => $table->title, 'lng' => $language)));
                         }

@@ -7,7 +7,7 @@
 
             </div>
         </div>
-        <h2>Админ.панель</h2>
+        <h2><?php echo __("backend/main.setup_title"); ?></h2>
 
     </div>
     <!-- END Example Title -->
@@ -15,7 +15,7 @@
     <form action="<?php echo route('backend/setup/save') ?>" method="POST">
         <table class="table">
             <tr>
-                <td>Внешний вид</td>
+                <td><?php echo __("backend/main.setup_css"); ?></td>
                 <td>
                     <select class="form-control" name="css" required>
                         <option <?php
@@ -51,7 +51,7 @@
                     </select></td>
             </tr>
             <tr>
-                <td>Название</td>
+                <td><?php echo __("backend/main.setup_title"); ?></td>
                 <td>
                     <input type="text" class="form-control" value="<?php
                     if (isset($config['APP_BACKEND_COPYRIGHT_TITLE'])) {
@@ -61,7 +61,7 @@
                 </td>
             </tr>
             <tr>
-                <td>Ссылка</td>
+                <td><?php echo __("backend/main.setup_link"); ?></td>
                 <td>
                     <input type="text" class="form-control" value="<?php
                     if (isset($config['APP_BACKEND_COPYRIGHT_LINK'])) {
@@ -72,14 +72,49 @@
             </tr>
 
             <tr>
+                <td><?php echo __("backend/main.status_site"); ?></td>
+                <td><select name='disabled' class='form-control'>
+                        <option  value='false'><?php echo __("backend/main.enable"); ?></option>
+                        <option <?php
+                        if (isset($config['APP_DISABLED']) and $config['APP_DISABLED'] == TRUE) {
+                            echo "selected";
+                        }
+                        ?> value='true'><?php echo __("backend/main.disable"); ?></option>
+                    </select></td>
+            </tr>
+            <tr>
+                <td><?php echo __("backend/main.debug_mode"); ?></td>
+                <td><select name='APP_DEBUG' class='form-control'>
+                        <option  value='false'><?php echo __("backend/main.disable"); ?></option>
+                        <option <?php
+                        if (isset($config['APP_DEBUG']) and $config['APP_DEBUG'] == TRUE) {
+                            echo "selected";
+                        }
+                        ?> value='true'><?php echo __("backend/main.enable"); ?></option>
+                    </select></td>
+            </tr>
+            <tr>
+                <td><?php echo __("backend/main.disable_message"); ?></td>
+                <td>
+                    <textarea class='form-control' name='disable_message'><?php
+                        if (isset($config['APP_DISABLED_MESSAGE'])) {
+                            echo $config['APP_DISABLED_MESSAGE'];
+                        }
+                        ?></textarea>
+                </td>
+
+            </tr>
+
+            <tr>
                 <td>
                     <?php echo csrf_field(); ?>
 
                 </td>
                 <td>
-                    <button type="submit" class="btn btn-submit">Сохранить</button>
+                    <button type="submit" class="btn btn-submit"><?php echo __("backend/main.setup_save"); ?></button>
                 </td>
             </tr>
+
         </table>
     </form>
 

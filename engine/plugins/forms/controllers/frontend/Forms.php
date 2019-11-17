@@ -11,11 +11,11 @@ class Forms extends \managers\frontend\Controller {
         
     }
 
-    public function actionSend($id) {
-        \plugsystem\GlobalParams::set("isajax", true);
+    public function send($id) {
+
         $form = \forms\models\FormConfig::get($id);
         if (is_array($form)) {
-            \plugsystem\GlobalParams::get("isajax", true);
+
 
             $result = \forms\models\FormModel::send($form);
             $json = array('type' => 'success');
@@ -25,13 +25,13 @@ class Forms extends \managers\frontend\Controller {
                 if (isset($error)) {
                     $json = array('type' => 'error', 'message' => $error);
                 }
-                $rows = \plugsystem\models\NotifyModel::getAll();
             }
             if ($json['type'] == "success") {
-                $json['message'] = "Сообщение успешно отправлено!";
+                $json['message'] = __("frontend/forms.success_msg");
             }
             return $json;
         }
+        return array();
     }
 
 }

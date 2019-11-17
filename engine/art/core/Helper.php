@@ -4,6 +4,12 @@ namespace core;
 
 class Helper {
 
+    static function path($current_url) {
+        $current_url = str_replace(\URL::to('/'), "", $current_url);
+
+        return $current_url;
+    }
+
     static function toArray($result) {
         if (is_null($result)) {
             return null;

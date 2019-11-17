@@ -6,12 +6,16 @@
 
 После этого в .env файле прописать данные для монги.
 
-Если вам нужно сделать так чтобы все работало только на МонгоДБ,то вам нужно файл /extra/SqlDocument.php поместить
-в папку /engine/art/db/SqlDocument.php 
-это заменит хранение внутренних параметров с mysql на mongodb 
-После этого в .env файле ,вам нужно поставить DB_CONNECTION=mongodb
+Если вам нужно сделать так чтобы все работало только на МонгоДБ
+ в .env файле ,вам нужно поставить DB_CONNECTION=mongodb
 
 После этого вам нужно закоментировать все события связанные с /content/* 
 в файле /engine/Providers/EventServiceProvider.php
+
+
+
+mongodump -d technoistudio -o dump 
+Для импорта используйте mongorestore --db dbname pathtodb/ --username login_db --password password_db
+
 
 

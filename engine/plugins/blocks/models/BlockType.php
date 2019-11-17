@@ -35,7 +35,7 @@ class BlockType {
         return $result;
     }
 
-    static function validate($id, $params) {
+    static function validate($id, $params, $old_params = array()) {
         $type = BlockType::getById($id);
 
         $result = array();
@@ -47,11 +47,12 @@ class BlockType {
 
 
             $obj = new $class($op, $value, $params, $block);
+            $obj->setOldParams($old_params);
             $result = $obj->validate();
 
             if (is_null($result)) {
 
-                \plugcomponents\Notify::add($obj->getError(), "error");
+                \core\Notify::add($obj->getError(), "error");
                 $result = null;
             }
         }

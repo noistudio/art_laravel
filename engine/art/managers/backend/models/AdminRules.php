@@ -26,6 +26,7 @@ class AdminRules {
                 }
             }
         }
+        \Debugbar::startMeasure('load_all_admin_rules_event', 'Start search event admin rule');
 
         $event_admin_rule = new \admins\events\EventAdminRule();
         event($event_admin_rule);
@@ -36,6 +37,8 @@ class AdminRules {
 
 
         \core\AppConfig::set("app.tmp_rules", $rules);
+
+        \Debugbar::stopMeasure('load_all_admin_rules_event');
 
         return $rules;
     }

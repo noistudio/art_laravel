@@ -12,8 +12,8 @@ class _DefaultCollection {
     private $_lang = null;
 
     function __construct($nametable, $lang = "null") {
-        if (\languages\models\LanguageHelp::is()) {
-            $languages = \languages\models\LanguageHelp::getAll();
+        if (\languages\models\LanguageHelp::is("frontend")) {
+            $languages = \languages\models\LanguageHelp::getAll("frontend");
             if (in_array($lang, $languages)) {
                 $this->_lang = $lang;
             }
@@ -86,6 +86,10 @@ class _DefaultCollection {
     public function _insert($array) {
         $collection = \DB::connection('mongodb')->collection($this->collection);
         $collection->insert($array);
+    }
+
+    public function _delete($condition) {
+        $result = \DB::connection('mongodb')->collection($this->collection)->whereRaw($condition)->delete();
     }
 
     public function _update($array, $condition, $options) {

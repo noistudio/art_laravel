@@ -16,17 +16,13 @@
     </div>
     <!-- END Example Title -->
 
-    <?php
-    if ($needroute) {
-        ?>
-        <div class="block_need_url" data-url="/<?php echo $route; ?>/<?php echo $collection->name; ?>/<?php echo $document['last_id']; ?>"></div>
-        <?php
-    }
-    ?>
+
+    <div class="block_need_url" data-url="<?php echo route("frontend/mg/" . $collection->name . "/one", $document['last_id'], false); ?>"></div>
+
 
     <?php
-    if (\languages\models\LanguageHelp::is()) {
-        $languages = \languages\models\LanguageHelp::getAll();
+    if (\languages\models\LanguageHelp::is("frontend")) {
+        $languages = \languages\models\LanguageHelp::getAll("frontend");
         ?>
         <div class="well">
             <p><strong><?php echo __("backend/mg.choose_lng"); ?>:</strong>
@@ -36,13 +32,13 @@
                 }
                 ?>" href="{pathadmin}mg/manage/update/<?php echo $collection->name; ?>/<?php echo $document['last_id']; ?>/null">Для всех</a>    
                    <?php
-                   foreach ($languages as $lang) {
+                   foreach ($languages as $row_lang) {
                        ?>
                     <a class="btn btn-primary <?php
-                    if ($lang == $lang) {
+                    if ($lang == $row_lang) {
                         echo 'active';
                     }
-                    ?>" href="{pathadmin}mg/manage/update/<?php echo $collection->name; ?>/<?php echo $document['last_id']; ?>/<?php echo $lang; ?>"><?php echo $lang; ?></a> 
+                    ?>" href="{pathadmin}mg/manage/update/<?php echo $collection->name; ?>/<?php echo $document['last_id']; ?>/<?php echo $row_lang; ?>"><?php echo $row_lang; ?></a> 
                        <?php
                    }
                    ?></p>  
@@ -65,12 +61,21 @@
                 <?php
                 if (count($row)) {
                     foreach ($row as $field) {
-                        ?>
-                        <tr>
-                            <td><?php echo $field['title']; ?></td>
-                            <td><?php echo $field['input']; ?></td>
-                        </tr>
-                        <?php
+                        if ($field['type'] == "Editorjss") {
+                            ?>
+                            <tr>
+
+                                <td colspan="2" style="width:100%;"><?php echo $field['input']; ?></td>
+                            </tr>
+                            <?php
+                        } else {
+                            ?>
+                            <tr>
+                                <td><?php echo $field['title']; ?></td>
+                                <td><?php echo $field['input']; ?></td>
+                            </tr>
+                            <?php
+                        }
                     }
                 }
                 ?>
@@ -80,10 +85,10 @@
 
 
                 <?php
-                if (count($share_templates)) {
+                if (isset($share_templates) and count($share_templates)) {
                     foreach ($share_templates as $share) {
                         ?>
-                        <tr>
+                        <tr style="display:none;">
                             <td><input type="checkbox" name="shares[]" class="form-control" value="<?php echo $share['id']; ?>"</td>  
                             <td>Опубликовать в <?php echo $share['title']; ?></td>
                         </tr>

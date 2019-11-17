@@ -127,7 +127,7 @@ class GetTables {
 
         $condition = array($table->name . ".enable" => 1);
 
-        if (\languages\models\LanguageHelp::is()) {
+        if (\languages\models\LanguageHelp::is("frontend")) {
             $lang = \languages\models\LanguageHelp::get();
             $condition = array('and');
             $condition[] = array($table->name . ".enable" => 1);
@@ -137,7 +137,7 @@ class GetTables {
         if (strlen($q) > 0) {
             $condition = array('and');
             $condition[] = array($table->name . ".enable" => 1);
-            if (\languages\models\LanguageHelp::is()) {
+            if (\languages\models\LanguageHelp::is("frontend")) {
                 $lang = \languages\models\LanguageHelp::get();
 
                 $condition[] = array($table->name . "._lng" => $lang);

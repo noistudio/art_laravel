@@ -15,14 +15,17 @@ Route::any($admin_url . "/routes/update/{val_0?}", "\\routes\\controllers\\backe
 Route::any($admin_url . "/routes/update/doupdate/{val_0?}", "\\routes\\controllers\\backend\\UpdateRoutes@actionDoupdate")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/routes/update/doupdate');
 
 
+\Debugbar::startMeasure('load_custom_routes', 'Start loading custom routes saved in DB');
 $routes = \db\JsonQuery::all("routes");
-//if (isset($routes) and count($routes) > 0) {
-//    foreach ($routes as $route) {
-//        Route::any($route->new_url, function() use ($route) {
-//            $request = Request::create($route->old_url, 'GET', array());
-//            return Route::dispatch($request)->getContent();
-//        });
-//    }
-//}
+if (isset($routes) and count($routes) > 0) {
+    foreach ($routes as $route) {
+        Route::any($route->new_url, function() use ($route) {
+            $request = Request::create($route->old_url, 'GET', array());
+            return Route::dispatch($request)->getContent();
+        });
+    }
+}
 
-Route::get('/supertestString', '\\routes\\controllers\\backend\\UpdateRoutes@actionIndex')->defaults('val_0', '4');
+\Debugbar::stopMeasure('load_custom_routes');
+
+//Route::get('/supertestString', '\\routes\\controllers\\backend\\UpdateRoutes@actionIndex')->defaults('val_0', '4');

@@ -52,16 +52,20 @@ class LanguageHelp {
         return $current_lang;
     }
 
-    static function is() {
-        $langs = LanguageHelp::getAll();
-        if ($langs > 1) {
+    static function is($manager = "frontend") {
+        $langs = LanguageHelp::getAll($manager);
+
+        if (count($langs) > 1) {
             return true;
         }
         return false;
     }
 
-    static function getAll() {
-        $manager = \core\ManagerConf::current();
+    static function getAll($manager = "frontend") {
+
+        if (is_null($manager)) {
+            $manager = \core\ManagerConf::current();
+        }
         $tmp_result = \core\AppConfig::get("app.languages_" . $manager);
         if (isset($tmp_result) and is_array($tmp_result)) {
             return $tmp_result;
@@ -71,6 +75,7 @@ class LanguageHelp {
         $langs = scandir($path);
         foreach ($langs as $lang) {
             $path_module = $path . $lang . "/" . $manager;
+
             if ($lang != "." and $lang != ".." and file_exists($path_module)) {
 
                 $results[] = $lang;

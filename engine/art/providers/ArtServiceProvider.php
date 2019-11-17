@@ -4,6 +4,7 @@ namespace art\providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use Shortcode;
 
 class ArtServiceProvider extends ServiceProvider {
 
@@ -52,6 +53,13 @@ class ArtServiceProvider extends ServiceProvider {
 
             \View::share('admin_url', \core\ManagerConf::getUrl() . "/");
         }
+
+        if ($manager == "frontend") {
+            \Blade::directive('runwidget', function ($expression) {
+                return "<?php echo 'Hello ' . {$expression}; ?>";
+            });
+        }
+
 
 
 //        $viewPath = __DIR__ . '/../resources/views';

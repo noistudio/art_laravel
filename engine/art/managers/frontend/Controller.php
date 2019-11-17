@@ -25,9 +25,12 @@ class Controller extends \App\Http\Controllers\Controller {
         $plugin = $this->partial_render($file, $data);
 
         $data['plugin'] = $plugin;
-        $data['mainmenu'] = \adminmenu\models\MenuModel::getResult();
+
         $data['flash_success'] = \core\Notify::get("success");
         $data['flash_error'] = \core\Notify::get("error");
+        if (!isset($data['ishome'])) {
+            $data['ishome'] = false;
+        }
         $result = view("app_frontend::main", $data)->render();
         $result = $this->_after_render($result);
 
@@ -37,7 +40,14 @@ class Controller extends \App\Http\Controllers\Controller {
     protected function _after_render($html_result) {
 
 
-        $html_result = str_replace("{asset}", \core\ManagerConf::getTemplateFolder(), $html_result);
+        $html_result = str_replace("{asset}", \core\ManagerConf::getTemplateFolder(false, null, true), $html_result);
+        \Debugbar::startMeasure('frontend_event', 'Start frontend Event');
+
+        $event = new \core\FrontendEvent($html_result);
+        event($event);
+
+        $html_result = $event->get();
+        \Debugbar::stopMeasure('frontend_event');
 
         return $html_result;
     }
@@ -45,11 +55,15 @@ class Controller extends \App\Http\Controllers\Controller {
     public function partial_render($file, $data = array()) {
 
         $path = $this->getPath();
+
+
+
         if ($this->is_plugin) {
-            $plugin = view("app_frontend::" . $path . '/' . $file, $data)->render();
+            $path_view = "app_frontend::" . $path . '/' . $file;
         } else {
-            $plugin = view("app_frontend::" . $file, $data)->render();
+            $path_view = "app_frontend::" . $file;
         }
+        $plugin = view($path_view, $data)->render();
 
         return $plugin;
     }

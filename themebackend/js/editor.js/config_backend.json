@@ -1,0 +1,135 @@
+{
+            
+  "tools": {
+  "image": {
+      "file": {
+        "type": "array",
+        "data": {
+          "width": {
+            "type": "integer",
+            "required": false
+          },
+          "height": {
+            "type": "integer",
+            "required": false
+          },
+          "url": "string"
+        }
+      },
+      "caption": {
+        "type": "string",
+        "allowedTags": "i,b,a[href],code[class],mark[class]"
+      },
+      "withBorder": "boolean",
+      "withBackground": "boolean",
+      "stretched": "boolean"
+    },
+    "linkTool":{
+             "link": {
+        "type": "string",
+        "allowedTags": "",
+        "required":true
+      },
+      "meta": {
+        "type": "array",
+        "data": {
+            "title": {
+        "type": "string",
+        "allowedTags": "",
+        "required":false
+        },"keywords": {
+        "type": "string",
+        "allowedTags": "",
+        "required":false
+        },
+        "description": {
+        "type": "string",
+        "allowedTags": "",
+        "required":false
+        }
+        }
+          
+          
+      }
+        },
+    "warning":{
+            "title": {
+        "type": "string",
+        "allowedTags": "",
+        "required": true        
+      },
+        "message": {
+        "type": "string",
+        "allowedTags": "",
+        "required": true        
+      }
+      
+        },
+        
+    "header": {
+      "text": {
+        "type": "string",
+        "allowedTags": "",
+        "required": true        
+      },
+      "level": {
+        "type": "int",
+        "canBeOnly": [2, 3, 4,5,6,7,8],
+       "required": true         
+      }
+    },
+    "delimiter":{
+        },
+    "paragraph": {
+      "text": {
+        "type": "string",
+        "allowedTags": "i,b,u,a[href]"
+      }
+    },
+   
+    "list": {
+      "style": {
+        "type": "string",
+        "canBeOnly": ["ordered", "unordered"]
+      },
+      "items": {
+        "type": "array",
+        "data": {
+          "-": {
+            "type": "string",
+            "allowedTags": "i,b,u"
+          }
+        }
+      }
+    },
+    "quote": {
+      "text": {
+        "type": "string",
+        "allowedTags": "i,b,u"
+      },
+      "caption": {
+        "type": "string"
+      },
+      "alignment": {
+        "type": "string",
+        "canBeOnly": ["left", "center"]
+      }
+    },
+    "table": {
+      
+      "content": {
+        "type": "array",
+        "data": {
+          "-": {
+            "type": "array",
+            "data": {
+              "-": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

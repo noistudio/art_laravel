@@ -17,14 +17,17 @@ class ManageMg extends \managers\backend\AdminController {
 
 
 
+
+
+
         $post = request()->post();
         $get = request()->query->all();
         if (!\admins\models\AdminAuth::have("content_mg_" . $nametable) and ! \admins\models\AdminAuth::have("allmg")) {
             return back();
         }
 
-        if (\languages\models\LanguageHelp::is() and is_string($lang)) {
-            $all = \languages\models\LanguageHelp::getAll();
+        if (\languages\models\LanguageHelp::is("frontend") and is_string($lang)) {
+            $all = \languages\models\LanguageHelp::getAll("frontend");
             if (!in_array($lang, $all)) {
                 $lang = "null";
             }
@@ -150,6 +153,7 @@ class ManageMg extends \managers\backend\AdminController {
             if (file_exists($path)) {
                 $data['needroute'] = true;
             }
+
             if ($this->isExists($nametable . "_list")) {
                 return $this->render($nametable . "_list", $data);
             } else {
@@ -163,8 +167,8 @@ class ManageMg extends \managers\backend\AdminController {
         if ((!\admins\models\AdminAuth::have("content_mg_" . $nametable) and ! \admins\models\AdminAuth::have("allcontent"))) {
             return back();
         }
-        if (\languages\models\LanguageHelp::is() and is_string($lang)) {
-            $all = \languages\models\LanguageHelp::getAll();
+        if (\languages\models\LanguageHelp::is("frontend") and is_string($lang)) {
+            $all = \languages\models\LanguageHelp::getAll("frontend");
             if (!in_array($lang, $all)) {
                 $lang = "null";
             }
@@ -173,6 +177,7 @@ class ManageMg extends \managers\backend\AdminController {
         }
 
         $row = \mg\MongoQuery::get($nametable, array('last_id' => (int) $id));
+
         if (is_array($row)) {
 
             $result = \mg\core\RowModel::operation_update($nametable, $row, $id, $lang);
@@ -316,11 +321,13 @@ class ManageMg extends \managers\backend\AdminController {
     }
 
     public function actionUpdate($nametable, $id, $lang = "null") {
+
+
         if ((!\admins\models\AdminAuth::have("content_mg_" . $nametable) and ! \admins\models\AdminAuth::have("allmg"))) {
             return back();
         }
-        if (\languages\models\LanguageHelp::is() and is_string($lang)) {
-            $all = \languages\models\LanguageHelp::getAll();
+        if (\languages\models\LanguageHelp::is("frontend") and is_string($lang)) {
+            $all = \languages\models\LanguageHelp::getAll("frontend");
             if (!in_array($lang, $all)) {
                 $lang = "null";
             }
@@ -330,6 +337,7 @@ class ManageMg extends \managers\backend\AdminController {
 
 
         $row = \mg\MongoQuery::get($nametable, array('last_id' => (int) $id));
+
         $model = \mg\core\DynamicCollection::find($nametable);
 
         \core\AppConfig::set("subnav", "mg_" . $nametable);
@@ -362,6 +370,7 @@ class ManageMg extends \managers\backend\AdminController {
                 $data['needroute'] = true;
                 $data['share_templates'] = \share\models\ShareModel::allWorked();
             }
+            $data['share_templates'] = \share\models\ShareModel::allWorked();
             if ($this->isExists($nametable . "_edit")) {
                 return $this->render($nametable . "_edit", $data);
             } else {

@@ -38,32 +38,35 @@ class MgMenuLink {
 
                     $event->add('/mg/' . $table->name . "/index", __("backend/mg.list_from_cat", array('name' => $table->title)));
 
-                    if (\languages\models\LanguageHelp::is()) {
-                        $languages = \languages\models\LanguageHelp::getAll();
+                    if (\languages\models\LanguageHelp::is("frontend")) {
+                        $languages = \languages\models\LanguageHelp::getAll("frontend");
                         foreach ($languages as $language) {
+                            $url = route('frontend/mg/' . $table->name . "/list", array(), false);
                             $event->add("/" . $language . '/mg/' . $table->name . "/index", __("backend/mg.list_from_cat", array('name' => $table->title, 'language' => $language)));
                         }
                     }
                 }
-//                $model = \content\models\MasterTable::find($table->name);
-//
-//                $data = $model->all();
-//                $fields = $model->getFieldsinList();
-//                if (count($data['rows'])) {
-//                    foreach ($data['rows'] as $row) {
-//                        $title = "";
-//                        if (count($fields)) {
-//                            foreach ($fields as $field) {
-//                                if (isset($row[$field['name']]) and ! is_array($row[$field['name']])) {
-//                                    $title .= " " . $row[$field['name']];
-//                                }
-//                            }
-//                            if (file_exists($path_to_template . "" . $table->name . "_one.php")) {
-//                                $event->add('/content/' . $table->name . "/" . $row['last_id'], 'Раздел  ' . $table->title . " Документ " . $title);
-//                            }
-//                        }
-//                    }
-//                }
+
+                $model = \mg\core\DynamicCollection::find($table->name);
+
+                $data = $model->all();
+                $fields = $model->getFieldsinList();
+                if (count($data['rows'])) {
+                    foreach ($data['rows'] as $row) {
+                        $title = "";
+                        if (count($fields)) {
+                            foreach ($fields as $field) {
+                                if (isset($row[$field['name']]) and ! is_array($row[$field['name']])) {
+                                    $title .= " " . $row[$field['name']];
+                                }
+                            }
+                            if (file_exists($path_to_template . "" . $table->name . "_one.php")) {
+                                $url = route('frontend/mg/' . $table->name . "/one", $row['last_id'], false);
+                                $event->add($url, 'Раздел  ' . $table->title . " Документ " . $title);
+                            }
+                        }
+                    }
+                }
             }
         }
 

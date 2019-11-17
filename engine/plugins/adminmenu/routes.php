@@ -3,9 +3,9 @@
 $admin_url = \core\ManagerConf::getUrl("backend");
 
 
-Route::any($admin_url . "/adminmenu/editlink/{val_0?}/{val_1?}", "\\adminmenu\\controllers\\backend\\Adminmenu@actionEditlink")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/adminmenu/editlink');
+Route::any($admin_url . "/adminmenu/editlink/{val_0}/{val_1?}", "\\adminmenu\\controllers\\backend\\Adminmenu@actionEditlink")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/adminmenu/editlink');
 Route::any($admin_url . "/adminmenu/index", "\\adminmenu\\controllers\\backend\\Adminmenu@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/adminmenu/index');
-Route::any($admin_url . "/adminmenu", "\\adminmenu\\controllers\\backend\\Adminmenu@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/adminmenu');
+
 Route::any($admin_url . "/adminmenu/edit/{val_0?}/{val_1?}", "\\adminmenu\\controllers\\backend\\Adminmenu@actionEdit")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/adminmenu/edit');
 
 

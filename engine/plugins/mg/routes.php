@@ -35,8 +35,27 @@ Route::any($admin_url . "/mg/template/one/{val_0?}", "\\mg\\controllers\\backend
 Route::any($admin_url . "/mg/template/rss/{val_0?}", "\\mg\\controllers\\backend\\TemplateMg@actionRss")->middleware(env("BACKEND_MIDDLEWARE"))->name("backend/mg/template/rss");
 
 
-//frontend
 
-Route::any("/mg/index/{val_0?}/{val_1?}", "\\mg\\controllers\\frontend\\Mg@actionIndex")->name("frontend/mg/index");
-Route::any("/mg/{val_0?}/{val_1?}", "\\mg\\controllers\\frontend\\Mg@actionIndex")->name("frontend/mg");
-Route::any("/mg/rss/{val_0?}/{val_1?}", "\\mg\\controllers\\frontend\\Mg@actionRss")->name("frontend/mg/rss");
+
+//frontend
+$collections = \db\JsonQuery::all("collections", "title", "ASC");
+
+if (count($collections) > 0) {
+    foreach ($collections as $collection) {
+
+        if (!Route::has("frontend/mg/" . $collection->name . "/list")) {
+            Route::any("/mg/" . $collection->name . "/index", "\\mg\\controllers\\frontend\\Mg@actionIndex")->middleware(env("FRONTEND_MIDDLEWARE"))->name("frontend/mg/" . $collection->name . "/list")->defaults("val_0", $collection->name);
+        }
+
+        if (!Route::has("frontend/mg/" . $collection->name . "/one")) {
+            Route::any("/mg/" . $collection->name . "/{id}", "\\mg\\controllers\\frontend\\Mg@actionOne")->middleware(env("FRONTEND_MIDDLEWARE"))->name("frontend/mg/" . $collection->name . "/one")->defaults("table", $collection->name);
+        }
+
+
+
+        //Route::any("/mg/rss/{val_0}/{val_1}", "\\mg\\controllers\\frontend\\Mg@actionRss")->middleware(env("FRONTEND_MIDDLEWARE"))->name("frontend/mg/rss");
+    }
+}
+
+
+ 

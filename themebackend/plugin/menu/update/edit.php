@@ -58,8 +58,8 @@
                 <td><textarea class="form-control" name="title"></textarea></td>
             </tr>
             <?php
-            if (languages\models\LanguageHelp::is()) {
-                $languages = languages\models\LanguageHelp::getAll();
+            if (languages\models\LanguageHelp::is("frontend")) {
+                $languages = languages\models\LanguageHelp::getAll("frontend");
                 ?>
                 <tr>
                     <td><?php echo __("backend/menu.language"); ?></td>

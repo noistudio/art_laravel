@@ -476,11 +476,13 @@ DROP COLUMN `' . $field . '`;';
 
 
             foreach ($row['fields'] as $key => $field) {
+
                 if ($row['type'] == "mysql") {
                     $tmp = FormConfig::getField($field['type']);
                 } else {
                     $tmp = FormConfig::getFieldMongodb($field['type']);
                 }
+
                 $placeholder = "";
                 if (isset($field['placeholder'])) {
                     $placeholder = $field['placeholder'];
@@ -528,6 +530,7 @@ DROP COLUMN `' . $field . '`;';
         $result = \mg\core\CollectionModel::fields();
         if (count($result)) {
             foreach ($result as $row) {
+
                 if ($row['name'] == $name) {
                     $class = "\\mg\\fields\\" . $name;
                     $obj = new $class("test", "test");
@@ -541,6 +544,8 @@ DROP COLUMN `' . $field . '`;';
                 }
             }
         }
+
+
         return $return;
     }
 

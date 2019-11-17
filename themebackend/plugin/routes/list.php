@@ -15,6 +15,7 @@
         <h2><?php echo __("backend/routes.name"); ?></h2>
 
     </div>
+    <p><a href="https://github.com/artesaos/seotools" target="_blank">https://github.com/artesaos/seotools</a></p>
     <!-- END Example Title -->
 
     <!-- Example Content -->

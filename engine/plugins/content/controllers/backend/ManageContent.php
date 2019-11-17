@@ -47,8 +47,8 @@ class ManageContent extends \managers\backend\AdminController {
             } else if (isset($get['enable']) and (string) $get['enable'] == "off") {
                 $condition[] = array($nametable . ".enable" => 0);
             }
-            if (\languages\models\LanguageHelp::is()) {
-                $languages = \languages\models\LanguageHelp::getAll();
+            if (\languages\models\LanguageHelp::is("frontend")) {
+                $languages = \languages\models\LanguageHelp::getAll("frontend");
                 if (isset($get['_lng']) and in_array($get['_lng'], $languages)) {
                     $condition[] = array($nametable . "._lng" => $get['_lng']);
                 }
