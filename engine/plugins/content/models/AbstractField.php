@@ -55,11 +55,37 @@ abstract class AbstractField {
     }
 
     public function getVal() {
-        $this->value = null;
-        $post = request()->post();
 
-        if (isset($post[$this->name])) {
-            $this->value = $post[$this->name];
+        $old_value = $this->value;
+
+        $this->value = null;
+        $post_vars = request()->post();
+
+        $get_vars = request()->query->all();
+
+
+
+        if (isset($get_vars[$this->name])) {
+            $this->value = $get_vars[$this->name];
+        }
+
+        if (isset($post_vars[$this->name])) {
+            $this->value = $post_vars[$this->name];
+        }
+
+        if (isset($_FILES[$this->name]) and ! empty($_FILES[$this->name])) {
+            $this->value = $_FILES[$this->name];
+        }
+
+        $now_value = $this->value;
+        $not_need_null = $this->option('not_need_null');
+
+
+        if (isset($not_need_null) and $not_need_null == true) {
+
+            if (isset($old_value) and ! is_null($old_value) and is_null($now_value)) {
+                $this->value = $old_value;
+            }
         }
     }
 

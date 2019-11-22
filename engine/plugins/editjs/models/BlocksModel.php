@@ -4,6 +4,29 @@ namespace editjs\models;
 
 class BlocksModel {
 
+    static function parseValue($value) {
+        $value_obj = json_decode($value, true);
+        if (isset($value_obj['blocks']) and is_array($value_obj['blocks']) and count($value_obj['blocks']) > 0) {
+            foreach ($value_obj['blocks'] as $key => $arr) {
+                if (isset($arr['data']['backColorPicker'])) {
+                    unset($arr['data']['backColorPicker']);
+                }
+                if (isset($arr['data']['foreColorPicker'])) {
+                    unset($arr['data']['foreColorPicker']);
+                }
+                if (isset($arr['data'][''])) {
+                    unset($arr['data']['']);
+                }
+                $value_obj['blocks'][$key] = $arr;
+            }
+
+
+            $value = json_encode($value_obj);
+        }
+
+        return $value;
+    }
+
     static function parseResult($blocks, $config) {
 
         $result = array();
@@ -105,7 +128,7 @@ class BlocksModel {
                         $key_name = "textkey" . $key;
                         $tmp_array[$key_name] = array(
                             'type' => 'string',
-                            'allowedTags' => ' ',
+                            'allowedTags' => '*',
                             'required' => true
                         );
                     }
@@ -114,7 +137,10 @@ class BlocksModel {
             }
         }
 
+
+
         $config = json_encode($array);
+
 
 
         $result = array();

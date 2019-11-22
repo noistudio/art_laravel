@@ -14,6 +14,8 @@ class SetupBackend extends \managers\backend\AdminController {
     }
 
     public function actionIndex() {
+
+
 //        \Artisan::call("vendor:publish --tag=laravel-errors");
 //        $output = \Artisan::output();
 //        var_dump($output);
@@ -28,7 +30,7 @@ class SetupBackend extends \managers\backend\AdminController {
     }
 
     public function actionSave() {
-
+        return back();
         $ip = \Request::ip();
 
         $config = \core\AppEnv::all();
@@ -43,6 +45,52 @@ class SetupBackend extends \managers\backend\AdminController {
         if (isset($post['disable_message']) and is_string($post['disable_message']) and strlen($post['disable_message']) > 0) {
             $array['APP_DISABLED_MESSAGE'] = $post['disable_message'];
             $config['APP_DISABLED_MESSAGE'] = $array['APP_DISABLED_MESSAGE'];
+        }
+
+        if (isset($post['APP_TITLE']) and is_string($post['APP_TITLE'])) {
+            $array['APP_TITLE'] = $post['APP_TITLE'];
+            $config['APP_TITLE'] = $post['APP_TITLE'];
+        }
+        if (isset($post['APP_META_KEYWORDS']) and is_string($post['APP_META_KEYWORDS'])) {
+            $array['APP_META_KEYWORDS'] = $post['APP_META_KEYWORDS'];
+            $config['APP_META_KEYWORDS'] = $post['APP_META_KEYWORDS'];
+        }
+
+        if (isset($post['APP_META_DESCRIPTION']) and is_string($post['APP_META_DESCRIPTION'])) {
+            $array['APP_META_DESCRIPTION'] = $post['APP_META_DESCRIPTION'];
+            $config['APP_META_DESCRIPTION'] = $post['APP_META_DESCRIPTION'];
+        }
+
+        if (\languages\models\LanguageHelp::is("frontend")) {
+            $langs = \languages\models\LanguageHelp::getAll("frontend");
+            foreach ($langs as $lang) {
+                $u_lang = strtoupper($lang);
+
+                if (isset($post['APP_TITLE_' . $u_lang]) and is_string($post['APP_TITLE_' . $u_lang])) {
+                    $array['APP_TITLE_' . $u_lang] = $post['APP_TITLE_' . $u_lang];
+                    $config['APP_TITLE_' . $u_lang] = $post['APP_TITLE_' . $u_lang];
+                }
+                if (isset($post['APP_META_KEYWORDS_' . $u_lang]) and is_string($post['APP_META_KEYWORDS_' . $u_lang])) {
+                    $array['APP_META_KEYWORDS_' . $u_lang] = $post['APP_META_KEYWORDS_' . $u_lang];
+                    $config['APP_META_KEYWORDS_' . $u_lang] = $post['APP_META_KEYWORDS_' . $u_lang];
+                }
+
+                if (isset($post['APP_META_DESCRIPTION_' . $u_lang]) and is_string($post['APP_META_DESCRIPTION_' . $u_lang])) {
+                    $array['APP_META_DESCRIPTION_' . $u_lang] = $post['APP_META_DESCRIPTION_' . $u_lang];
+                    $config['APP_META_DESCRIPTION_' . $u_lang] = $post['APP_META_DESCRIPTION_' . $u_lang];
+                }
+            }
+        }
+
+
+        if (isset($post['APP_GOOGLE_MAPS_API_KEY'])) {
+            $array['APP_GOOGLE_MAPS_API_KEY'] = $post['APP_GOOGLE_MAPS_API_KEY'];
+            $config['APP_GOOGLE_MAPS_API_KEY'] = $array['APP_GOOGLE_MAPS_API_KEY'];
+        }
+
+        if (isset($post['APP_VK_APPID'])) {
+            $array['APP_VK_APPID'] = $post['APP_VK_APPID'];
+            $config['APP_VK_APPID'] = $array['APP_VK_APPID'];
         }
         if (isset($post['disabled']) and $post['disabled'] == "false") {
             $array['APP_DISABLED'] = false;

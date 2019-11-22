@@ -435,6 +435,7 @@ $(document).ready(function(){
   $( ".result" ).html( data );
     $(".field_others").html(data);
     $(".field_others").show();
+   
  if($("#editorjs").length>0){
   var saveButton = document.getElementById($('#editorjs').data("btn"));
    var const_editor_options=editor_options;
@@ -576,10 +577,11 @@ $(sample).insertBefore($(this));
 //	// Adds a menu item to the tools menu
 //	 
 //});
+    
  if($("#editorjs").length>0){
   var saveButton = document.getElementById($('#editorjs').data("btn"));
    var const_editor_options=editor_options;
-  
+ 
     
     console.log(const_editor_options);
     
@@ -594,7 +596,7 @@ const_editor_options['data']['blocks']=editorjs_value;
 
 
    const editor = new EditorJS(const_editor_options);
- 
+
     saveButton.addEventListener('click', function () {
       editor.saver.save().then((savedData) => {
           var newval=JSON.stringify(savedData);
@@ -646,6 +648,49 @@ editor_options_tmp['data']['blocks']=item.value;
      
  
     });
+});
+$("body").on('DOMSubtreeModified', "*", function() {
+//    if($(".summernote_air").length>0){
+//        console.log("is found");
+//         $( ".summernote_air" ).each(function() {
+//           
+//   if(!($(this).hasClass("is_summer"))){
+//     $(this).addClass("is_summer");
+//   $(this).summernote({ 
+//       shortcuts: {},
+//       airMode: true,toolbar: [
+//    ['style', ['style']],
+//    ['font', ['bold', 'underline', 'clear']],
+//    ['fontname', ['fontname']],
+//    ['color', ['color','backColor']],
+//    
+//    ['insert', ['link']],
+//    ['view', [ 'codeview', 'help']]
+//  ]}); 
+//   }
+//});
+//    }
+    
+    if($("textarea.p_textarea").length>0){
+      
+        $( "textarea.p_textarea" ).each(function() {
+           
+   if(!($(this).hasClass("is_summer"))){
+     $(this).addClass("is_summer");
+   $(this).summernote({ toolbar: [
+    ['style', ['style']],
+    ['font', ['bold', 'underline', 'clear']],
+    ['fontname', ['fontname']],
+    ['color', ['color','backColor']],
+    
+    ['insert', ['link']],
+    ['view', [ 'codeview', 'help']]
+  ]}); 
+   }
+});
+    // 
+    
+    }
 });
 $('.tiny').trumbowyg({semantic: false});
 //  tinymce.init({

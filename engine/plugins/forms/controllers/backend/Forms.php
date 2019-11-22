@@ -26,6 +26,7 @@ class Forms extends \managers\backend\AdminController {
         $post = request()->post();
         if (isset($post['form_id']) and is_numeric($post['form_id'])) {
             \forms\models\FormConfig::delete((int) $post['form_id']);
+            \Cache::forget('events.EventAdminLink');
             return back();
         }
     }
@@ -58,6 +59,7 @@ class Forms extends \managers\backend\AdminController {
             }
         }
         if ($json['type'] == "success") {
+            \Cache::forget('events.EventAdminLink');
             $json['link'] = \core\ManagerConf::link("forms/index");
         }
         return $json;

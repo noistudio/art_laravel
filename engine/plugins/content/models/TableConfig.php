@@ -68,6 +68,7 @@ class TableConfig {
 
         //\db\SqlQuery::delete($nametable, array());
         \Schema::dropIfExists($nametable);
+        \Cache::forget('events.EventAdminLink');
     }
 
     static function edit($row) {

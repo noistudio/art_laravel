@@ -36,12 +36,12 @@ class ContentMenuLink {
 
                 if (file_exists($path_to_template . "" . $table->name . "_list.php")) {
 
-                    $event->add('/content/' . $table->name . "/index", __("backend/content.list_raz", array("title" => $table->title)));
+                    $event->add('frontend/content/' . $table->name . "/list", __("backend/content.list_raz", array("title" => $table->title)));
 
                     if (\languages\models\LanguageHelp::is("frontend")) {
                         $languages = \languages\models\LanguageHelp::getAll("frontend");
                         foreach ($languages as $language) {
-                            $event->add("/" . $language . '/content/' . $table->name . "/index", __("backend/content.list_raz_lng", array("title" => $table->title, 'lng' => $language)));
+                            $event->add(route('frontend/content/' . $table->name . "/list_lang", $language, array(), false), __("backend/content.list_raz_lng", array("title" => $table->title, 'lng' => $language)));
                         }
                     }
                 }
@@ -59,7 +59,8 @@ class ContentMenuLink {
                                 }
                             }
                             if (file_exists($path_to_template . "" . $table->name . "_one.php")) {
-                                $event->add('/content/' . $table->name . "/" . $row['last_id'], __("backend/content.onedoc", array("table" => $table->title, "title" => $title)));
+                                $url = route('frontend/content/' . $table->name . "/one", $row['last_id'], false);
+                                $event->add($url, __("backend/content.onedoc", array("table" => $table->title, "title" => $title)));
                             }
                         }
                     }

@@ -13,6 +13,111 @@
     <!-- END Example Title -->
 
     <form action="<?php echo route('backend/setup/save') ?>" method="POST">
+        <h4><?php echo __("backend/main.seo_title_page"); ?></h4>
+
+
+
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingNull">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNull" aria-expanded="true" aria-controls="collapseNull">
+                            <?php echo __("backend/main.default_lang"); ?>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseNull" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingNull">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr>
+                                <td>meta-title</td>
+                                <td><input class="form-control" type="text" name="APP_TITLE" required value="<?php
+                                    if (isset($config['APP_TITLE'])) {
+                                        echo $config['APP_TITLE'];
+                                    }
+                                    ?>"></td>
+                            </tr>
+                            <tr>
+                                <td>Meta keywords</td>
+                                <td><textarea name="APP_META_KEYWORDS" class="form-control" rows="2"><?php
+                                        if (isset($config['APP_META_KEYWORDS'])) {
+                                            echo $config['APP_META_KEYWORDS'];
+                                        }
+                                        ?></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Meta description</td>
+                                <td><textarea name="APP_META_DESCRIPTION" class="form-control" rows="2"><?php
+                                        if (isset($config['APP_META_DESCRIPTION'])) {
+                                            echo $config['APP_META_DESCRIPTION'];
+                                        }
+                                        ?></textarea></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <?php
+            if (\languages\models\LanguageHelp::is("frontend")) {
+                ?>
+                <?php
+                $languages = \languages\models\LanguageHelp::getAll("frontend");
+                foreach ($languages as $lang) {
+
+                    $title = "";
+                    $meta_description = "";
+                    $meta_keywords = "";
+                    if (isset($config['APP_TITLE_' . strtoupper($lang)])) {
+                        $title = $config['APP_TITLE_' . strtoupper($lang)];
+                    }
+                    if (isset($config['APP_META_DESCRIPTION_' . strtoupper($lang)])) {
+                        $meta_description = $config['APP_META_DESCRIPTION_' . strtoupper($lang)];
+                    }
+                    if (isset($config['APP_META_KEYWORDS_' . strtoupper($lang)])) {
+                        $meta_keywords = $config['APP_META_KEYWORDS_' . strtoupper($lang)];
+                    }
+                    ?>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading<?php echo $lang; ?>">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $lang; ?>" aria-expanded="true" aria-controls="collapse<?php echo $lang; ?>">
+                                    <?php echo __("backend/main.language"); ?> <?php echo $lang; ?>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse<?php echo $lang; ?>" class="panel-collapse collapse " role="tabpanel" aria-labelledby="heading<?php echo $lang; ?>">
+                            <div class="panel-body">
+                                <table class="table">
+                                    <tr>
+                                        <td>meta-title </td>
+                                        <td><input class="form-control" type="text" name="APP_TITLE_<?php echo strtoupper($lang); ?>"  value="<?php echo $title; ?>"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Meta keywords</td>
+                                        <td><textarea name="APP_META_KEYWORDS_<?php echo strtoupper($lang); ?>" class="form-control" rows="2"><?php echo $meta_keywords; ?></textarea></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Meta description</td>
+                                        <td><textarea name="APP_META_DESCRIPTION_<?php echo strtoupper($lang); ?>" class="form-control" rows="2"><?php echo $meta_description; ?></textarea></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+
+
+
+
+            </div>
+            <?php
+        }
+        ?>
+
+
         <table class="table">
             <tr>
                 <td><?php echo __("backend/main.setup_css"); ?></td>
@@ -51,7 +156,7 @@
                     </select></td>
             </tr>
             <tr>
-                <td><?php echo __("backend/main.setup_title"); ?></td>
+                <td><?php echo __("backend/main.setup_copyright"); ?></td>
                 <td>
                     <input type="text" class="form-control" value="<?php
                     if (isset($config['APP_BACKEND_COPYRIGHT_TITLE'])) {
@@ -103,6 +208,15 @@
                         ?></textarea>
                 </td>
 
+            </tr>
+            <tr>
+                <td>GOOGLE MAPS API JS ключ</td>
+                <td><input type="text" class="form-control" name="APP_GOOGLE_MAPS_API_KEY" value="<?php echo $config['APP_GOOGLE_MAPS_API_KEY']; ?>"></td>
+            </tr>
+
+            <tr>
+                <td>Вконтакте appID <a target="_blank" href="https://vk.com/dev.php?aid=7214438&method=Comments">подробнее</a></td>
+                <td><input type="text" class="form-control" name="APP_VK_APPID" value="<?php echo $config['APP_VK_APPID']; ?>"></td>
             </tr>
 
             <tr>

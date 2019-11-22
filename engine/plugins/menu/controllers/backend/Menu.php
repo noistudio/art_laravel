@@ -39,6 +39,7 @@ class Menu extends \managers\backend\AdminController {
     public function actionDelete($last_id) {
 
         \db\JsonQuery::delete((int) $last_id, "id", "menus");
+        \Cache::forget('events.EventAdminLink');
         return back();
     }
 

@@ -81,6 +81,7 @@ class Paragraph {
     let div = document.createElement('DIV');
 
     div.classList.add(this._CSS.wrapper, this._CSS.block);
+    div.classList.add("summernote_air");
     div.contentEditable = true;
     div.dataset.placeholder = this._placeholder;
 
@@ -136,7 +137,8 @@ class Paragraph {
    */
   save(toolsContent) {
      
-       
+       console.log("p_check");
+       console.log(this._element);
     return {
       text: this._element.innerHTML
     };
@@ -168,13 +170,7 @@ class Paragraph {
   /**
    * Sanitizer rules
    */
-  static get sanitize() {
-    return {
-      text: {
-        br: true,
-      }
-    };
-  }
+   
 
   /**
    * Get current Tools`s data

@@ -11,6 +11,7 @@ return [
     'logout' => 'Выход',
     'title' => 'Административная панель',
     'setup_title' => 'Основные настройки',
+    'setup_copyright' => 'Копирайты',
     'setup_css' => 'Внешний вид',
     'setup_link' => 'URL разработчика',
     'setup_save' => 'Сохранить',
@@ -37,5 +38,8 @@ return [
     'disable' => 'Выключен',
     'status_site' => 'Статус сайта',
     'disable_message' => 'Сообщение когда выключен',
+    'about' => 'О продукте',
+    'seo_title_page' => 'SEO Теги Главной страницы',
+    'default_lang' => 'По умолчанию',
 ];
 

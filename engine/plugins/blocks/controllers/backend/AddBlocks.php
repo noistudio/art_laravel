@@ -33,6 +33,7 @@ class AddBlocks extends \managers\backend\AdminController {
             }
         }
         if ($json['type'] == "success") {
+            \Cache::forget('events.EventAdminLink');
             \cache\models\Model::removeAll();
             $json['block_id'] = $result->id;
             $json['link'] = \core\ManagerConf::link("blocks/update/" . $result->id);

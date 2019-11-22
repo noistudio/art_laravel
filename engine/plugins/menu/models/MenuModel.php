@@ -723,6 +723,7 @@ class MenuModel {
         $menu->save();
 
         \cache\models\Model::removeAll();
+        \Cache::forget('events.EventAdminLink');
         return \core\ManagerConf::redirect("menu/update/" . $menu->id);
     }
 

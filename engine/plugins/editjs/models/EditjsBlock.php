@@ -20,6 +20,7 @@ class EditjsBlock extends AbstractBlock {
         if ($this->value == "redactor") {
             $lang = \languages\models\LanguageHelp::get();
 
+
             if (isset($this->params['content_' . $lang]['full'])) {
                 return $this->params['content_' . $lang]['full'];
             }
@@ -69,6 +70,7 @@ class EditjsBlock extends AbstractBlock {
                     if (isset($this->params['content_' . $lang])) {
 
                         $input_content = $this->params['content_' . $lang];
+                        $input_content = BlocksModel::parseValue($input_content);
                         $result_params['content_' . $lang] = null;
                         try {
                             $value = $this->value;
@@ -102,6 +104,7 @@ class EditjsBlock extends AbstractBlock {
             if (isset($this->params['content'])) {
 
                 $input_content = $this->params['content'];
+                $input_content = BlocksModel::parseValue($input_content);
                 $result_params['content'] = null;
                 try {
                     $value = $this->value;
@@ -148,6 +151,15 @@ class EditjsBlock extends AbstractBlock {
             $data['params'] = $this->params;
             $data['name'] = "content";
             $data['blocks'] = $this->blocks_editor;
+            $data['lang'] = "null";
+            $lang = request()->get("lang");
+            if (\languages\models\LanguageHelp::is("frontend")) {
+                $data['languages'] = \languages\models\LanguageHelp::getAll("frontend");
+                if (isset($lang) and in_array($lang, $data['languages'])) {
+                    $data['lang'] = $lang;
+                    $data['name'] = "content_" . $lang;
+                }
+            }
 
 
 

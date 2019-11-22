@@ -54,6 +54,7 @@ return array(
     'sort_by_field' => 'Сортировка по полю',
     'by_pos' => 'по позиции',
     'fields_on_table' => 'Поля в таблице',
+    'fields_on_page' => 'Поля в таблице',
     'field' => 'поле',
     'do_add_table' => 'Создать таблицу',
     'table_edit' => 'Редактирование таблицы',
@@ -137,4 +138,5 @@ return array(
     'list_raz' => 'Список раздела :title',
     'list_raz_lng' => 'Список раздела :title (Язык :lng)',
     'onedoc' => 'Раздел :table Документ  :title',
+    'field_editorjs' => 'Редактор editorjs.io',
 );

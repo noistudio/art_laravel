@@ -47,6 +47,7 @@
     </div>
 
 </div>
+
 <h4><?php echo __("backend/content.setup_sort") ?></h4>
 <table class="table">
     <tr>
@@ -58,7 +59,8 @@
                 if (count($fields)) {
                     foreach ($fields as $name => $field) {
                         $selected = "";
-                        if (isset($params['order_field']) and $params['order_field'] == $name) {
+
+                        if (isset($params['order_field']) and $params['order_field'] == $field['name']) {
                             $selected = "selected";
                         }
                         ?>
@@ -78,12 +80,12 @@
         <td>
             <select name="{param}[order_type]" class="form-control">
                 <option <?php
-                if (isset($paramss['order_type']) and $paramss['order_type'] == "asc") {
+                if (isset($paramss['order_type']) and $paramss['order_type'] == "ASC") {
                     echo "selected";
                 }
                 ?> value="asc"><?php echo __("backend/content.sort_asc") ?></option> 
                 <option <?php
-                if (isset($paramss['order_type']) and $paramss['order_type'] == "desc") {
+                if (isset($paramss['order_type']) and $paramss['order_type'] == "DESC") {
                     echo "selected";
                 }
                 ?> value="desc"><?php echo __("backend/content.sort_desc") ?></option> 
@@ -120,8 +122,7 @@
             if ($field['showsearch'] == 1) {
                 ?>
                 <tr>
-                    <td><?php
-                ?><input name="{param}[conditions][]" <?php
+                    <td><?php ?><input name="{param}[conditions][]" <?php
                         if (isset($params['conditions']) and is_array($params['conditions']) and in_array($field['name'], $params['conditions']) === true) {
                             echo 'checked';
                         }

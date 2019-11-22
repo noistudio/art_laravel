@@ -193,11 +193,11 @@ class ManageContent extends \managers\backend\AdminController {
         } else {
             // NotifyModel::add("При создании произошла ошибка!");
             // GlobalParams::$helper->returnback();
-            $notifys = \core\Notify::getAll();
+            $notifys = \core\Notify::get("error");
 
             $message = __("backend/content.err2");
-            if (isset($notifys[0])) {
-                $message = $notifys[0]['message'];
+            if (isset($notifys)) {
+                $message = $notifys;
             }
             $array = array('type' => 'error', 'message' => $message);
         }

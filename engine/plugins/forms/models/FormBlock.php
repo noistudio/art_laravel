@@ -45,7 +45,7 @@ class FormBlock extends AbstractBlock {
                 foreach ($form['fields'] as $field_name => $field) {
                     $template_fields2 .= '<p><strong>' . $field['title'] . '</strong>:<input type="text" name="' . $field_name . '"></p>';
                 }
-                $template_fields2 = '<form class="formsend" method="POST" action="/forms/send/<?php echo $this->form["id"]; ?>"><div class="row notify"></div>' . $template_fields2 . '<p><button type="submit" name="_csrf" value="<?php echo $this->_csrf; ?>">Отправить</button></p></form>';
+                $template_fields2 = '<form class="formsend mt-4" method="POST" action="javascript:void(0);" data-action="<?php echo route("frontend/sendform", $form["id"]); ?>"><div class="row notify"></div>' . $template_fields2 . '<p><button type="submit" name="_csrf" value="<?php echo $this->_csrf; ?>">Отправить</button></p></form>';
             }
 
             if (count($form['fields'])) {
@@ -53,7 +53,7 @@ class FormBlock extends AbstractBlock {
                 foreach ($form['fields'] as $field_name => $field) {
                     $template_fields .= '<p><strong>' . $field['title'] . '</strong>:{%' . $field_name . '_input%}</p>';
                 }
-                $template_fields = '<form class="formsend" method="POST" action="/forms/send/<?php echo $this->form["id"]; ?>"><div class="row notify"></div>' . $template_fields . '<p><button type="submit" name="_csrf" value="<?php echo $this->_csrf; ?>">Отправить</button></p></form>';
+                $template_fields = '<form class="formsend mt-4" method="POST" action="javascript:void(0);" data-action="<?php echo route("frontend/sendform", $form["id"]); ?>"><div class="row notify"></div>' . $template_fields . '<p><button type="submit" name="_csrf" value="<?php echo $this->_csrf; ?>">Отправить</button></p></form>';
             }
 
             $data['template'] = htmlspecialchars($template_fields);
@@ -100,7 +100,7 @@ class FormBlock extends AbstractBlock {
                 foreach ($form['fields'] as $field_name => $field) {
                     $template_fields2 .= '<p><strong>' . $field['title'] . '</strong>:<input type="text" name="' . $field_name . '"></p>';
                 }
-                $template_fields2 = '<form class="formsend" method="POST" action="/forms/send/<?php echo $form["id"]; ?>"><div class="row notify"></div>' . $template_fields2 . '<p><?php echo csrf_field(); ?><button type="submit"  >Отправить</button></p></form>';
+                $template_fields2 = '<form class="formsend mt-4" method="POST" action="javascript:void(0);" data-action="<?php echo route("frontend/sendform", $form["id"]); ?>"><div class="row notify"></div>' . $template_fields2 . '<p><?php echo csrf_field(); ?><button type="submit"  >Отправить</button></p></form>';
             }
 
             if (count($form['fields'])) {
@@ -108,7 +108,7 @@ class FormBlock extends AbstractBlock {
                 foreach ($form['fields'] as $field_name => $field) {
                     $template_fields .= '<p><strong>' . $field['title'] . '</strong>:{%' . $field_name . '_input%}</p>';
                 }
-                $template_fields = '<form class="formsend" method="POST" action="/forms/send/<?php echo $this->form["id"]; ?>"><div class="row notify"></div>' . $template_fields . '<p><?php echo csrf_field(); ?><button type="submit"  >Отправить</button></p></form>';
+                $template_fields = '<form class="formsend mt-4" method="POST" action="javascript:void(0);" data-action="<?php echo route("frontend/sendform", $form["id"]); ?>"><div class="row notify"></div>' . $template_fields . '<p><?php echo csrf_field(); ?><button type="submit"  >Отправить</button></p></form>';
             }
 
             $data['template'] = htmlspecialchars($template_fields);

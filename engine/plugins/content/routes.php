@@ -36,3 +36,31 @@ Route::any($admin_url . "/content/tables/field/{val_0?}/{val_1?}", "\\content\\c
 Route::any($admin_url . "/content/template/list/{val_0?}", "\\content\\controllers\\backend\\TemplateContent@actionList")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/content/template/list');
 Route::any($admin_url . "/content/template/rss/{val_0?}", "\\content\\controllers\\backend\\TemplateContent@actionRss")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/content/template/rss');
 Route::any($admin_url . "/content/template/one/{val_0?}", "\\content\\controllers\\backend\\TemplateContent@actionOne")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/content/template/one');
+
+
+//frontend
+
+$collections = \db\JsonQuery::all("tables", "title", "ASC");
+
+$islang = \languages\models\LanguageHelp::is("frontend");
+
+
+if (count($collections) > 0) {
+    foreach ($collections as $collection) {
+
+        if (!Route::has("frontend/content/" . $collection->name . "/list")) {
+            Route::any("/content/" . $collection->name . "/index", "\\content\\controllers\\frontend\\Content@actionIndex")->middleware(env("FRONTEND_MIDDLEWARE"))->name("frontend/content/" . $collection->name . "/list")->defaults("val_0", $collection->name);
+        }
+
+        if (!Route::has("frontend/content/" . $collection->name . "/one")) {
+            Route::any("/content/" . $collection->name . "/{id}", "\\content\\controllers\\frontend\\Content@actionOne")->middleware(env("FRONTEND_MIDDLEWARE"))->name("frontend/content/" . $collection->name . "/one")->defaults("table", $collection->name);
+        }
+        if ($islang) {
+            Route::any("{lang}/content/" . $collection->name . "/index", "\\content\\controllers\\frontend\\Content@actionIndex")->middleware(env("FRONTEND_MIDDLEWARE"))->name("frontend/content/" . $collection->name . "/list_lang")->defaults("val_0", $collection->name);
+        }
+
+
+
+        //Route::any("/mg/rss/{val_0}/{val_1}", "\\mg\\controllers\\frontend\\Mg@actionRss")->middleware(env("FRONTEND_MIDDLEWARE"))->name("frontend/mg/rss");
+    }
+}

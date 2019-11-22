@@ -1,0 +1,25 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 22 нояб. 2019 г., 1:25:15
+    Author     : noi
+*/
+
+.ce-toolbox{
+/*    width: 50% !important;
+    
+    display:block !important;*/
+}
+.ce-toolbox__button{
+   
+}
+.ce-toolbar__plus{
+    display: inline-flex !important;
+}
+ 
+.note-frame > .modal{
+     color: black !important;
+}

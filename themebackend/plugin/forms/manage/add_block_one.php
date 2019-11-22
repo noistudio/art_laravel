@@ -92,7 +92,7 @@ $form.attr(&quot;action&quot;,$form.data(&quot;action&quot;));
 
    
         iframe = iframe || $('iframe[name=&quot; ' + $form.attr('target') + ' &quot;]');
-        iframe.load(function ()
+        iframe.on("load",function ()
         {
             //get the server response
             var response = iframe.contents().find('body').text();

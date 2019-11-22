@@ -12,7 +12,7 @@
 <?php
 if ($needroute) {
     ?>
-    <div class="block_need_url" data-url="/content/<?php echo $table->name; ?>/index"></div>
+    <div class="block_need_url" data-url="<?php echo route('frontend/content/' . $table->name . "/list", array(), false); ?>"></div>
     <?php
 }
 ?>

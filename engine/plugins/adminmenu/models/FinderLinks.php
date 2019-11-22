@@ -13,10 +13,17 @@ class FinderLinks {
             return $tmp_links;
         }
         \Debugbar::startMeasure('load_admins_links', 'Start search admin links event');
-        $event = new \adminmenu\events\EventAdminLink();
-        event($event);
-        $result = $event->get();
-
+        //
+        //
+        $cache_data = \Cache::get('events.EventAdminLink');
+        if (!(isset($cache_data) and is_array($cache_data))) {
+            $event = new \adminmenu\events\EventAdminLink();
+            event($event);
+            $result = $event->get();
+            \Cache::forever('events.EventAdminLink', $result);
+        } else {
+            $result = $cache_data;
+        }
 
         AppConfig::set("app.admin_links", $result);
         \Debugbar::stopMeasure('load_admins_links');

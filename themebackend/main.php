@@ -16,42 +16,44 @@
 
         <!-- Icons -->
         <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
-        <link rel="shortcut icon" href="<?php echo asset("{asset}img/favicon.png"); ?>">
-        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon57.png"); ?>" sizes="57x57">
-        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon72.png"); ?>" sizes="72x72">
-        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon76.png"); ?>" sizes="76x76">
-        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon114.png"); ?>" sizes="114x114">
-        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon120.png"); ?>" sizes="120x120">
-        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon144.png"); ?>" sizes="144x144">
-        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon152.png"); ?>" sizes="152x152">
-        <link rel="apple-touch-icon" href="<?php echo asset("{asset}img/icon180.png"); ?>" sizes="180x180">
+        <link rel="shortcut icon" href="/themebackend/img/favicon.png">
+        <link rel="apple-touch-icon" href="/themebackend/img/icon57.png" sizes="57x57">
+        <link rel="apple-touch-icon" href="/themebackend/img/icon72.png" sizes="72x72">
+        <link rel="apple-touch-icon" href="/themebackend/img/icon76.png" sizes="76x76">
+        <link rel="apple-touch-icon" href="/themebackend/img/icon114.png" sizes="114x114">
+        <link rel="apple-touch-icon" href="/themebackend/img/icon120.png" sizes="120x120">
+        <link rel="apple-touch-icon" href="/themebackend/img/icon144.png" sizes="144x144">
+        <link rel="apple-touch-icon" href="/themebackend/img/icon152.png" sizes="152x152">
+        <link rel="apple-touch-icon" href="/themebackend/img/icon180.png" sizes="180x180">
         <!-- END Icons -->
 
         <!-- Stylesheets -->
         <!-- Bootstrap is included in its original form, unaltered -->
-        <link rel="stylesheet" href="<?php echo asset("{asset}css/bootstrap.min.css"); ?>">
+        <link rel="stylesheet" href="/themebackend/css/bootstrap.min.css">
 
         <!-- Related styles of various icon packs and plugins -->
-        <link rel="stylesheet" href="<?php echo asset("{asset}css/plugins.css"); ?>">
+        <link rel="stylesheet" href="/themebackend/css/plugins.css">
 
         <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
-        <link rel="stylesheet" href="<?php echo asset("{asset}css/main.css"); ?>">
+        <link rel="stylesheet" href="/themebackend/css/main.css">
 
         <!-- Include a specific file here from css/themes/ folder to alter the default theme of the template -->
 
         <!-- The themes stylesheet of this template (for using specific theme color in individual elements - must included last) -->
-        <link rel="stylesheet" href="<?php echo asset("{asset}css/themes.css"); ?>">
-        <link rel="stylesheet" href="<?php echo asset("{asset}css/themes/" . Env('APP_BACKEND_CSS')); ?>">
+        <link rel="stylesheet" href="/themebackend/css/themes.css">
+        <link rel="stylesheet" href="/themebackend/css/themes/<?php echo Env('APP_BACKEND_CSS'); ?>">
 
-        <!--        <link rel="stylesheet" href="{asset}css/themes/classy.css">-->
+        <!--        <link rel="stylesheet" href="/themebackend/css/themes/classy.css">-->
         <!-- END Stylesheets -->
-        <link rel="stylesheet" type="text/css" href="<?php echo asset("{asset}js/packages/barryvdh/elfinder/css/elfinder.min.css"); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo asset("{asset}js/packages/barryvdh/elfinder/css/theme.css"); ?>">
-        <link rel="stylesheet" href="<?php echo asset("{asset}js/newgui/dist/ui/trumbowyg.min.css"); ?>"> 
+        <link rel="stylesheet" type="text/css" href="/themebackend/js/packages/barryvdh/elfinder/css/elfinder.min.css">
+        <link rel="stylesheet" type="text/css" href="/themebackend/js/packages/barryvdh/elfinder/css/theme.css">
+        <link rel="stylesheet" href="/themebackend/js/newgui/dist/ui/trumbowyg.min.css"> 
+        <link rel="stylesheet" href="/themebackend//js/plugins/summernote.css">
+        <link rel="stylesheet" href="/themebackend/css/custom.css">
 
         <!-- Mac OS X Finder style for jQuery UI smoothness theme (OPTIONAL) -->
         <!-- Modernizr (browser feature detection library) -->
-        <script src="<?php echo asset("{asset}js/vendor/modernizr-3.3.1.min.js"); ?>"></script>
+        <script src="/themebackend/js/vendor/modernizr-3.3.1.min.js"></script>
         <script>
             var editorjs_configs = [];
         </script>
@@ -460,6 +462,11 @@
                                     <i class=" fa fa-sign-out"></i> <?php echo __("backend/main.exit"); ?>
                                 </a>
                             </li>
+                            <li>
+                                <a target="_blank" href="<?php echo route("about") ?>" >
+                                    <?php echo __("backend/main.about"); ?>
+                                </a>
+                            </li>
 
 
                             <!-- END Main Sidebar Toggle Button -->
@@ -498,18 +505,24 @@
         <!-- END Page Wrapper -->
 
         <!-- jQuery, Bootstrap, jQuery plugins and Custom JS code -->
-        <script src="<?php echo asset("{asset}js/vendor/jquery-2.2.4.min.js") ?>"></script>
-        <script src="<?php echo asset("{asset}js/vendor/bootstrap.min.js") ?>"></script>
-        <script src="<?php echo asset("{asset}js/plugins.js"); ?>"></script>
-        <script src="<?php echo asset("{asset}js/app.js") ?>"></script>
+        <script src="/themebackend/js/vendor/jquery-2.2.4.min.js"></script>
+
+
+        <script src="/themebackend/js/plugins.js"></script>
+        <script src="/themebackend/js/app.js"></script>
 
         <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-        <script src="<?php echo asset("{asset}js/packages/barryvdh/elfinder/js/elfinder.min.js") ?>"></script>
+        <script src="/themebackend/js/vendor/bootstrap.min.js"></script>
+
+
+        <script src="/themebackend/js/plugins/summernote.js"></script>
+
+        <script src="/themebackend/js/packages/barryvdh/elfinder/js/elfinder.min.js"></script>
 
         <?php if ($locale) { ?>
             <!-- elFinder translation (OPTIONAL) -->
-            <script src="<?php echo asset("{asset}js/packages/barryvdh/elfinder/js/i18n/elfinder." . $locale . ".js"); ?>"></script>
+            <script src="/themebackend/js/packages/barryvdh/elfinder/js/i18n/elfinder.<?php echo $locale; ?>.js"></script>
         <?php } ?>
         <!--        <-- Import Trumbowyg -->
 
@@ -527,17 +540,17 @@
                                     _token: '<?= csrf_token() ?>'
                                     },
                                             url : '<?= route("elfinder.connector") ?>', // connector URL
-                                            soundPath: '<?= asset('{asset}js/packages/barryvdh/elfinder/sounds') ?>'
+                                            soundPath: '<?= asset('/themebackend/js/packages/barryvdh/elfinder/sounds') ?>'
                                     });
                                     }
                                     });
         </script>
         <!--        <-- Import Trumbowyg plugins... -->
-        <!--        <script src="{asset}js/newgui/plugins/upload/trumbowyg.cleanpaste.min.js"></script>
+        <!--        <script src="/themebackend/js/newgui/plugins/upload/trumbowyg.cleanpaste.min.js"></script>
         -->
-        <script src="<?php echo asset("{asset}js/newgui/dist/trumbowyg.elfinder.js"); ?>"></script>
-        <script src="<?php echo asset("{asset}js/newgui/plugins/pasteimage/trumbowyg.pasteimage.js"); ?>"></script>
-        <script src="<?php echo asset("{asset}js/newgui/dist/trumbowyg.js"); ?>"></script>
+        <script src="/themebackend/js/newgui/dist/trumbowyg.elfinder.js"></script>
+        <script src="/themebackend/js/newgui/plugins/pasteimage/trumbowyg.pasteimage.js"></script>
+        <script src="/themebackend/js/newgui/dist/trumbowyg.js"></script>
 
         <!--        <-- Init Trumbowyg -->
         <script>
@@ -546,21 +559,22 @@
         </script>
 
 
-        <link rel="stylesheet" href="<?php echo asset("{asset}notify/themes/alertify.core.css"); ?>" />
-        <link rel="stylesheet" href="<?php echo asset("{asset}notify/themes/alertify.default.css"); ?>" id="toggleCSS" />
-        <script src="<?php echo asset("{asset}notify/lib/alertify.min.js"); ?>"></script>
+        <link rel="stylesheet" href="/themebackend/notify/themes/alertify.core.css" />
+        <link rel="stylesheet" href="/themebackend/notify/themes/alertify.default.css" id="toggleCSS" />
+        <script src="/themebackend/notify/lib/alertify.min.js"></script>
 
         <script>
-        
-        
+
+
         </script>
 
 
 
 
-        <script src="<?php echo asset("{asset}js/editor.js/json-preview.js"); ?>" type="text/javascript"></script>
-        <script src="<?php echo asset("{asset}js/editor.js/plugin_paragraph.js"); ?>"></script>
-        <script src="<?php echo asset("{asset}js/editor.js/plugin_header.js"); ?>"></script>
+        <script src="/themebackend/js/editor.js/json-preview.js" type="text / javascript"></script>
+        <script src="/themebackend/js/editor.js/plugin_psummernote.js"></script>
+        <script src="/themebackend/js/editor.js/plugin_paragraph.js"></script>
+        <script src="/themebackend/js/editor.js/plugin_header.js"></script>
         <script src="<?php echo route('backend/editjs/blocks.js'); ?>" type="text/javascript"></script>
 
 
@@ -583,13 +597,13 @@
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script> 
         <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script> 
         <script src="<?php echo route('backend/editjs/config.js'); ?>"></script>
-        <script src="<?php echo asset("{asset}js/editor.js/editor.js"); ?>" type="text/javascript">
-    
+        <script src="/themebackend/js/editor.js/editor.js" type="text/javascript">
+
         </script>
-        <script type="text/javascript" src="<?php echo asset("{asset}js/global.js"); ?>"></script>
-        <link rel="stylesheet" href="<?php echo asset("{asset}notify/themes/alertify.core.css"); ?>" />
-        <link rel="stylesheet" href="<?php echo asset("{asset}notify/themes/alertify.default.css"); ?>" id="toggleCSS" />
-        <script src="<?php echo asset("{asset}notify/lib/alertify.min.js"); ?>"></script>
+        <script type="text/javascript" src="/themebackend/js/global.js"></script>
+        <link rel="stylesheet" href="/themebackend/notify/themes/alertify.core.css" />
+        <link rel="stylesheet" href="/themebackend/notify/themes/alertify.default.css" id="toggleCSS" />
+        <script src="/themebackend/notify/lib/alertify.min.js"></script>
         <script>
 <?php
 if (isset($flash_success)) {

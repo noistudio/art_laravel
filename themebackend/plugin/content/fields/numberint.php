@@ -1,1 +1,1 @@
-<input type="number" step="0.01" name="<?php echo $name; ?>" class="form-control" value="<?php echo $value ?>">
+<input type="number"   name="<?php echo $name; ?>" class="form-control" value="<?php echo $value ?>">

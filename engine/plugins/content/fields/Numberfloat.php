@@ -8,7 +8,8 @@ class Numberfloat extends AbstractField {
 
     public function set() {
         $value = strip_tags($this->value);
-        $value = floatval($this->value);
+        $value = (float) $this->value;
+
         return $value;
     }
 
@@ -22,7 +23,7 @@ class Numberfloat extends AbstractField {
     }
 
     public function setTypeLaravel($table_obj) {
-        $table_obj->float($this->name);
+        $table_obj->float($this->name, 8);
     }
 
     public function getFieldTitle() {

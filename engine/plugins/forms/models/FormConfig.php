@@ -318,7 +318,7 @@ class FormConfig {
                     }
                 }
                 if (!is_array($row)) {
-                    \core\Notify::add(__("backend/forms.error_field_type",), "error");
+                    \core\Notify::add(__("backend/forms.error_field_type"), "error");
                     return false;
                 }
                 $showinlist = 0;

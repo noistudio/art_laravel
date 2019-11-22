@@ -159,6 +159,7 @@ return [
         Barryvdh\Elfinder\ElfinderServiceProvider::class,
         KrishnaKodoth\LogEditor\LogEditorServiceProvider::class,
         pcinaglia\laraupdater\LaraUpdaterServiceProvider::class,
+        \Torann\GeoIP\GeoIPServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
@@ -211,5 +212,6 @@ return [
         'Twitter' => Artesaos\SEOTools\Facades\TwitterCard::class,
         'JsonLd' => Artesaos\SEOTools\Facades\JsonLd::class,
         'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
+        'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
     ],
 ];

@@ -79,10 +79,10 @@ class ContentBlock extends AbstractBlock {
                 foreach ($table['fields'] as $field_name => $field) {
                     $template_fields .= '<p><?php echo $row["' . $field_name . '_val"];  ?></p>';
                 }
-                $template_fields = '<a href="/content/' . $table['name'] . '/<?php echo $row["last_id"];?>">' . $template_fields . "</a>";
+                $template_fields = '<a href="/<?php echo $row["_link"];?>">' . $template_fields . "</a>";
             }
             $data['table'] = $table;
-            $template = '<?php if (count($this->rows)) {
+            $template = '<?php if (count($rows)) {
     foreach ($this->rows as $row) { ?>' . $template_fields . '<?php } }';
             $template = htmlspecialchars($template);
             $data['template'] = $template;
@@ -188,6 +188,7 @@ class ContentBlock extends AbstractBlock {
 
             $fields = array();
             if (count($conditions)) {
+
                 foreach ($conditions as $name_field) {
                     $types_array = array("=", ">=", "<=", "!=", "LIKE");
                     if ($name_field == "table_limit") {
@@ -209,11 +210,17 @@ class ContentBlock extends AbstractBlock {
                             return null;
                         }
                         $class = "\\content\\fields\\" . $option_fields[$name_field]['type'];
-                        $_POST[$name_field] = $this->params['val_' . $name_field];
-                        $obj = new $class($this->params['val_' . $name_field], $name_field, $option_fields[$name_field]['options']);
+
+                        $cur_options = $option_fields[$name_field]['options'];
+                        $cur_options['not_need_null'] = true;
+
+                        $obj = new $class($this->params['val_' . $name_field], $name_field, $cur_options);
                         $curval = $obj->set();
 
-
+//                        if ($name_field == "isnew") {
+//                            var_dump($curval);
+//                            exit;
+//                        }
 
                         if (is_null($curval)) {
                             $this->addError(__("backend/content.err7", array('name' => $name_field)));
@@ -262,7 +269,7 @@ class ContentBlock extends AbstractBlock {
                 foreach ($table['fields'] as $field_name => $field) {
                     $template_fields .= '<p><?php echo $row["' . $field_name . '_val"];  ?></p>';
                 }
-                $template_fields = '<a href="/content/' . $table['name'] . '/<?php echo $row["last_id"];?>">' . $template_fields . "</a>";
+                $template_fields = '<a href="<?php echo $row["_link"];?>">' . $template_fields . "</a>";
             }
             $data['table'] = $table;
             $template = '<?php if (count($rows)) {

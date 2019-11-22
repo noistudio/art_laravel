@@ -9,8 +9,8 @@ return [
          * The default configurations to be used by the meta generator.
          */
         'defaults' => [
-            'title' => env("APP_TITLE"), // set false to total remove
-            'titleBefore' => true, // Put defaults.title before page title, like 'It's Over 9000! - Dashboard'
+            'title' => false, // set false to total remove
+            'titleBefore' => false, // Put defaults.title before page title, like 'It's Over 9000! - Dashboard'
             'description' => env("APP_DESCRIPTION"), // set false to total remove
             'separator' => ' - ',
             'keywords' => [],

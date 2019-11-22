@@ -16,7 +16,7 @@ class GetTables {
         $paginator = new \core\Paginator;
 
         $result_rows = array();
-        $query = \DB::table($table->name);
+        $query = \DB::table($table->name)->select($table->name . ".*");
         // compose the query
         $raw_query = SqlQuery::array_to_raw(array(
                     "and",
@@ -97,6 +97,7 @@ class GetTables {
         $rows = \core\Helper::toArray($rows);
 
         $rows = RowModel::run_parse($rows, $nametable);
+
 
 
         $result = array();

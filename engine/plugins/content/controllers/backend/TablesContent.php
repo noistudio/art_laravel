@@ -53,6 +53,7 @@ class TablesContent extends \managers\backend\AdminController {
             }
         }
         if ($json['type'] == "success") {
+            \Cache::forget('events.EventAdminLink');
             $json['link'] = \core\ManagerConf::link("content/tables/index");
         }
         return $json;

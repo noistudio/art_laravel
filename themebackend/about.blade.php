@@ -57,7 +57,7 @@
         <div id="login-container"> 
             <!-- Login Header -->
             <h1 class="h2 text-light text-center push-top-bottom animation-pullDown">
-                <i class="fa fa-cube text-light-op"></i> <strong><a href="LINK" target="_blank">NAME</a></strong>
+                <i class="fa fa-cube text-light-op"></i> <strong><a href="https://noi.studio" target="_blank">noi.studio</a></strong>
             </h1>
             <!-- END Login Header -->
 
@@ -72,6 +72,8 @@
                 <div class="alert alert-warning">
                     <p>Авторская библиотека ART ,является собственностью Татаринова Артема. </p>
                     <p>Любое незаконное копирование,распространение и прочее будет преследоваться по закону.</p>
+                    <p>Некоммерческое использование разрешено только с сохранением копиратов</p>
+                    <p>Документацию ищите на сайте <a href="https://noi.studio">noi.studio</a></p>
                 </div>
                 <!-- END Login Title -->
 
@@ -88,7 +90,7 @@
 
             <!-- Footer -->
             <footer class="text-muted text-center animation-pullUp">
-                <small><span id="year-copy"></span> &copy; <a href="LINK" target="_blank">NAME</a></small>
+                <small><span id="year-copy"></span> &copy; <a href="https://noi.studio" target="_blank">noi.studio</a></small>
             </footer>
             <!-- END Footer -->
         </div>

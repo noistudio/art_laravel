@@ -24,7 +24,7 @@ class TemplateContent extends \managers\backend\AdminController {
                 foreach ($table['fields'] as $field_name => $field) {
                     $template_fields .= '<p><?php echo $row["' . $field_name . '_val"];  ?></p>';
                 }
-                $template_fields = '<a href="/content/' . $nametable . '/<?php echo $row["last_id"];?>">' . $template_fields . "</a>";
+                $template_fields = '<a href="<?php echo $row["_link"];?>">' . $template_fields . "</a>";
             }
             $template = '<?php if (count($rows)) {
     foreach ($rows as $row) { ?>' . $template_fields . '<?php } } echo $pages;';

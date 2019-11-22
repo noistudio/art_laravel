@@ -13,12 +13,12 @@ if (count($blocks)) {
     }
 }
 ?>
-paragraph: Paragraph,    
+paragraph: Paragraph, 
 delimiter: Delimiter,
 warning: Warning,
 header: {
 class: Header,
-inlineToolbar: ['link'],
+
 config: {
 placeholder: 'Header'
 },
@@ -32,6 +32,7 @@ endpoint:$("#pathadmin").data("link-fetchurl"), // Your backend endpoint for url
 },
 image: {
 class: ImageTool,
+
 config: {
 endpoints: {
 byFile: $("#pathadmin").data("file-upload"), // Your backend file uploader endpoint

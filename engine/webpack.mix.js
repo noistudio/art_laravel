@@ -11,7 +11,5 @@ const mix = require('laravel-mix');
  |
  */
 
-
-mix.js('/themebackend/js/vendor/modernizr-3.3.1.min.js','/themebackend/min/js');
-//mix.js('resources/js/app.js', 'public/js')
-//    .sass('resources/sass/app.scss', 'public/css');
+mix.js('resources/js/app.js', 'public/js')
+   .sass('resources/sass/app.scss', 'public/css');

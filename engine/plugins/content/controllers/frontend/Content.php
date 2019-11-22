@@ -6,16 +6,17 @@ use plugsystem\GlobalParams;
 
 class Content extends \managers\frontend\Controller {
 
-    public function actionIndex($table, $val2) {
+    public function actionIndex($table) {
         if (\content\models\TableConfig::isExist($table)) {
-            if (!(isset($val2) and is_numeric($val2) and (int) $val2 > 0)) {
-                $data = \content\models\GetTables::all($table);
+            $data = \content\models\GetTables::all($table);
 
-                return $this->render($table . "_list", $data);
-            } else {
-                return $this->oneDocument($table, $val2);
-            }
+            return $this->render($table . "_list", $data);
         }
+    }
+
+    public function actionOne($id, $table) {
+
+        return $this->oneDocument($table, $id);
     }
 
     public function actionRss($table) {
@@ -56,8 +57,7 @@ class Content extends \managers\frontend\Controller {
             $data['url'] = url()->current();
 
 
-            $result = view("app_frontend::plugin/content/" . $table . "_one" . $postfix, $data)->render();
-
+            $result = $this->render($table . "_one" . $postfix, $data);
 
             $row['uid'] = "/content/" . $table . "/" . $id;
             $row['prefix'] = $table . "_";

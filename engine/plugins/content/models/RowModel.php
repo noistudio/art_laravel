@@ -61,6 +61,14 @@ class RowModel {
             }
         }
 
+        if (count($results)) {
+            foreach ($results as $key => $row) {
+
+                $row['_link'] = route('frontend/content/' . $nametable . "/one", $row['last_id']);
+                $results[$key] = $row;
+            }
+        }
+
         return $results;
     }
 
@@ -305,8 +313,7 @@ class RowModel {
                                 }
                             }
                             if (is_null($tmp_arr['value']) and $field['required']) {
-                                $session = GlobalParams::$session;
-                                $array = $session->get("notifys");
+
                                 if (!(isset($array) and is_array($array) and count($array) > 0)) {
                                     Notify::add(__("backend/content.err11", array('name' => $field['title'])), "error");
                                 }

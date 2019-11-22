@@ -27,12 +27,21 @@
                 <?php
                 if (count($row)) {
                     foreach ($row as $field) {
-                        ?>
-                        <tr>
-                            <td><?php echo $field['title']; ?></td>
-                            <td><?php echo $field['input']; ?></td>
-                        </tr>
-                        <?php
+                        if ($field['type'] == "Editorjss") {
+                            ?>
+                            <tr>
+
+                                <td colspan="2" style="width:100%;"><?php echo $field['input']; ?></td>
+                            </tr>
+                            <?php
+                        } else {
+                            ?>
+                            <tr>
+                                <td><?php echo $field['title']; ?></td>
+                                <td><?php echo $field['input']; ?></td>
+                            </tr>
+                            <?php
+                        }
                     }
                 }
                 ?>
