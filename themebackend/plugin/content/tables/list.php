@@ -59,7 +59,7 @@
                             <?php
                             if (\admins\models\AdminAuth::isRoot()) {
                                 ?>
-                                <form action="{pathadmin}content/tables/delete/" method="POST">
+                                <form action="<?php echo route('backend/content/tables/delete'); ?>" method="POST">
                                     <input type="hidden" name="table" value="<?php echo $row->name; ?>">
                                     <?php echo csrf_field(); ?>
                                     <button    data-msg="<?php echo __("backend/content.want_delete_table", array('name' => $row->name)); ?> " class="deleteerror btn btn-danger">Удалить таблицу</button>  
