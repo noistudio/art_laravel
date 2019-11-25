@@ -41,5 +41,6 @@ return [
     'about' => 'О продукте',
     'seo_title_page' => 'SEO Теги Главной страницы',
     'default_lang' => 'По умолчанию',
+    'incorrect_l_p' => 'Вы ввели некорректный login или пароль',
 ];
 

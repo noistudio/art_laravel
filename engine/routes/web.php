@@ -92,7 +92,7 @@ Route::any($admin_url . "/superblock", function() {
 });
 
 Route::get($admin_url . '/setlanguage/{locale}', function ($locale) {
-
+    \cache\models\Model::removeAll();
 
     languages\models\LanguageHelp::set($locale);
     return back();

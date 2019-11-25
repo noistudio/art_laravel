@@ -28,7 +28,7 @@ class LoginBackend extends \managers\backend\AdminController {
 
             return redirect(route("backend/index"));
         } else {
-            \core\Notify::add("Вы ввели неверный логин или пароль!", "error");
+            \core\Notify::add(__("backend/main.incorrect_l_p"), "error");
         }
 
         return redirect(route("backend/login/index"));

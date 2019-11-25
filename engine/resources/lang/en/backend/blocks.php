@@ -1,0 +1,28 @@
+<?php
+
+return array(
+    'all_blocks' => 'All Blocks',
+    'blocks' => 'Blocks',
+    'add_block' => 'Add Block',
+    'show_html' => 'Show HTML',
+    'title_block' => 'Title block',
+    'type' => 'Type',
+    'html' => 'HTML',
+    'code_html' => 'Code for insert',
+    'is_publishing' => 'Publish?',
+    'editing_block' => 'Edit Block',
+    'enable' => 'Enable',
+    'disable' => 'Disable',
+    'delete' => 'Delete',
+    'status' => 'Status',
+    'title' => 'Title',
+    'edit_btn' => 'Editing',
+    'want_delete' => 'Do you relly want to delete ?',
+    'not_filled_title_block' => 'Вы не указали название блока!',
+    'not_choose_type_block' => 'You did not enter a block name!',
+    'rule_create' => 'Creating blocks',
+    'rule_delete' => 'Block Removal',
+    'rule_access' => 'Block access :name',
+    'rule_see' => 'View Blocks',
+    'b_not_found' => 'Block not found!',
+);
