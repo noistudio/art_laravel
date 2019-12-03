@@ -83,15 +83,7 @@ class SetupBackend extends \managers\backend\AdminController {
         }
 
 
-        if (isset($post['APP_GOOGLE_MAPS_API_KEY'])) {
-            $array['APP_GOOGLE_MAPS_API_KEY'] = $post['APP_GOOGLE_MAPS_API_KEY'];
-            $config['APP_GOOGLE_MAPS_API_KEY'] = $array['APP_GOOGLE_MAPS_API_KEY'];
-        }
 
-        if (isset($post['APP_VK_APPID'])) {
-            $array['APP_VK_APPID'] = $post['APP_VK_APPID'];
-            $config['APP_VK_APPID'] = $array['APP_VK_APPID'];
-        }
         if (isset($post['disabled']) and $post['disabled'] == "false") {
             $array['APP_DISABLED'] = false;
         }

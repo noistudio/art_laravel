@@ -209,15 +209,7 @@
                 </td>
 
             </tr>
-            <tr>
-                <td>GOOGLE MAPS API JS ключ</td>
-                <td><input type="text" class="form-control" name="APP_GOOGLE_MAPS_API_KEY" value="<?php echo $config['APP_GOOGLE_MAPS_API_KEY']; ?>"></td>
-            </tr>
 
-            <tr>
-                <td>Вконтакте appID <a target="_blank" href="https://vk.com/dev.php?aid=7214438&method=Comments">подробнее</a></td>
-                <td><input type="text" class="form-control" name="APP_VK_APPID" value="<?php echo $config['APP_VK_APPID']; ?>"></td>
-            </tr>
 
             <tr>
                 <td>

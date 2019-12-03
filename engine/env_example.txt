@@ -1,10 +1,11 @@
 APP_NAME=noi.studio
-ASSET_URL=http://localhost/
-APP_TITLE=
+
+ASSET_URL=
+APP_TITLE="PHP Библиотека Art . От Noi.studio"
 APP_DESCRIPTION="Здесь описание по умолчанию"
 APP_ENV=local
-APP_KEY=
-APP_DEBUG=
+APP_KEY=base64:9qYcsiXGzpjxT4CAMKTCoLsXd5cGtCsAYJMeYNvHutA=
+APP_DEBUG=false
 APP_URL=http://localhost
 APP_MANAGERS=frontend,backend
 APP_LOCALE=ru
@@ -12,7 +13,6 @@ APP_BACKEND_CSS=amethyst.css
 APP_BACKEND_COPYRIGHT_TITLE="Библиотека ART"
 APP_BACKEND_COPYRIGHT_LINK=https://noi.studio
 MAX_FILE_SIZE_KB=1024
-OFFER_FOOTER="<p>Пример админки(где вы будете менять информацию на сайте и управлять пользователями)</p><p>http://demo.noi.studio/demo2admin/index</p><p>логин demo</p><p>пароль demo</p><p>Мои контакты</p><p>Telegram @noitech</p><p>Skype  noi.studio</p><p>Телефон +7917-324-85-24</p>"
 APP_FOLDER_VIEWS_CONTROLLER=plugin/
 APP_FOLDER_PLUGINS=plugins
 LAZER_DATA_PATH=db_json/
@@ -36,12 +36,12 @@ APP_FILES_DIR=files
 BACKEND_MIDDLEWARE=admin_check
 FRONTEND_MIDDLEWARE=seo_frontend
 LOG_CHANNEL=single
-DB_CONNECTION=mongodb
+DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=
-DB_USERNAME=
-DB_PASSWORD=
+DB_DATABASE=mysql_db
+DB_USERNAME=mysql_username
+DB_PASSWORD=mysql_password
 MONGO_DB_HOST=
 
 
@@ -74,3 +74,11 @@ MIX_PUSHER_APP_KEY=${PUSHER_APP_KEY}
 MIX_PUSHER_APP_CLUSTER=${PUSHER_APP_CLUSTER}
 APP_DISABLED_MESSAGE="Скоро откроемся. На данный момент на реконструкции"
 APP_DISABLED=
+APP_META_DESCRIPTION="здесь тестовое описание"
+APP_TITLE_EN="PHP Library Art . From Noi.studio"
+APP_META_DESCRIPTION_EN="description test"
+APP_TITLE_RU="PHP Библиотека Art . От Noi.studio"
+APP_META_DESCRIPTION_RU=asdasd
+APP_META_KEYWORDS="ключ слова"
+APP_META_KEYWORDS_EN="keyword hello"
+APP_META_KEYWORDS_RU=asd
