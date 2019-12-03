@@ -44,7 +44,7 @@ class LoginBackend extends \managers\backend\AdminController {
         $data['flash_error'] = \core\Notify::get("error");
         $data['current_lang'] = \languages\models\LanguageHelp::get();
         $data['languages'] = \languages\models\LanguageHelp::getAll("backend");
-
+        $data['pwa_meta'] = \managers\backend\models\AdminPwa::generate();
         $result = view("app::login", $data)->render();
         $result = $this->_after_render($result);
         return $result;

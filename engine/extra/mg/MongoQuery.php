@@ -11,19 +11,11 @@ class MongoQuery {
         if (isset($collection) and is_array($criteria)) {
 
 
-            $class = "\\mg\\collections\\" . ucfirst($collection);
-            if (class_exists($class)) {
-                $obj = new $class();
-                $result = $obj->_delete($criteria);
-            } else {
-                $obj = new \mg\collections\_DefaultCollection($collection);
-                $result = $obj->_delete($criteria);
-            }
-
 
             //    EventModel::run($namecollection . "_delete", array('collection' => $namecollection, 'condition' => $criteria));
 
 
+            $result = \DB::connection('mongodb')->collection($collection)->whereRaw($criteria)->delete();
 
             return $result;
         }
@@ -97,7 +89,9 @@ class MongoQuery {
         if ($collection != "object") {
             $models = \languages\models\LanguageParse::start_list($models);
         }
-        return $models;
+
+        $result = Helper::toArray($models);
+        return $result;
     }
 
     public static function execute_one($collection, $condition = array(), $sort = array('_id' => -1), $limit = 25, $offset = 0) {

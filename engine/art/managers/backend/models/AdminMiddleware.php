@@ -24,12 +24,16 @@ class AdminMiddleware {
 
         if ($manager == "backend") {
 
+
             $result = \admins\models\AdminAuth::isLogin();
+
+
 
 
             if (!$result) {
                 return \core\ManagerConf::redirect("login");
             }
+
             if (!\admins\models\AdminAuth::isRoot()) {
 
                 $availables_path = array('/index', '/admin', '/admins/edit', '/logout', '/admins/doedit');

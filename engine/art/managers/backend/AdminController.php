@@ -26,7 +26,7 @@ class AdminController extends \App\Http\Controllers\Controller {
 
         $data['plugin'] = $plugin;
         $data['mainmenu'] = \adminmenu\models\MenuModel::getResult();
-
+        $data['pwa_meta'] = \managers\backend\models\AdminPwa::generate();
         $data['flash_success'] = \core\Notify::get("success");
 
         $data['flash_error'] = \core\Notify::get("error");

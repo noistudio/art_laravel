@@ -76,7 +76,6 @@ class Multielfinder extends AbstractField {
 
 
 
-
         if (isset($results) and is_array($results) and count($results) > 0) {
             return $results;
         } else {

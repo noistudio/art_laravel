@@ -9,19 +9,14 @@ class AboutBackend extends \managers\backend\AdminController {
      *
      * @return Response
      */
+    function __construct($is_plugin = false) {
+        $this->is_plugin = $is_plugin;
+    }
+
     public function actionIndex() {
 
         $data = array();
         return $this->render("about", $data);
-    }
-
-    public function render($file, $data = array()) {
-
-        $islogin = false;
-        $data = array();
-        $data['_admin_url'] = \core\ManagerConf::getUrl() . "/";
-
-        return view("app::about", $data);
     }
 
 }

@@ -23,6 +23,7 @@
         "laravel/tinker": "^1.0",
         "laravelium/sitemap": "^6.0",
         "pcinaglia/laraupdater": "^1.0",
+        "silviolleite/laravelpwa": "^1.0",
         "spatie/laravel-backup": "^6.7",
         "telegram-bot/api": "^2.3",
         "torann/geoip": "^1.0",

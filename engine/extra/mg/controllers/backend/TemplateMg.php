@@ -25,7 +25,7 @@ class TemplateMg extends \managers\backend\AdminController {
                 foreach ($table['fields'] as $field_name => $field) {
                     $template_fields .= '<p><?php echo $row["' . $field_name . '"];  ?></p>';
                 }
-                $template_fields = '<a href="<?php echo route("frontend/mg/' . $nametable . '/one",$row["last_id"] , false); ?>">' . $template_fields . "</a>";
+                $template_fields = '<a href="/' . $route . '/' . $nametable . '/<?php echo $row["last_id"];?>">' . $template_fields . "</a>";
             }
             $template = '<?php if (count($rows)) {
     foreach ($rows as $row) { ?>' . $template_fields . '<?php } } echo $pages;';
@@ -50,7 +50,7 @@ class TemplateMg extends \managers\backend\AdminController {
                     $template_fields .= '<p><?php echo $document[' . $field_name . '];  ?></p>';
                 }
             }
-            $template_fields .= "";
+            $template_fields .= "{action}";
             $template = $template_fields;
             $template = htmlspecialchars($template, ENT_QUOTES, 'UTF-8');
             $data['template'] = $template;

@@ -7,10 +7,7 @@ use mg\core\AbstractField;
 class Checkbox extends AbstractField {
 
     public function set() {
-
         $this->getVal();
-
-
         if ((int) $this->value == 1) {
             return 1;
         } else {

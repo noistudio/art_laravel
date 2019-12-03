@@ -7,7 +7,7 @@
         <meta charset="utf-8">
 
         <title><?php echo __('backend/main.title'); ?></title>
-
+        <?php echo $pwa_meta; ?>
 
         <meta name="robots" content="noindex, nofollow">
         <meta name="csrf-param" content="_token">
@@ -46,7 +46,10 @@
         <!--        <link rel="stylesheet" href="/themebackend/css/themes/classy.css">-->
         <!-- END Stylesheets -->
         <link rel="stylesheet" type="text/css" href="/themebackend/js/packages/barryvdh/elfinder/css/elfinder.min.css">
-        <link rel="stylesheet" type="text/css" href="/themebackend/js/packages/barryvdh/elfinder/css/theme.css">
+        <link rel="stylesheet" type="text/css" href="/themebackend/filemanager/css/theme.css">
+        <!--        <link rel="stylesheet" type="text/css" href="/themebackend/js/packages/barryvdh/elfinder/css/theme.css">-->
+        <!--        <link rel="stylesheet" type="text/css" href="/themebackend/css/elfinder_theme.css">--->
+
         <link rel="stylesheet" href="/themebackend/js/newgui/dist/ui/trumbowyg.min.css"> 
         <link rel="stylesheet" href="/themebackend//js/plugins/summernote.css">
         <link rel="stylesheet" href="/themebackend/css/custom.css">
@@ -219,7 +222,7 @@
                                                 <li class="<?php
                                                 echo $main_class;
                                                 ?>">
-                                                    <a href="<?php echo route('backend') . "/" . $link['href']; ?>"  ><i class="fa <?php echo $link['icon']; ?> sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide"><?php echo $link['title']; ?></span></a>
+                                                    <a href="<?php echo route('backend', array(), false) . "/" . $link['href']; ?>"  ><i class="fa <?php echo $link['icon']; ?> sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide"><?php echo $link['title']; ?></span></a>
                                                 </li>
                                                 <?php
                                             } else {
@@ -271,7 +274,7 @@
                                                             $subclass = "active";
                                                             $main_class = "active";
                                                         }
-                                                        $sub_link_tmp = route('backend') . "/" . $sub_link['href'];
+                                                        $sub_link_tmp = route('backend', array(), false) . "/" . $sub_link['href'];
 
                                                         $sub_html .= '<li  >
 
@@ -312,7 +315,7 @@
 
 
                                 <li  >
-                                    <a href="<?php echo route('backend/logout'); ?>"  ><i class="fa fa fa-sign-out sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide"><?php echo __("backend/main.logout"); ?></span></a>
+                                    <a href="<?php echo route('backend/logout', array(), false); ?>"  ><i class="fa fa fa-sign-out sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide"><?php echo __("backend/main.logout"); ?></span></a>
                                 </li>
 
                             </ul>
@@ -350,58 +353,160 @@
                         'navbar-fixed-bottom'       for a bottom fixed header (fixed main sidebar with scroll will be auto initialized, functionality can be found in js/app.js - handleSidebar()))
                             'header-fixed-bottom'   has to be added on #page-container only if the class 'navbar-fixed-bottom' was added
                     -->
-                    <header class="navbar navbar-inverse navbar-fixed-top">
+                    <header class="navbar navbar-fixed-top ">
                         <!-- Left Header Navigation -->
-                        <?php
-                        if (isset($languages) and is_array($languages) and count($languages)) {
-                            ?>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <?php echo __("backend/main.language"); ?> (<?php echo $current_lang; ?>)
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <?php
-                                    foreach ($languages as $lang) {
-                                        ?>
-                                        <li><a href="<?php echo route("backend/setlanguage", array('locale' => $lang)); ?>"><?php echo __("backend/main.language"); ?> <?php echo $lang; ?></a></li>
-                                        <?php
-                                    }
-                                    ?>
 
-
-                                </ul>
-                            </div>
-                            <?php
-                        }
-                        ?>
-                        <ul class="nav navbar-nav-custom">
-                            <!-- Main Sidebar Toggle Button -->
+                        <ul class="nav navbar-nav-custom ">
                             <li>
                                 <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar'); this.blur();">
                                     <i class="fa fa-ellipsis-v fa-fw animation-fadeInRight" id="sidebar-toggle-mini"></i>
                                     <i class="fa fa-bars fa-fw animation-fadeInRight" id="sidebar-toggle-full"></i>
                                 </a>
-                            </li>
+                            </li> 
+
+                            <ul class="nav navbar-nav-custom  hidden-sm hidden-lg hidden-md hidden-print ">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs"></i> <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <?php
+                                        if (\admins\models\AdminAuth::isRoot()) {
+                                            ?>
+
+                                            <li class="btn btn-rounded <?php
+                                            if (\Route::current()->getName() == "backend/adminmenu/index") {
+                                                echo 'active_top';
+                                            }
+                                            ?>">
+                                                <a href="<?php echo route("backend/adminmenu/index") ?>" >
+                                                    <i class="fa fas fa-cog"></i> <?php echo __("backend/main.adminmenu"); ?>
+                                                </a>
+                                            </li>
+                                            <li class="btn btn-rounded <?php
+                                            if (\Route::current()->getName() == "backend/backup") {
+                                                echo 'active_top';
+                                            }
+                                            ?>">
+                                                <a  href="<?php echo route("backend/backup") ?>" >
+                                                    <i class="fa fas fa-cog"></i> <?php echo __("backend/main.backups_link"); ?>
+                                                </a>
+                                            </li>
+
+                                            <?php
+                                        }
+
+
+                                        if (\admins\models\AdminAuth::isRoot()) {
+                                            ?>
+                                            <li class="btn btn-rounded <?php
+                                            if (\Route::current()->getName() == "backend/setup") {
+                                                echo 'active_top';
+                                            }
+                                            ?>">
+                                                <a href="<?php echo route("backend/setup"); ?>" >
+                                                    <i class="fa fas fa-cog"></i> <?php echo __("backend/main.colors"); ?>
+                                                </a>
+                                            </li>
+                                            <?php
+                                        }
+                                        ?> 
+                                        <?php
+                                        if (\admins\models\AdminAuth::isRoot()) {
+                                            ?>
+                                            <li class="btn btn-rounded <?php
+                                            if (\Route::current()->getName() == "backend/admins/rules/index") {
+                                                echo 'active_top';
+                                            }
+                                            ?>">
+                                                <a href="<?php echo route("backend/admins/rules/index") ?>" >
+                                                    <i class="fa fa-check"></i> <?php echo __("backend/main.access_rules"); ?>
+                                                </a>
+                                            </li>
+                                            <?php
+                                        }
+                                        ?>      
+
+
+                                        <?php
+                                        if (!\admins\models\AdminAuth::isRoot()) {
+                                            ?> 
+                                            <li class="btn btn-rounded <?php
+                                            if (\Route::current()->getName() == "backend/admins/edit") {
+                                                echo 'active_top';
+                                            }
+                                            ?>">
+                                                <a href="<?php echo route("backend/admins/edit") ?>" >
+                                                    <?php echo __("backend/main.change_password"); ?>
+                                                </a>
+                                            </li>
+                                            <?php
+                                        }
+                                        ?>
+
+                                        <li class="btn btn-rounded">
+                                            <a href="<?php echo route("backend/logout") ?>" >
+                                                <i class=" fa fa-sign-out"></i> <?php echo __("backend/main.exit"); ?>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li> 
+
+                            </ul>
+
+                            <?php
+                            if (isset($languages) and is_array($languages) and count($languages)) {
+                                ?>
+
+                                <?php
+                                foreach ($languages as $lang) {
+                                    ?>
+                                    <li>
+                                        <a   href="<?php echo route("backend/setlanguage", array('locale' => $lang)); ?>" >
+                                            <img src="/themebackend/img/lang_<?php echo $lang; ?>.png" class="img img-thumbnail">
+                                        </a>
+                                    </li>
+                                    <?php
+                                }
+                                ?>
+
+
+
+                                <?php
+                            }
+                            ?>
+                            <li> 
+                                <a  class="btn btn-rounded"  href="<?php echo route("about") ?>" >
+                                    <?php echo __("backend/main.about"); ?>
+                                </a>
+                            </li> 
+                        </ul>   
+
+
+
+                        <ul class="nav navbar-nav-custom pull-right hidden-xs">
+                            <!-- Main Sidebar Toggle Button -->
+
+
+
 
                             <?php
                             if (\admins\models\AdminAuth::isRoot()) {
                                 ?>
 
-                                <li class="<?php
+                                <li class=" <?php
                                 if (\Route::current()->getName() == "backend/adminmenu/index") {
                                     echo 'active_top';
                                 }
                                 ?>">
-                                    <a href="<?php echo route("backend/adminmenu/index") ?>" >
+                                    <a class="btn btn-rounded" href="<?php echo route("backend/adminmenu/index") ?>" >
                                         <i class="fa fas fa-cog"></i> <?php echo __("backend/main.adminmenu"); ?>
                                     </a>
                                 </li>
-                                <li class="<?php
+                                <li class=" <?php
                                 if (\Route::current()->getName() == "backend/backup") {
                                     echo 'active_top';
                                 }
                                 ?>">
-                                    <a href="<?php echo route("backend/backup") ?>" >
+                                    <a class="btn btn-rounded" href="<?php echo route("backend/backup") ?>" >
                                         <i class="fa fas fa-cog"></i> <?php echo __("backend/main.backups_link"); ?>
                                     </a>
                                 </li>
@@ -412,12 +517,12 @@
 
                             if (\admins\models\AdminAuth::isRoot()) {
                                 ?>
-                                <li class="<?php
+                                <li class=" <?php
                                 if (\Route::current()->getName() == "backend/setup") {
                                     echo 'active_top';
                                 }
                                 ?>">
-                                    <a href="<?php echo route("backend/setup"); ?>" >
+                                    <a class="btn btn-rounded" href="<?php echo route("backend/setup"); ?>" >
                                         <i class="fa fas fa-cog"></i> <?php echo __("backend/main.colors"); ?>
                                     </a>
                                 </li>
@@ -427,12 +532,12 @@
                             <?php
                             if (\admins\models\AdminAuth::isRoot()) {
                                 ?>
-                                <li class="<?php
+                                <li class=" <?php
                                 if (\Route::current()->getName() == "backend/admins/rules/index") {
                                     echo 'active_top';
                                 }
                                 ?>">
-                                    <a href="<?php echo route("backend/admins/rules/index") ?>" >
+                                    <a class="btn btn-rounded" href="<?php echo route("backend/admins/rules/index") ?>" >
                                         <i class="fa fa-check"></i> <?php echo __("backend/main.access_rules"); ?>
                                     </a>
                                 </li>
@@ -444,12 +549,12 @@
                             <?php
                             if (!\admins\models\AdminAuth::isRoot()) {
                                 ?> 
-                                <li class="<?php
+                                <li class=" <?php
                                 if (\Route::current()->getName() == "backend/admins/edit") {
                                     echo 'active_top';
                                 }
                                 ?>">
-                                    <a href="<?php echo route("backend/admins/edit") ?>" >
+                                    <a class="btn btn-rounded" href="<?php echo route("backend/admins/edit") ?>" >
                                         <?php echo __("backend/main.change_password"); ?>
                                     </a>
                                 </li>
@@ -457,16 +562,12 @@
                             }
                             ?>
 
-                            <li>
-                                <a href="<?php echo route("backend/logout") ?>" >
+                            <li class="">
+                                <a class="btn btn-rounded" href="<?php echo route("backend/logout") ?>" >
                                     <i class=" fa fa-sign-out"></i> <?php echo __("backend/main.exit"); ?>
                                 </a>
                             </li>
-                            <li>
-                                <a target="_blank" href="<?php echo route("about") ?>" >
-                                    <?php echo __("backend/main.about"); ?>
-                                </a>
-                            </li>
+
 
 
                             <!-- END Main Sidebar Toggle Button -->

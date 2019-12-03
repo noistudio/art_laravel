@@ -22,6 +22,7 @@ and open the template in the editor.
  
 .note-frame > .modal{
      color: black !important;
+     
 }
 .modal-backdrop.in{
     z-index:0 !important;

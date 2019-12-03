@@ -58,7 +58,11 @@ abstract class ConstructField {
 //        }
 
         $this->option = $option;
+        $this->checkFields();
 
+        if (count($this->option['fields']) == 0) {
+            throwException(__("backend/mg.b_err"));
+        }
         $this->name = $name;
         $this->value = $value;
         $this->required = $required;
@@ -90,10 +94,6 @@ abstract class ConstructField {
         }
 
         $this->value = $value;
-    }
-
-    public function isShowOnlyMultilangField() {
-        return false;
     }
 
     private function checkFields() {
@@ -232,11 +232,6 @@ abstract class ConstructField {
     }
 
     public function set() {
-        $this->checkFields();
-
-        if (count($this->option['fields']) == 0) {
-            throwException(__("backend/mg.b_err"));
-        }
         $result = array();
         $fields = $this->option['fields'];
         $value = $this->value;
@@ -298,11 +293,7 @@ abstract class ConstructField {
     }
 
     public function get() {
-        $this->checkFields();
 
-        if (count($this->option['fields']) == 0) {
-            throwException(__("backend/mg.b_err"));
-        }
 
         $this->parseValues();
         $fields = $this->option("fields");

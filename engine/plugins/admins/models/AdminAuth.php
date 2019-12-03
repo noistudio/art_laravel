@@ -11,14 +11,18 @@ class AdminAuth {
         request()->session()->forget("admin_is_login");
         request()->session()->forget("admin_login");
         request()->session()->forget("admin_password");
+        \Cookie::queue(\Cookie::forget('admin_auth'));
         // $cookies = Yii::$app->response->cookies;
         //$cookies->remove('cokie_backend');
     }
 
     static function getMy() {
 
-        $session = request()->session()->all();
-        if (isset($session['admin_login'])) {
+        $session = request()->cookie('admin_auth');
+        $session = json_decode($session, true);
+
+
+        if (isset($session) and isset($session['admin_login'])) {
             $admin_login = $session['admin_login'];
             $admins_data = SqlDocument::one("admins", "login", $admin_login, true);
             return $admins_data;
@@ -28,11 +32,17 @@ class AdminAuth {
 
     public static function isLogin() {
 
-        $session = request()->session()->all();
+        $session = request()->cookie('admin_auth');
+        $session = json_decode($session, true);
+
+
+
+
         $status = null;
         if (isset($session['admin_is_login'])) {
             $status = $session['admin_is_login'];
         }
+
 
         $admin_login = null;
         if (isset($session['admin_login'])) {
@@ -46,6 +56,8 @@ class AdminAuth {
         $option = array();
         $option['admin_login'] = \core\ManagerConf::get("admin_login", "backend");
         $option['admin_password'] = \core\ManagerConf::get("admin_password", "backend");
+
+
 
 
 
@@ -80,7 +92,8 @@ class AdminAuth {
         $option = array();
         $option['admin_login'] = \core\ManagerConf::get("admin_login", "backend");
         $option['admin_password'] = \core\ManagerConf::get("admin_password", "backend");
-        $session = request()->session()->all();
+        $session = request()->cookie('admin_auth');
+        $session = json_decode($session, true);
         $status = null;
         if (isset($session['admin_is_login'])) {
             $status = $session['admin_is_login'];
@@ -119,7 +132,8 @@ class AdminAuth {
     }
 
     static function isRoot() {
-        $session = request()->session()->all();
+        $session = request()->cookie('admin_auth');
+        $session = json_decode($session, true);
         $is_root = null;
         if (isset($session['admin_is_root'])) {
             $is_root = $session['admin_is_root'];
@@ -145,10 +159,18 @@ class AdminAuth {
         if (isset($post['login']) and isset($post['password'])) {
             if (isset($option['admin_password']) and isset($option['admin_login']) and isset($post['login']) and $post['login'] == $option['admin_login'] and isset($post['password']) and $post['password'] == $option['admin_password']) {
 
-                request()->session()->put("admin_is_login", true);
-                request()->session()->put("admin_login", $post['login']);
-                request()->session()->put("admin_password", $post['password']);
-                request()->session()->put("admin_is_root", true);
+
+                $admin_auth_data = array();
+                $admin_auth_data['admin_is_login'] = true;
+                $admin_auth_data['admin_login'] = $post['login'];
+                $admin_auth_data['admin_password'] = $post['password'];
+                $admin_auth_data['admin_is_root'] = true;
+                $admin_auth_data = json_encode($admin_auth_data);
+                $minutes = (60 * 24) * 365;
+
+                \Cookie::queue(\Cookie::make('admin_auth', $admin_auth_data, $minutes));
+
+
                 //$array_to_cookies = array('admin_is_root' => true, 'admin_is_login' => true, 'admin_login' => $post['login'], 'admin_password' => $post['password']);
                 // AuthHelper::doAdd($array_to_cookies);
                 $result = true;
@@ -164,11 +186,19 @@ class AdminAuth {
 
                         if ($admins_data['password'] == $hash_password) {
 
+                            $admin_auth_data = array();
+                            $admin_auth_data['admin_is_login'] = true;
+                            $admin_auth_data['admin_login'] = $post['login'];
+                            $admin_auth_data['admin_password'] = $post['password'];
 
 
-                            request()->session()->put("admin_is_login", true);
-                            request()->session()->put("admin_login", $post['login']);
-                            request()->session()->put("admin_password", $post['password']);
+                            $admin_auth_data = json_encode($admin_auth_data);
+
+                            $minutes = (60 * 24) * 365;
+
+                            \Cookie::queue(\Cookie::make('admin_auth', $admin_auth_data, $minutes));
+
+
                             //     $session->set("admin_is_root", false);
                             // $array_to_cookies = array('admin_is_root' => false, 'admin_is_login' => true, 'admin_login' => $post['login'], 'admin_password' => $post['password']);
                             // AuthHelper::doAdd($array_to_cookies);

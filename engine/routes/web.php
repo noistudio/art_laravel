@@ -86,6 +86,9 @@ Route::any($admin_url . "/login", "\\managers\\backend\\controllers\\LoginBacken
 Route::any($admin_url . "/doit", "\\managers\\backend\\controllers\\LoginBackend@actionDoit")->name("backend/login/doit");
 Route::any($admin_url . "/about", "\\managers\\backend\\controllers\\AboutBackend@actionIndex")->name("about");
 
+Route::get($admin_url . '/manifest.json', '\\managers\\backend\\controllers\\DefaultBackend@manifestJson')
+        ->name('laravelpwa.manifest');
+
 Route::any($admin_url . "/superblock", function() {
     $request = Request::create("/adminsystem/blocks/update/2", 'GET', array());
     return Route::dispatch($request)->getContent();

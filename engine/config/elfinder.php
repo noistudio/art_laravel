@@ -35,7 +35,7 @@ return array(
      */
     'route' => [
         'prefix' => env("BACKEND_ACCESS") . '/files/elfinder',
-        'middleware' => array('admin_check'), //Set to null to disable middleware filter
+        'middleware' => array('web', 'admin_check'), //Set to null to disable middleware filter
     ],
     /*
       |--------------------------------------------------------------------------

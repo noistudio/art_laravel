@@ -5,8 +5,8 @@
     <head>
         <meta charset="utf-8">
 
-        <title> Вход в админ.панель</title>
-
+        <title> Login</title>
+        <?php echo $pwa_meta; ?>
 
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -147,16 +147,25 @@
         <link rel="stylesheet" href="{asset}notify/themes/alertify.core.css" />
         <link rel="stylesheet" href="{asset}notify/themes/alertify.default.css" id="toggleCSS" />
         <script src="{asset}notify/lib/alertify.min.js"></script>
+
         <script>
 <?php
-if (isset($notifys) and is_array($notifys) and count($notifys) > 0) {
-    foreach ($notifys as $notify) {
-        ?>
-                    alertify.alert("<?php echo $notify['message']; ?>");
-        <?php
-    }
+if (isset($flash_success)) {
+    ?>
+                alertify.alert("<?php echo $flash_success; ?>");
+    <?php
 }
 ?>
+<?php
+if (isset($flash_error)) {
+    ?>
+                alertify.alert("<?php echo $flash_error; ?>");
+    <?php
+}
+?>
+
+
+
 
 
         </script>

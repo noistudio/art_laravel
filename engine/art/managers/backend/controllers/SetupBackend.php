@@ -30,7 +30,7 @@ class SetupBackend extends \managers\backend\AdminController {
     }
 
     public function actionSave() {
-        return back();
+
         $ip = \Request::ip();
 
         $config = \core\AppEnv::all();

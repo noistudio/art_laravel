@@ -117,6 +117,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+        Barryvdh\Elfinder\ElfinderServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -156,7 +157,6 @@ return [
         // App\Providers\RouteServiceProvider::class,
         \art\providers\ArtServiceProvider::class,
         \art\providers\RouteServiceProvider::class,
-        Barryvdh\Elfinder\ElfinderServiceProvider::class,
         KrishnaKodoth\LogEditor\LogEditorServiceProvider::class,
         pcinaglia\laraupdater\LaraUpdaterServiceProvider::class,
         \Torann\GeoIP\GeoIPServiceProvider::class,

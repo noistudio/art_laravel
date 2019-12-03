@@ -28,4 +28,9 @@ class DefaultBackend extends \managers\backend\AdminController {
         \core\ManagerConf::redirect("/");
     }
 
+    public function manifestJson() {
+        $output = \managers\backend\models\AdminPwa::generate(false);
+        return response()->json($output);
+    }
+
 }

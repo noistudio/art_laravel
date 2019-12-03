@@ -58,6 +58,7 @@ class BackupBackend extends \managers\backend\AdminController {
     }
 
     public function actionCreate() {
+
         try {
             // start the backup process
             \Artisan::call('backup:run');
