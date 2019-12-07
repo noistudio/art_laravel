@@ -1,4 +1,27 @@
-    String.prototype.replaceAll = function( token, newToken, ignoreCase ) {
+  function getMobileOperatingSystem() {
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      // Windows Phone must come first because its UA also contains "Android"
+    if (/windows phone/i.test(userAgent)) {
+        return "Windows Phone";
+    }
+
+    if (/android/i.test(userAgent)) {
+        return "Android";
+    }
+
+    // iOS detection from: http://stackoverflow.com/a/9039885/177710
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return "iOS";
+    }
+
+    return "unknown";
+}
+  function isMobile() {
+  try{ document.createEvent("TouchEvent"); return true; }
+  catch(e){ return false; }
+}
+   String.prototype.replaceAll = function( token, newToken, ignoreCase ) {
     var _token;
     var str = this + "";
     var i = -1;
@@ -799,6 +822,39 @@ rails_csrf[param] = token;
     var elf = $('.dialog_elfinder').elfinder(options).elfinder('instance');
 
 }
+if($(".chooseicon").length>0){
+   $(".chooseicon").selectpicker({
+       
+       dropdownAlignRight:true,
+       dropupAuto:true,
+      
+            
+     }); 
+}
+var os=getMobileOperatingSystem();
+
+ 
+if($(".selectpicker").length>0){
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+  $('.selectpicker').selectpicker('hide');
+}
+
+    
+   
+    $('.selectpicker').on('rendered.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+   $(".bootstrap-select > .dropdown-menu").removeClass("open");
+});
+    $('.selectpicker').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+  $(".bootstrap-select > .dropdown-menu").removeClass("open"); 
+});
+
+     
+    $("body").on("click",".bootstrap-select > button > span",function(){
+         
+        $(".bootstrap-select > .dropdown-menu").addClass("open");
+    });
+}
+
   if($(".filemanager").length){
     var param = $('meta[name=csrf-param]').attr("content");
     var token = $('meta[name=csrf-token]').attr("content");

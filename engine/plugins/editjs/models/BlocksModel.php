@@ -161,8 +161,9 @@ class BlocksModel {
         $blocks = \db\JsonQuery::all("blocks");
         if (count($blocks) > 0) {
             foreach ($blocks as $block) {
+                $params = json_decode($block->params, true);
                 if ($block->type == "editjs") {
-                    $params = json_decode($block->params, true);
+
                     if (isset($params['html'])) {
                         $html = $params['html'];
                         $vals = \blocks\models\BlocksModel::find_between($html, "[string]", "[string!]", false, true);
@@ -174,6 +175,7 @@ class BlocksModel {
                         $one_result['title'] = $block->title;
                         $one_result['html'] = $html;
                         $one_result['type'] = $block->type;
+                        $one_result['params'] = $params;
 
                         if (count($images) > 0) {
 
@@ -185,6 +187,7 @@ class BlocksModel {
                         if (count($vals) > 0) {
                             $one_result['vars'] = $vals;
                         }
+
                         $result[$one_result['name']] = $one_result;
                     }
                 } else {
@@ -193,6 +196,7 @@ class BlocksModel {
                     $one_result['id'] = $block->id;
                     $one_result['title'] = $block->title;
                     $one_result['type'] = $block->type;
+                    $one_result['params'] = $params;
                     $result[$one_result['name']] = $one_result;
                 }
             }

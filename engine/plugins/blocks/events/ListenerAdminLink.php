@@ -31,14 +31,18 @@ class ListenerAdminLink {
         $subs = array();
         $blocks = \db\JsonQuery::all("blocks");
         if (count($blocks) > 0) {
+
+
             foreach ($blocks as $block) {
+                $params = json_decode($block->params, true);
+
                 $subs[] = array(
                     'href' => 'blocks/update/' . $block->id,
                     'title' => $block->title,
                     'nav' => 'block' . $block->id,
                     'name_rule' => array("block_" . $block->id, "block_see"),
                     'onlyroot' => false,
-                    'icon' => 'fa-pencil',
+                    'icon' => $params['_icon'],
                 );
             }
         }

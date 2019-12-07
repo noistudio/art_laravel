@@ -52,6 +52,7 @@
 
         <link rel="stylesheet" href="/themebackend/js/newgui/dist/ui/trumbowyg.min.css"> 
         <link rel="stylesheet" href="/themebackend//js/plugins/summernote.css">
+        <link rel="stylesheet" href="/themebackend/js/bootstrap_select/css/bootstrap-select.css">
         <link rel="stylesheet" href="/themebackend/css/custom.css">
 
         <!-- Mac OS X Finder style for jQuery UI smoothness theme (OPTIONAL) -->
@@ -615,7 +616,7 @@
         <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="/themebackend/js/vendor/bootstrap.min.js"></script>
-
+        <script src="/themebackend/js/bootstrap_select/js/bootstrap-select.js"></script>
 
         <script src="/themebackend/js/plugins/summernote.js"></script>
 

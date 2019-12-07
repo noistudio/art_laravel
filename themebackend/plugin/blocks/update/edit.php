@@ -54,6 +54,27 @@
                         ?>
                     </select></td>
             </tr>
+            <tr>
+                <td>font aweasome icon</td>
+                <td><select class="selectpicker "  data-hide-disabled="true"  data-width="100%" data-dropup-auto="false"  data-live-search="true" name="icon" searchable="Search here..">
+
+                        <?php
+                        if (isset($icons)) {
+                            foreach ($icons as $icon) {
+                                $selected = "";
+                                if (isset($block['params']['_icon']) and $block['params']['_icon'] == $icon) {
+                                    $selected = "selected";
+                                }
+                                ?>
+                                <option value="<?php echo $icon; ?>" <?php echo $selected; ?> data-content='<i class="fa <?php echo $icon; ?> fa-fw"></i> <?php echo $icon; ?>'></option>
+                                <?php
+                            }
+                        }
+                        ?>
+
+
+                    </select></td>
+            </tr>
             <tr class='field_html' <?php if ($block['type'] != "html") { ?> style="display:none;" <?php } ?>>
                 <td><?php echo __("backend/blocks.html"); ?></td>
                 <td><textarea class='form-control tiny' name="html"><?php echo $block['html']; ?></textarea></td>

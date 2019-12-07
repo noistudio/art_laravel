@@ -26,6 +26,7 @@ class UpdateBlocks extends \managers\backend\AdminController {
 
             $data = array();
             $data['block'] = $block;
+            $data['icons'] = \managers\models\IconModels::$icons;
             $data['types'] = BlocksModel::allTypes();
             return $this->render("edit", $data);
         }

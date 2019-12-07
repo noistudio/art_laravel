@@ -287,7 +287,7 @@ class BlocksModel {
             }
         }
 
-
+        $block['params']['_icon'] = $post['icon'];
         \db\JsonQuery::save($block, "blocks", $object);
 
         return true;
@@ -394,6 +394,7 @@ class BlocksModel {
 
             return false;
         }
+        $params['_icon'] = "fa-html5";
         $array = array();
         $array['id'] = 1;
         $array['title'] = strip_tags($post['title']);
