@@ -141,349 +141,349 @@ if (isset($block['vars']) and is_array($block['vars']) and count($block['vars'])
         val_tmp=this.data.<?php echo $name_var ?>;
         }
         var tmp_el="<h4><?php echo $var; ?></h4><input class='form-control' type='text' value='"+val_tmp+"' placeholder='<?php echo $var; ?>' id='<?php echo $name_var; ?>'>"
-            div.innerHTML=div.innerHTML+tmp_el;
-            <?php
-        }
-    }
-    ?>
-    <?php
-    if (isset($block['texts']) and count($block['texts'])) {
-        foreach ($block['texts'] as $key => $var) {
-            $name_var = "textkey" . $key;
-            ?>
-            this.vars.push("<?php echo $name_var; ?>");
-            var val_tmp="";
-            if(typeof this.data.<?php echo $name_var ?> != 'undefined'){
-            val_tmp=this.data.<?php echo $name_var ?>;
-            }
-            var tmp_el="<h4><?php echo $var; ?></h4><textarea class='form-control  p_textarea ' contenteditable='true' data-placeholder='<?php echo $var; ?>'  id='<?php echo $name_var; ?>' spellcheck='false' data-gramm='false'>"+val_tmp+"</textarea>";
-            div.innerHTML=div.innerHTML+tmp_el;
-            <?php
-        }
-    }
-    ?>    
-    <?php
-    if (isset($block['images']) and count($block['images']) > 0) {
-        foreach ($block['images'] as $key => $var) {
-
-            $name_var = "imgkey" . $key;
-            ?>
-            this.images.push("<?php echo $name_var; ?>");
-            var val_tmp="";
-            if(typeof this.data.img<?php echo $name_var ?> != 'undefined'){
-            val_tmp=this.data.img<?php echo $name_var ?>;
-            }
-            var tmp_el="<a onclick='load_editor_image(this);'   name='<?php echo $name_var; ?>' class='btn_img_<?php echo $name_var; ?> choose_file_editjs btn btn-success'><?php echo __("backend/editjs.select"); ?> <?php echo $var; ?></a>"
-
-            div.innerHTML=div.innerHTML+tmp_el;
-            <?php
-        }
-        ?>
-        var images=div.querySelectorAll('.choose_file_editjs');
-
-        if(images.length>0){
-        for (var i = 0; i < images.length; ++i) {
-        var name=images[i].name;
-
-        console.log(name);
-        if(typeof this.data[name]!= 'undefined' && this.data[name].length>0){
-
-        images[i].innerHTML="<b name='"+name+"'  data-name='"+name+"' class='file_val'>"+this.data[name]+"</b>"
-
-        }
-
-        }
-        }
+        div.innerHTML=div.innerHTML+tmp_el;
         <?php
     }
-    ?>    
-
-    return div;
+}
+?>
+<?php
+if (isset($block['texts']) and count($block['texts'])) {
+    foreach ($block['texts'] as $key => $var) {
+        $name_var = "textkey" . $key;
+        ?>
+        this.vars.push("<?php echo $name_var; ?>");
+        var val_tmp="";
+        if(typeof this.data.<?php echo $name_var ?> != 'undefined'){
+        val_tmp=this.data.<?php echo $name_var ?>;
+        }
+        var tmp_el="<h4><?php echo $var; ?></h4><textarea class='form-control  p_textarea ' contenteditable='true' data-placeholder='<?php echo $var; ?>'  id='<?php echo $name_var; ?>' spellcheck='false' data-gramm='false'>"+val_tmp+"</textarea>";
+        div.innerHTML=div.innerHTML+tmp_el;
+        <?php
     }
+}
+?>    
+<?php
+if (isset($block['images']) and count($block['images']) > 0) {
+    foreach ($block['images'] as $key => $var) {
 
-    /**
-    * Create Block's settings block
-    *
-    * @return {HTMLElement}
-    */
+        $name_var = "imgkey" . $key;
+        ?>
+        this.images.push("<?php echo $name_var; ?>");
+        var val_tmp="";
+        if(typeof this.data.img<?php echo $name_var ?> != 'undefined'){
+        val_tmp=this.data.img<?php echo $name_var ?>;
+        }
+        var tmp_el="<a onclick='load_editor_image(this);'   name='<?php echo $name_var; ?>' class='btn_img_<?php echo $name_var; ?> choose_file_editjs btn btn-success'><?php echo __("backend/editjs.select"); ?> <?php echo $var; ?></a>"
 
-
-    /**
-    * Callback for Block's settings buttons
-    * @param level
-    */
-    setLevel(level) {
-    this.data = {
-
-    };
-
-    /**
-    * Highlight button by selected level
-    */
-    this.settingsButtons.forEach(button => {
-
-    });
+        div.innerHTML=div.innerHTML+tmp_el;
+        <?php
     }
+    ?>
+    var images=div.querySelectorAll('.choose_file_editjs');
 
-    /**
-    * Method that specified how to merge two Text blocks.
-    * Called by Editor.js by backspace at the beginning of the Block
-    * @param {HeaderData} data
-    * @public
-    */
-    merge(data) {
-    let newData = {
-    text: this.data.text + data.text,
-    level: this.data.level
-    };
-
-    this.data = newData;
-    }
-
-    /**
-    * Validate Text block data:
-    * - check for emptiness
-    *
-    * @param {HeaderData} blockData — data received after saving
-    * @returns {boolean} false if saved data is not correct, otherwise true
-    * @public
-    */
-    validate(savedData){
-
-
-    return true;
-    }
-
-    /**
-    * Extract Tool's data from the view
-    * @param {HTMLHeadingElement} toolsContent - Text tools rendered view
-    * @returns {HeaderData} - saved data
-    * @public
-    */
-    save(toolsContent) {
-    var result={};
-    var input = toolsContent.querySelectorAll('input');
-    if(input.length>0){
-    for (var i = 0; i < input.length; ++i) {
-    result[input[i].id]=input[i].value;
-
-    }
-    }
-
-    var texts = toolsContent.querySelectorAll('.p_textarea');
-    if(texts.length>0){
-    for (var i = 0; i < texts.length; ++i) {
-    console.log("text");
-    console.log(texts[i]);
-    result[texts[i].id]=texts[i].value;
-
-    }
-    }
-    var images=toolsContent.querySelectorAll('.file_val');
     if(images.length>0){
     for (var i = 0; i < images.length; ++i) {
+    var name=images[i].name;
 
-    console.log(images[i]);
-    result[images[i].dataset.name]=images[i].innerHTML;
+    console.log(name);
+    if(typeof this.data[name]!= 'undefined' && this.data[name].length>0){
+
+    images[i].innerHTML="<b name='"+name+"'  data-name='"+name+"' class='file_val'>"+this.data[name]+"</b>"
+
+    }
 
     }
     }
-    console.log("result_before_send");
-    console.log(result);
-    return result;
-    }
+    <?php
+}
+?>    
 
-    /**
-    * Allow Header to be converted to/from other blocks
-    */
+return div;
+}
 
-
-    /**
-    * Sanitizer Rules
-    */
-
-
-    /**
-    * Get current Tools`s data
-    * @returns {HeaderData} Current data
-    * @private
-    */
-    get data() {
+/**
+* Create Block's settings block
+*
+* @return {HTMLElement}
+*/
 
 
-    return this._data;
-    }
+/**
+* Callback for Block's settings buttons
+* @param level
+*/
+setLevel(level) {
+this.data = {
 
-    /**
-    * Store data in plugin:
-    * - at the this._data property
-    * - at the HTML
-    *
-    * @param {HeaderData} data — data to set
-    * @private
-    */
-    set data(data) {
-    this._data = this.normalizeData(data);
+};
 
-    /**
-    * If level is set and block in DOM
-    * then replace it to a new block
-    */
-    if (data.level !== undefined && this._element.parentNode) {
-    /**
-    * Create a new tag
-    * @type {HTMLHeadingElement}
-    */
-    let newHeader = this.getTag();
+/**
+* Highlight button by selected level
+*/
+this.settingsButtons.forEach(button => {
 
-    /**
-    * Save Block's content
-    */
-    newHeader.innerHTML = this._element.innerHTML;
+});
+}
 
-    /**
-    * Replace blocks
-    */
-    this._element.parentNode.replaceChild(newHeader, this._element);
+/**
+* Method that specified how to merge two Text blocks.
+* Called by Editor.js by backspace at the beginning of the Block
+* @param {HeaderData} data
+* @public
+*/
+merge(data) {
+let newData = {
+text: this.data.text + data.text,
+level: this.data.level
+};
 
-    /**
-    * Save new block to private variable
-    * @type {HTMLHeadingElement}
-    * @private
-    */
-    this._element = newHeader;
-    }
+this.data = newData;
+}
 
-    /**
-    * If data.text was passed then update block's content
-    */
-    if (data.text !== undefined) {
-    this._element.innerHTML = this._data.text || '';
-    }
-    }
-
-    /**
-    * Get tag for target level
-    * By default returns second-leveled header
-    * @return {HTMLElement}
-    */
-    getTag() {
-    /**
-    * Create element for current Block's level
-    */
-    let tag = document.createElement("p");
-
-    /**
-    * Add text to block
-    */
-    tag.innerHTML = this._data.text || '';
-
-    /**
-    * Add styles class
-    */
-    tag.classList.add(this._CSS.wrapper);
-
-    /**
-    * Make tag editable
-    */
-    tag.contentEditable = 'true';
-
-    /**
-    * Add Placeholder
-    */
-    tag.dataset.placeholder = this._settings.placeholder || '';
-
-    return tag;
-    }
-
-    /**
-    * Get current level
-    * @return {level}
-    */
+/**
+* Validate Text block data:
+* - check for emptiness
+*
+* @param {HeaderData} blockData — data received after saving
+* @returns {boolean} false if saved data is not correct, otherwise true
+* @public
+*/
+validate(savedData){
 
 
-    /**
-    * Return default level
-    * @returns {level}
-    */
-    get defaultLevel() {
-    /**
-    * Use H2 as default header
-    */
-    return this.levels[1];
-    }
+return true;
+}
 
-    /**
-    * @typedef {object} level
-    * @property {number} number - level number
-    * @property {string} tag - tag correspondes with level number
-    * @property {string} svg - icon
-    */
+/**
+* Extract Tool's data from the view
+* @param {HTMLHeadingElement} toolsContent - Text tools rendered view
+* @returns {HeaderData} - saved data
+* @public
+*/
+save(toolsContent) {
+var result={};
+var input = toolsContent.querySelectorAll('input');
+if(input.length>0){
+for (var i = 0; i < input.length; ++i) {
+result[input[i].id]=input[i].value;
 
-    /**
-    * Available header levels
-    * @return {level[]}
-    */
+}
+}
 
+var texts = toolsContent.querySelectorAll('.p_textarea');
+if(texts.length>0){
+for (var i = 0; i < texts.length; ++i) {
+console.log("text");
+console.log(texts[i]);
+result[texts[i].id]=texts[i].value;
 
-    /**
-    * Handle H1-H6 tags on paste to substitute it with header Tool
-    *
-    * @param {PasteEvent} event - event with pasted content
-    */
-    onPaste(event) {
-    const content = event.detail.data;
+}
+}
+var images=toolsContent.querySelectorAll('.file_val');
+if(images.length>0){
+for (var i = 0; i < images.length; ++i) {
 
-    /**
-    * Define default level value
-    * @type {number}
-    */
-    let level = 2;
+console.log(images[i]);
+result[images[i].dataset.name]=images[i].innerHTML;
 
-    switch (content.tagName) {
-    case 'H1':
-    level = 1;
-    break;
-    /** H2 is a default level */
-    case 'H3':
-    level = 3;
-    break;
-    case 'H4':
-    level = 4;
-    break;
-    case 'H5':
-    level = 5;
-    break;
-    case 'H6':
-    level = 6;
-    break;
-    }
+}
+}
+console.log("result_before_send");
+console.log(result);
+return result;
+}
 
-    this.data = {
-    level,
-    text: content.innerHTML
-    };
-    }
-
-    /**
-    * Used by Editor.js paste handling API.
-    * Provides configuration to handle H1-H6 tags.
-    *
-    * @returns {{handler: (function(HTMLElement): {text: string}), tags: string[]}}
-    */
+/**
+* Allow Header to be converted to/from other blocks
+*/
 
 
-    /**
-    * Get Tool toolbox settings
-    * icon - Tool icon's SVG
-    * title - title to show in toolbox
-    *
-    * @return {{icon: string, title: string}}
-    */
-    static get toolbox() {
-    return {
-    icon: '<svg width="11" height="14" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M7.6 8.15H2.25v4.525a1.125 1.125 0 0 1-2.25 0V1.125a1.125 1.125 0 1 1 2.25 0V5.9H7.6V1.125a1.125 1.125 0 0 1 2.25 0v11.55a1.125 1.125 0 0 1-2.25 0V8.15z"/></svg>',
-    title: '<?php echo $block['title']; ?>'
-    };
-    }
-    }
+/**
+* Sanitizer Rules
+*/
+
+
+/**
+* Get current Tools`s data
+* @returns {HeaderData} Current data
+* @private
+*/
+get data() {
+
+
+return this._data;
+}
+
+/**
+* Store data in plugin:
+* - at the this._data property
+* - at the HTML
+*
+* @param {HeaderData} data — data to set
+* @private
+*/
+set data(data) {
+this._data = this.normalizeData(data);
+
+/**
+* If level is set and block in DOM
+* then replace it to a new block
+*/
+if (data.level !== undefined && this._element.parentNode) {
+/**
+* Create a new tag
+* @type {HTMLHeadingElement}
+*/
+let newHeader = this.getTag();
+
+/**
+* Save Block's content
+*/
+newHeader.innerHTML = this._element.innerHTML;
+
+/**
+* Replace blocks
+*/
+this._element.parentNode.replaceChild(newHeader, this._element);
+
+/**
+* Save new block to private variable
+* @type {HTMLHeadingElement}
+* @private
+*/
+this._element = newHeader;
+}
+
+/**
+* If data.text was passed then update block's content
+*/
+if (data.text !== undefined) {
+this._element.innerHTML = this._data.text || '';
+}
+}
+
+/**
+* Get tag for target level
+* By default returns second-leveled header
+* @return {HTMLElement}
+*/
+getTag() {
+/**
+* Create element for current Block's level
+*/
+let tag = document.createElement("p");
+
+/**
+* Add text to block
+*/
+tag.innerHTML = this._data.text || '';
+
+/**
+* Add styles class
+*/
+tag.classList.add(this._CSS.wrapper);
+
+/**
+* Make tag editable
+*/
+tag.contentEditable = 'true';
+
+/**
+* Add Placeholder
+*/
+tag.dataset.placeholder = this._settings.placeholder || '';
+
+return tag;
+}
+
+/**
+* Get current level
+* @return {level}
+*/
+
+
+/**
+* Return default level
+* @returns {level}
+*/
+get defaultLevel() {
+/**
+* Use H2 as default header
+*/
+return this.levels[1];
+}
+
+/**
+* @typedef {object} level
+* @property {number} number - level number
+* @property {string} tag - tag correspondes with level number
+* @property {string} svg - icon
+*/
+
+/**
+* Available header levels
+* @return {level[]}
+*/
+
+
+/**
+* Handle H1-H6 tags on paste to substitute it with header Tool
+*
+* @param {PasteEvent} event - event with pasted content
+*/
+onPaste(event) {
+const content = event.detail.data;
+
+/**
+* Define default level value
+* @type {number}
+*/
+let level = 2;
+
+switch (content.tagName) {
+case 'H1':
+level = 1;
+break;
+/** H2 is a default level */
+case 'H3':
+level = 3;
+break;
+case 'H4':
+level = 4;
+break;
+case 'H5':
+level = 5;
+break;
+case 'H6':
+level = 6;
+break;
+}
+
+this.data = {
+level,
+text: content.innerHTML
+};
+}
+
+/**
+* Used by Editor.js paste handling API.
+* Provides configuration to handle H1-H6 tags.
+*
+* @returns {{handler: (function(HTMLElement): {text: string}), tags: string[]}}
+*/
+
+
+/**
+* Get Tool toolbox settings
+* icon - Tool icon's SVG
+* title - title to show in toolbox
+*
+* @return {{icon: string, title: string}}
+*/
+static get toolbox() {
+return {
+icon: '<i class="fa <?php echo $block['params']['_icon']; ?> "></i>',
+title: '<?php echo $block['title']; ?>'
+};
+}
+}
