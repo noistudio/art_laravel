@@ -198,6 +198,22 @@ if ($needroute) {
                             <input type="checkbox" name="ids[]" value="<?php echo $row['last_id']; ?>">
 
                         </div>
+                        <div class="col-xs-1">
+                            <a href="{pathadmin}content/manage/enable/<?php echo $table->name; ?>/<?php echo $row['last_id']; ?>">
+                                <?php
+                                if ((int) $row['enable'] == 1) {
+                                    ?>
+                                    <i class="fa fa-eye"></i>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <i class="fa fa-eye-slash"></i>   
+                                    <?php
+                                }
+                                ?>
+                            </a> 
+                        </div>
+
                         <?php
                         if ($table->sort_field == "arrow_sort") {
                             ?>
