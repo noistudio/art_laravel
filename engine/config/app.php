@@ -159,6 +159,7 @@ return [
         \art\providers\RouteServiceProvider::class,
         KrishnaKodoth\LogEditor\LogEditorServiceProvider::class,
         pcinaglia\laraupdater\LaraUpdaterServiceProvider::class,
+        Froiden\LaravelInstaller\Providers\LaravelInstallerServiceProvider::class,
         \Torann\GeoIP\GeoIPServiceProvider::class,
     ],
     /*

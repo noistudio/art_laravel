@@ -15,6 +15,7 @@
         "dg/twitter-php": "^4.0",
         "facebook/graph-sdk": "^5.7",
         "fideloper/proxy": "^4.0",
+        "froiden/laravel-installer": "^1.6",
         "greg0/lazer-database": "^1.1",
         "guzzlehttp/guzzle": "^6.3",
         "josegonzalez/dotenv": "dev-master",
