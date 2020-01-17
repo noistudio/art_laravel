@@ -160,7 +160,7 @@ return [
         KrishnaKodoth\LogEditor\LogEditorServiceProvider::class,
         pcinaglia\laraupdater\LaraUpdaterServiceProvider::class,
         Froiden\LaravelInstaller\Providers\LaravelInstallerServiceProvider::class,
-        \Torann\GeoIP\GeoIPServiceProvider::class,
+    //\Torann\GeoIP\GeoIPServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
@@ -213,6 +213,6 @@ return [
         'Twitter' => Artesaos\SEOTools\Facades\TwitterCard::class,
         'JsonLd' => Artesaos\SEOTools\Facades\JsonLd::class,
         'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
-        'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
+    //'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
     ],
 ];

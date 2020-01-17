@@ -25,7 +25,7 @@ class Controller extends \App\Http\Controllers\Controller {
         $plugin = $this->partial_render($file, $data);
 
         $data['plugin'] = $plugin;
-        $data['offices'] = models\OfficesModel::getAll();
+        // $data['offices'] = models\OfficesModel::getAll();
 
         $data['flash_success'] = \core\Notify::get("success");
         $data['flash_error'] = \core\Notify::get("error");
