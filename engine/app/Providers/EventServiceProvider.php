@@ -44,6 +44,7 @@ class EventServiceProvider extends ServiceProvider {
             \languages\events\ListenerAdminLink::class,
             \routes\events\ListenerAdminLink::class,
             \share\events\ListenerAdminLink::class,
+            \params\events\ListenerAdminLink::class,
         ],
         EventAdminRule::class => [
             \logs\events\AdminRule::class,
