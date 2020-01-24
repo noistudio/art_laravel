@@ -21,6 +21,11 @@ class Mg extends \managers\frontend\Controller {
         }
     }
 
+    public function actionOne($id, $table) {
+
+        return $this->oneDocument($table, $id);
+    }
+
     public function block($table, $postfix = "", $condition = null, $limit = null, $orderby = null, $block = array()) {
 
         if (\mg\core\CollectionModel::isExist($table)) {
