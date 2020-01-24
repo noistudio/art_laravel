@@ -36,7 +36,34 @@ Route::any($admin_url . "/mg/template/rss/{val_0?}", "\\mg\\controllers\\backend
 
 
 //frontend
+//frontend
 
-Route::any("/mg/index/{val_0?}/{val_1?}", "\\mg\\controllers\\frontend\\Mg@actionIndex")->name("frontend/mg/index");
-Route::any("/mg/{val_0?}/{val_1?}", "\\mg\\controllers\\frontend\\Mg@actionIndex")->name("frontend/mg");
-Route::any("/mg/rss/{val_0?}/{val_1?}", "\\mg\\controllers\\frontend\\Mg@actionRss")->name("frontend/mg/rss");
+$collections = \db\JsonQuery::all("collections", "title", "ASC");
+
+$islang = \languages\models\LanguageHelp::is("frontend");
+
+
+if (count($collections) > 0) {
+    foreach ($collections as $collection) {
+
+        if (!Route::has("frontend/mg/" . $collection->name . "/list")) {
+            Route::any("/mg/" . $collection->name . "/index", "\\mg\\controllers\\frontend\\Mg@actionIndex")->middleware(env("FRONTEND_MIDDLEWARE"))->name("frontend/mg/" . $collection->name . "/list")->defaults("val_0", $collection->name);
+        }
+
+        if (!Route::has("frontend/mg/" . $collection->name . "/one")) {
+            Route::any("/mg/" . $collection->name . "/{id}", "\\mg\\controllers\\frontend\\Mg@actionOne")->middleware(env("FRONTEND_MIDDLEWARE"))->name("frontend/mg/" . $collection->name . "/one")->defaults("table", $collection->name);
+        }
+        if ($islang) {
+            Route::any("{lang}/mg/" . $collection->name . "/index", "\\mg\\controllers\\frontend\\Mg@actionIndex")->middleware(env("FRONTEND_MIDDLEWARE"))->name("frontend/mg/" . $collection->name . "/list_lang")->defaults("val_0", $collection->name);
+        }
+
+
+
+        //Route::any("/mg/rss/{val_0}/{val_1}", "\\mg\\controllers\\frontend\\Mg@actionRss")->middleware(env("FRONTEND_MIDDLEWARE"))->name("frontend/mg/rss");
+    }
+}
+
+//Route::any("/mg/index/{val_0?}/{val_1?}", "\\mg\\controllers\\frontend\\Mg@actionIndex")->name("frontend/mg/index");
+//Route::any("/mg/{val_0?}/{val_1?}", "\\mg\\controllers\\frontend\\Mg@actionIndex")->name("frontend/mg");
+//Route::any("/mg/rss/{val_0?}/{val_1?}", "\\mg\\controllers\\frontend\\Mg@actionRss")->name("frontend/mg/rss");
+
