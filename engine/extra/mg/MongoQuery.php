@@ -86,11 +86,14 @@ class MongoQuery {
         }
 
         $models = $query->get();
-        if ($collection != "object") {
-            $models = \languages\models\LanguageParse::start_list($models);
-        }
+
 
         $result = Helper::toArray($models);
+        if ($collection != "object") {
+
+            $result = \languages\models\LanguageParse::start_list($result);
+        }
+
         return $result;
     }
 
