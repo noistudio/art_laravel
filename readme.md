@@ -1,5 +1,7 @@
 ###### Библиотека ART для Laravel 6 . 
 
+Репозитарий переехал на github https://github.com/noistudio/art_laravel.git
+
 Библиотека создана в целях упрощения веб-разработки как таковой сведя всю основную рутину в утиль. 
 Для этого доступен широкий арсенал средств и функционала. 
 
@@ -132,7 +134,7 @@ mongodb создать класс Table в директории /mg/collections 
 
 Дальше введите следующую комманду 
 
-git clone https://noistudio@bitbucket.org/noistudio/laravel_better.git . 
+git clone https://github.com/noistudio/art_laravel.git . 
 
 cd engine 
 
