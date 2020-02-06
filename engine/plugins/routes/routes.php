@@ -8,6 +8,8 @@ Route::any($admin_url . "/routes/add/doadd", "\\routes\\controllers\\backend\\Ad
 Route::any($admin_url . "/routes/ajax/show", "\\routes\\controllers\\backend\\AjaxRoutes@actionShow")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/routes/ajax/show');
 Route::any($admin_url . "/routes/ajax/save", "\\routes\\controllers\\backend\\AjaxRoutes@actionSave")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/routes/ajax/save');
 Route::any($admin_url . "/routes/index", "\\routes\\controllers\\backend\\Routes@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/routes/index');
+Route::any($admin_url . "/routes/list/index", "\\routes\\controllers\\backend\\Routes@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/routes');
+
 Route::any($admin_url . "/routes", "\\routes\\controllers\\backend\\Routes@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/routes');
 Route::any($admin_url . "/routes/delete/{val_0?}", "\\routes\\controllers\\backend\\Routes@actionDelete")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/routes/delete');
 Route::any($admin_url . "/routes/update/index/{val_0?}", "\\routes\\controllers\\backend\\UpdateRoutes@actionIndex")->middleware(env("BACKEND_MIDDLEWARE"))->name('backend/routes/update/index');
