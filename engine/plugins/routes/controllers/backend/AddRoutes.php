@@ -23,7 +23,7 @@ class AddRoutes extends \managers\backend\AdminController {
         if ($result) {
 
             \core\Notify::add(__("backend/routes.success_add"), "success");
-            return \core\ManagerConf::redirect("routes/list/index");
+            return redirect()->route('backend/routes/index');
         } else {
             return back();
         }
