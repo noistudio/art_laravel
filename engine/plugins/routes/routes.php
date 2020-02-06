@@ -20,10 +20,12 @@ Route::any($admin_url . "/routes/update/doupdate/{val_0?}", "\\routes\\controlle
 $routes = \db\JsonQuery::all("routes");
 if (isset($routes) and count($routes) > 0) {
     foreach ($routes as $route) {
+        if($route->old_url!=$route->new_url){
         Route::any($route->new_url, function() use ($route) {
             $request = Request::create($route->old_url, 'GET', array());
             return Route::dispatch($request)->getContent();
         });
+        }
     }
 }
 
