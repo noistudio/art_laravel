@@ -51,6 +51,29 @@ class ImageResizer {
             return $path;
         }
     }
+    
+     static function to_fix($path, $size = 400) {
+      $document_root = public_path();
+        $full_path = $document_root . $path;
+        $isimage = ImageResizer::is_image($full_path);
+        $width = null;
+        $height = null;
+        if ($isimage) {
+            list($file_width, $file_height) = getimagesize($full_path);
+            if ($file_width > $file_height) {
+                $height = $size;
+                $width = null;
+            } else {
+                $width = $size;
+                $height = null;
+            }
+            $image = ImageResizer::resize($path, $width, $height);
+            $image = ImageResizer::crop($path, $size, $size);
+            return $image;
+        }
+
+        return null;
+    }
 
     static function crop($path, $width, $height = null) {
         $document_root = public_path();
