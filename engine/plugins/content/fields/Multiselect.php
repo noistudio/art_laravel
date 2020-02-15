@@ -23,11 +23,21 @@ class Multiselect extends AbstractField {
         $condition[] = array('from_table' => $this->table);
         $condition[] = array("data_table" => $this->option('table'));
         $condition[] = array("row_id" => $this->option['row']["last_id"]);
-
+       
 
 
         if (isset($values) and is_array($values) and count($values)) {
-            \db\SqlQuery::delete("multiselect", $condition);
+            
+           \DB::table('multiselect')
+           
+            ->where(function ($query) {
+                $query->where('from_table', '=', $this->table);
+                 $query->where('data_table', '=', $this->option('table'));
+                         $query->where('from_table', '=', $this->option['row']["last_id"]);
+            })
+            ->delete(); 
+            
+          // \db\SqlQuery::delete("multiselect", \db\SqlQuery::array_to_raw($condition));
             foreach ($values as $val) {
                 $result = $this->isExist($val);
 
@@ -56,12 +66,14 @@ class Multiselect extends AbstractField {
 
 
         if (is_numeric($value)) {
-            $query = new Query;
+            
 
 
-            $result = $query->select("*")->from($this->option('table'))->where(array($this->option('pk') => (int) $value))->one();
-
-            if (is_array($result)) {
+          //  $result = $query->select("*")->from($this->option('table'))->where(array($this->option('pk') => (int) $value))->one();
+ $count=\DB::table($this->option('table'))         
+            ->where($this->option('pk'),"=",$value)
+            ->count(); 
+            if ($count==1) {
                 return true;
             } else {
                 return false;
