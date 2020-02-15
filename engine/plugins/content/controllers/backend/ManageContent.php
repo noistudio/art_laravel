@@ -159,7 +159,7 @@ class ManageContent extends \managers\backend\AdminController {
             } else {
                 // NotifyModel::add("При обновлении произошла ошибка!");
                 // GlobalParams::$helper->returnback();
-                $error = \plugcomponents\Notify::get("error");
+                $error = \core\Notify::get("error");
 
                 $message = __("backend/content.err1");
                 if (isset($error)) {
