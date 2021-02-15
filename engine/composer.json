@@ -19,7 +19,6 @@
         "greg0/lazer-database": "^1.1",
         "guzzlehttp/guzzle": "^6.3",
         "josegonzalez/dotenv": "dev-master",
-        "krishnakodoth/log-editor": "dev-master",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
         "laravelium/sitemap": "^6.0",
