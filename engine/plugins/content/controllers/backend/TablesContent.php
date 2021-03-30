@@ -2,6 +2,7 @@
 
 namespace content\controllers\backend;
 
+use content\models\TableConfig;
 use content\models\TableModel;
 use core\AppConfig;
 use plugsystem\foradmin\UserAdmin;
@@ -99,7 +100,8 @@ class TablesContent extends \managers\backend\AdminController {
 
         $table = \content\models\TableConfig::get($table);
         if (is_array($table) and isset($field) and is_string($field) > 0 and isset($table['fields'][$field])) {
-            \content\models\TableConfig::deleteField($table, $field);
+
+            \content\models\TableConfig::deleteFieldAdmin($table, $field);
         }
         return back();
     }
