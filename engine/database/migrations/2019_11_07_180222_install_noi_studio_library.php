@@ -4,18 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class InstallNoiStudioLibrary extends Migration {
+class InstallNoiStudioLibrary extends Migration
+{
 
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
 
 
         if (!\core\ManagerConf::isOnlyMongodb()) {
-
 
 
             Schema::create('elfinder_files', function (Blueprint $table) {
@@ -62,7 +63,8 @@ class InstallNoiStudioLibrary extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
 
         if (!\core\ManagerConf::isOnlyMongodb()) {
 
@@ -70,27 +72,27 @@ class InstallNoiStudioLibrary extends Migration {
             Schema::dropIfExists('multiselect');
         }
 
-        $files = scandir(LAZER_DATA_PATH);
-        if (count($files)) {
-            foreach ($files as $file) {
-                if ($file != "_object.config.json" and $file != "_object.data.json") {
-                    $path_to_file = LAZER_DATA_PATH . "/" . $file;
-
-                    $is_config = str_replace("config.json", "", $file);
-                    $is_data = str_replace("data.json", "", $file);
-                    if ($file != $is_config or $file != $is_data) {
-                        $content_file = file_get_contents($path_to_file);
-                        $json = json_decode($content_file, true);
-                        if ($file != $is_config) {
-                            $json['last_id'] = 0;
-                        } else if ($file != $is_data) {
-                            $json = array();
-                        }
-                        file_put_contents($path_to_file, json_encode($json));
-                    }
-                }
-            }
-        }
+//        $files = scandir(LAZER_DATA_PATH);
+//        if (count($files)) {
+//            foreach ($files as $file) {
+//                if ($file != "_object.config.json" and $file != "_object.data.json") {
+//                    $path_to_file = LAZER_DATA_PATH . "/" . $file;
+//
+//                    $is_config = str_replace("config.json", "", $file);
+//                    $is_data = str_replace("data.json", "", $file);
+//                    if ($file != $is_config or $file != $is_data) {
+//                        $content_file = file_get_contents($path_to_file);
+//                        $json = json_decode($content_file, true);
+//                        if ($file != $is_config) {
+//                            $json['last_id'] = 0;
+//                        } else if ($file != $is_data) {
+//                            $json = array();
+//                        }
+//                        file_put_contents($path_to_file, json_encode($json));
+//                    }
+//                }
+//            }
+//        }
     }
 
 }
