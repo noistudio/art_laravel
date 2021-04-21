@@ -55,9 +55,26 @@ class ArtServiceProvider extends ServiceProvider {
         }
 
         if ($manager == "frontend") {
-            \Blade::directive('runwidget', function ($expression) {
-                return "<?php echo 'Hello ' . {$expression}; ?>";
-            });
+           \Blade::directive(
+                'block',
+                function ($expression) {
+                    $html = \blocks\models\BlocksModel::getPublic((int)$expression);
+
+                    if (isset($html)) {
+                        $current_lang = \languages\models\LanguageHelp::get();
+
+                        if (isset($html['html_'.$current_lang])) {
+                            $html['html'] = $html['html_'.$current_lang];
+                        }
+                        $result_html = $html['html'];
+
+                        return $result_html;
+
+                    } else {
+                        return "";
+                    }
+                }
+            );
         }
 
 
