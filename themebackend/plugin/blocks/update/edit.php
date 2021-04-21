@@ -21,7 +21,7 @@
         <table class="table">
             <tr>
                 <td><?php echo __("backend/blocks.code_html"); ?></td>
-                <td><textarea class="form-control " readonly="readonly">[block<?php echo $block['id']; ?>]</textarea></td>
+                <td><textarea class="form-control " readonly="readonly">@block(<?php echo $block['id']; ?>)</textarea></td>
             </tr>
             <tr>
                 <td><?php echo __("backend/blocks.title_block"); ?></td>
