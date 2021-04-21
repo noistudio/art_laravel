@@ -39,7 +39,7 @@
         <?php
         if (count($rows)) {
             foreach ($rows as $row) {
-                $text = '[block' . $row->id . ']';
+                     $text = '@block('.$row->id.')';
                 $text = htmlspecialchars($text);
                 ?>
                 <div class="block ">
