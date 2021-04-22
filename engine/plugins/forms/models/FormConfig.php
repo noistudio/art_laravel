@@ -3,46 +3,58 @@
 namespace forms\models;
 
 use content\models\TableConfig;
+use Illuminate\Support\Facades\Artisan;
 use Lazer\Classes\Database as Lazer;
 
-class FormConfig {
+class FormConfig
+{
 
-    static function saveNotify($row) {
+    static function saveNotify($row)
+    {
         $post = request()->post();
-        $form = \db\JsonQuery::get((int) $row['id'], "forms", "id");
+        $form = \db\JsonQuery::get((int)$row['id'], "forms", "id");
         // dd($post);
         if (isset($post['notify']) and is_string($post['notify'])) {
             $form->notify = $post['notify'];
             $form->save();
+
             return true;
         }
 
         return false;
     }
 
-    static function addField($table, $key, $field) {
+    static function addField($table, $key, $field)
+    {
         /*
           ALTER TABLE `cms`.`team`
           ADD COLUMN `add` VARCHAR(45) NULL AFTER `content`;
 
          */
 
-        $class = "\\content\\fields\\" . $field['type'];
+        $class = "\\content\\fields\\".$field['type'];
 
         $obj = new $class($key, $key);
         $additional_sql = $obj->_raw_create_sql();
 
-        $sql = ' ALTER TABLE `' . $table . '`
-          ADD COLUMN ' . $additional_sql . ' AFTER `last_id`;';
+        $sql = ' ALTER TABLE `'.$table.'`
+          ADD COLUMN '.$additional_sql.' AFTER `last_id`;';
         $result = \DB::statement($sql);
     }
 
-    static function getArrayOfActions() {
+    static function getArrayOfActions()
+    {
 
         return array();
     }
 
-    static function delete($id) {
+    static function deleteLast()
+    {
+
+    }
+
+    static function delete($id)
+    {
         $table = FormConfig::get($id);
 
         if (is_null($table)) {
@@ -50,34 +62,37 @@ class FormConfig {
         }
         if ($table['type'] == "mysql") {
             try {
-                \Schema::dropIfExists("forms" . $table['id']);
+                \Schema::dropIfExists("forms".$table['id']);
             } catch (\Exception $e) {
-                
+
             }
         } else {
-            \Schema::connection('mongodb')->drop("forms" . $table['id']);
+            \Schema::connection('mongodb')->drop("forms".$table['id']);
         }
 
         Lazer::table('forms')->where('id', '=', $table['id'])->find()->delete();
     }
 
-    static function edit($row) {
+    static function edit($row)
+    {
 
         $form_table = $row['table'];
         $type_table = $row['type'];
-        $form = \db\JsonQuery::get((int) $row['id'], "forms", "id");
+        $form = \db\JsonQuery::get((int)$row['id'], "forms", "id");
         $post = request()->post();
 
         if ((isset($post['title']) and is_string($post['title']) and strlen($post['title']) > 0)) {
             $form->title = strip_tags($post['title']);
         }
-        if (isset($post['send_on_email_admin']) and ( $post['send_on_email_admin'] == 0 or $post['send_on_email_admin'] == 1)) {
-            $form->send_on_email_admin = (string) $post['send_on_email_admin'];
+        if (isset($post['send_on_email_admin']) and ($post['send_on_email_admin'] == 0 or $post['send_on_email_admin'] == 1)) {
+            $form->send_on_email_admin = (string)$post['send_on_email_admin'];
         }
 
 
-
-        if ((isset($post['email']) and is_string($post['email']) and filter_var($post['email'], FILTER_VALIDATE_EMAIL))) {
+        if ((isset($post['email']) and is_string($post['email']) and filter_var(
+                $post['email'],
+                FILTER_VALIDATE_EMAIL
+            ))) {
             $form->email = strtolower($post['email']);
         }
 
@@ -106,16 +121,23 @@ class FormConfig {
                         $fields[$field['name']]['required'] = 1;
                     }
 
-                    if (isset($post['fields'][$field['name']]['placeholder']) and is_string($post['fields'][$field['name']]['placeholder'])) {
-                        $fields[$field['name']]['placeholder'] = strip_tags($post['fields'][$field['name']]['placeholder']);
+                    if (isset($post['fields'][$field['name']]['placeholder']) and is_string(
+                            $post['fields'][$field['name']]['placeholder']
+                        )) {
+                        $fields[$field['name']]['placeholder'] = strip_tags(
+                            $post['fields'][$field['name']]['placeholder']
+                        );
                     }
-                    if (isset($post['fields'][$field['name']]['css_class']) and is_string($post['fields'][$field['name']]['css_class'])) {
+                    if (isset($post['fields'][$field['name']]['css_class']) and is_string(
+                            $post['fields'][$field['name']]['css_class']
+                        )) {
                         $fields[$field['name']]['css_class'] = strip_tags($post['fields'][$field['name']]['css_class']);
                     }
 
 
-
-                    if ((isset($post['fields'][$field['name']]['title']) and is_string($post['fields'][$field['name']]['title']) and strlen($post['fields'][$field['name']]['title']) > 0)) {
+                    if ((isset($post['fields'][$field['name']]['title']) and is_string(
+                            $post['fields'][$field['name']]['title']
+                        ) and strlen($post['fields'][$field['name']]['title']) > 0)) {
                         $fields[$field['name']]['title'] = strip_tags($post['fields'][$field['name']]['title']);
                     }
                     if (count($field['config'])) {
@@ -126,27 +148,37 @@ class FormConfig {
                                 if (isset($post['fields'][$field['name']]['options'][$key])) {
                                     $fields[$field['name']]['options'][$key] = true;
                                 }
-                            } else if ($conf['type'] == "int") {
-                                if (!(isset($post['fields'][$field['name']]['options'][$key]) and is_numeric($post['fields'][$field['name']]['options'][$key]) and (int) $post['fields'][$field['name']]['options'][$key] >= 0)) {
-                                    
+                            } else {
+                                if ($conf['type'] == "int") {
+                                    if (!(isset($post['fields'][$field['name']]['options'][$key]) and is_numeric(
+                                            $post['fields'][$field['name']]['options'][$key]
+                                        ) and (int)$post['fields'][$field['name']]['options'][$key] >= 0)) {
+
+                                    } else {
+                                        $fields[$field['name']]['options'][$key] = (int)$_POST['fields'][$field['name']]['options'][$key];
+                                    }
                                 } else {
-                                    $fields[$field['name']]['options'][$key] = (int) $_POST['fields'][$field['name']]['options'][$key];
-                                }
-                            } else if ($conf['type'] == "text") {
-                                if (!(isset($post['fields'][$field['name']]['options'][$key]) and is_string($post['fields'][$field['name']]['options'][$key]) and strlen($post['fields'][$field['name']]['options'][$key]) > 0)) {
-                                    // $fields[$field['name']]['options'][$key] = null;
-                                } else {
-                                    $fields[$field['name']]['options'][$key] = $post['fields'][$field['name']]['options'][$key];
-                                }
-                            } else if ($conf['type'] == "select") {
-                                if (!(isset($post['fields'][$field['name']]['options'][$key]))) {
-                                    //$fields[$field['name']]['options'][$key] = null;
-                                } else {
-                                    if (isset($conf['options'])) {
-                                        foreach ($conf['options'] as $option) {
-                                            if ((string) $option['value'] == (string) $post['fields'][$field['name']]['options'][$key]) {
-                                                $fields[$field['name']]['options'][$key] = $post['fields'][$field['name']]['options'][$key];
-                                                break;
+                                    if ($conf['type'] == "text") {
+                                        if (!(isset($post['fields'][$field['name']]['options'][$key]) and is_string(
+                                                $post['fields'][$field['name']]['options'][$key]
+                                            ) and strlen($post['fields'][$field['name']]['options'][$key]) > 0)) {
+                                            // $fields[$field['name']]['options'][$key] = null;
+                                        } else {
+                                            $fields[$field['name']]['options'][$key] = $post['fields'][$field['name']]['options'][$key];
+                                        }
+                                    } else {
+                                        if ($conf['type'] == "select") {
+                                            if (!(isset($post['fields'][$field['name']]['options'][$key]))) {
+                                                //$fields[$field['name']]['options'][$key] = null;
+                                            } else {
+                                                if (isset($conf['options'])) {
+                                                    foreach ($conf['options'] as $option) {
+                                                        if ((string)$option['value'] == (string)$post['fields'][$field['name']]['options'][$key]) {
+                                                            $fields[$field['name']]['options'][$key] = $post['fields'][$field['name']]['options'][$key];
+                                                            break;
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -160,18 +192,30 @@ class FormConfig {
             if (isset($post['newfields']) and is_array($post['newfields']) and count($post['newfields'])) {
                 foreach ($post['newfields'] as $field) {
                     $options = array();
-                    if (!(isset($field['name']) and is_string($field['name']) and preg_match('/^\w{2,}$/', $field['name']))) {
+                    if (!(isset($field['name']) and is_string($field['name']) and preg_match(
+                            '/^\w{2,}$/',
+                            $field['name']
+                        ))) {
                         \core\Notify::add(__("backend/forms.error_name_field"), "error");
+
                         return false;
                     }
                     $field['name'] = strtolower($field['name']);
                     if (isset($fields[$field['name']])) {
-                        \core\Notify::add(__("backend/forms.error_field_is_exists", array("name" => $field['name'])), "error");
+                        \core\Notify::add(
+                            __("backend/forms.error_field_is_exists", array("name" => $field['name'])),
+                            "error"
+                        );
+
                         return false;
                     }
 
                     if (!(isset($field['title']) and is_string($field['title']) and strlen($field['title']) > 0)) {
-                        \core\Notify::add(__("backend/forms.error_field_title", array("name" => $field['name'])), "error");
+                        \core\Notify::add(
+                            __("backend/forms.error_field_title", array("name" => $field['name'])),
+                            "error"
+                        );
+
                         return false;
                     }
                     $row = null;
@@ -185,6 +229,7 @@ class FormConfig {
                     }
                     if (!is_array($row)) {
                         \core\Notify::add(__("backend/forms.error_field_type"), "error");
+
                         return false;
                     }
                     $showinlist = 0;
@@ -199,7 +244,14 @@ class FormConfig {
                     if (isset($field['required'])) {
                         $required = 1;
                     }
-                    $fields[$field['name']] = array('showsearch' => $showsearch, 'required' => $required, 'showinlist' => $showinlist, 'title' => $field['title'], 'type' => $field['type'], 'options' => array());
+                    $fields[$field['name']] = array(
+                        'showsearch' => $showsearch,
+                        'required' => $required,
+                        'showinlist' => $showinlist,
+                        'title' => $field['title'],
+                        'type' => $field['type'],
+                        'options' => array(),
+                    );
                     if (count($row['config'])) {
                         foreach ($row['config'] as $key => $conf) {
 //                        if (!isset($field['options'][$key])) {
@@ -212,27 +264,37 @@ class FormConfig {
                                 if (isset($field['options'][$key])) {
                                     $fields[$field['name']]['options'][$key] = true;
                                 }
-                            } else if ($conf['type'] == "int") {
-                                if (!(isset($field['options'][$key]) and is_numeric($field['options'][$key]) and (int) $field['options'][$key] >= 0)) {
-                                    $fields[$field['name']]['options'][$key] = null;
+                            } else {
+                                if ($conf['type'] == "int") {
+                                    if (!(isset($field['options'][$key]) and is_numeric(
+                                            $field['options'][$key]
+                                        ) and (int)$field['options'][$key] >= 0)) {
+                                        $fields[$field['name']]['options'][$key] = null;
+                                    } else {
+                                        $fields[$field['name']]['options'][$key] = (int)$field['options'][$key];
+                                    }
                                 } else {
-                                    $fields[$field['name']]['options'][$key] = (int) $field['options'][$key];
-                                }
-                            } else if ($conf['type'] == "text") {
-                                if (!(isset($field['options'][$key]) and is_string($field['options'][$key]) and strlen($field['options'][$key]) > 0)) {
-                                    $fields[$field['name']]['options'][$key] = null;
-                                } else {
-                                    $fields[$field['name']]['options'][$key] = $field['options'][$key];
-                                }
-                            } else if ($conf['type'] == "select") {
-                                if (!(isset($field['options'][$key]))) {
-                                    $fields[$field['name']]['options'][$key] = null;
-                                } else {
-                                    if (isset($conf['options'])) {
-                                        foreach ($conf['options'] as $option) {
-                                            if ((string) $option['value'] == (string) $field['options'][$key]) {
-                                                $fields[$field['name']]['options'][$key] = $field['options'][$key];
-                                                break;
+                                    if ($conf['type'] == "text") {
+                                        if (!(isset($field['options'][$key]) and is_string(
+                                                $field['options'][$key]
+                                            ) and strlen($field['options'][$key]) > 0)) {
+                                            $fields[$field['name']]['options'][$key] = null;
+                                        } else {
+                                            $fields[$field['name']]['options'][$key] = $field['options'][$key];
+                                        }
+                                    } else {
+                                        if ($conf['type'] == "select") {
+                                            if (!(isset($field['options'][$key]))) {
+                                                $fields[$field['name']]['options'][$key] = null;
+                                            } else {
+                                                if (isset($conf['options'])) {
+                                                    foreach ($conf['options'] as $option) {
+                                                        if ((string)$option['value'] == (string)$field['options'][$key]) {
+                                                            $fields[$field['name']]['options'][$key] = $field['options'][$key];
+                                                            break;
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -248,25 +310,31 @@ class FormConfig {
             }
 
 
-
             $form->fields = json_encode($fields);
         }
         $form->save();
+
         return true;
     }
 
-    static function add() {
+    static function add()
+    {
 
         $post = request()->post();
 
 
         if (!(isset($post['title']) and is_string($post['title']) and strlen($post['title']) > 0)) {
             \core\Notify::add(__("backend/forms.error_form_title"), "error");
+
             return false;
         }
 
-        if (!(isset($post['email']) and is_string($post['email']) and filter_var($post['email'], FILTER_VALIDATE_EMAIL))) {
+        if (!(isset($post['email']) and is_string($post['email']) and filter_var(
+                $post['email'],
+                FILTER_VALIDATE_EMAIL
+            ))) {
             \core\Notify::add(__("backend/forms.error_form_email"), "error");
+
             return false;
         }
         $type = "mysql";
@@ -295,18 +363,27 @@ class FormConfig {
         if (isset($post['fields']) and is_array($post['fields']) and count($post['fields'])) {
             foreach ($post['fields'] as $field) {
                 $options = array();
-                if (!(isset($field['name']) and is_string($field['name']) and preg_match('/^\w{2,}$/', $field['name']))) {
+                if (!(isset($field['name']) and is_string($field['name']) and preg_match(
+                        '/^\w{2,}$/',
+                        $field['name']
+                    ))) {
                     \core\Notify::add(__("backend/forms.error_name_field"), "error");
+
                     return false;
                 }
                 $field['name'] = strtolower($field['name']);
                 if (isset($fields[$field['name']])) {
-                    \core\Notify::add(__("backend/forms.error_field_is_exists", array('name' => $field['name'])), "error");
+                    \core\Notify::add(
+                        __("backend/forms.error_field_is_exists", array('name' => $field['name'])),
+                        "error"
+                    );
+
                     return false;
                 }
 
                 if (!(isset($field['title']) and is_string($field['title']) and strlen($field['title']) > 0)) {
                     \core\Notify::add(__("backend/forms.error_field_title", array('name' => $field['name'])), "error");
+
                     return false;
                 }
                 $row = null;
@@ -319,6 +396,7 @@ class FormConfig {
                 }
                 if (!is_array($row)) {
                     \core\Notify::add(__("backend/forms.error_field_type"), "error");
+
                     return false;
                 }
                 $showinlist = 0;
@@ -339,7 +417,17 @@ class FormConfig {
                     $unique = 1;
                 }
 
-                $fields[$field['name']] = array('unique' => $unique, 'css_class' => '', 'placeholder' => "", 'showsearch' => $showsearch, 'required' => $required, 'showinlist' => $showinlist, 'title' => $field['title'], 'type' => $field['type'], 'options' => array());
+                $fields[$field['name']] = array(
+                    'unique' => $unique,
+                    'css_class' => '',
+                    'placeholder' => "",
+                    'showsearch' => $showsearch,
+                    'required' => $required,
+                    'showinlist' => $showinlist,
+                    'title' => $field['title'],
+                    'type' => $field['type'],
+                    'options' => array(),
+                );
                 if (count($row['config'])) {
                     foreach ($row['config'] as $key => $conf) {
 //                        if (!isset($field['options'][$key])) {
@@ -352,27 +440,37 @@ class FormConfig {
                             if (isset($field['options'][$key])) {
                                 $fields[$field['name']]['options'][$key] = true;
                             }
-                        } else if ($conf['type'] == "int") {
-                            if (!(isset($field['options'][$key]) and is_numeric($field['options'][$key]) and (int) $field['options'][$key] >= 0)) {
-                                $fields[$field['name']]['options'][$key] = null;
+                        } else {
+                            if ($conf['type'] == "int") {
+                                if (!(isset($field['options'][$key]) and is_numeric(
+                                        $field['options'][$key]
+                                    ) and (int)$field['options'][$key] >= 0)) {
+                                    $fields[$field['name']]['options'][$key] = null;
+                                } else {
+                                    $fields[$field['name']]['options'][$key] = (int)$field['options'][$key];
+                                }
                             } else {
-                                $fields[$field['name']]['options'][$key] = (int) $field['options'][$key];
-                            }
-                        } else if ($conf['type'] == "text") {
-                            if (!(isset($field['options'][$key]) and is_string($field['options'][$key]) and strlen($field['options'][$key]) > 0)) {
-                                $fields[$field['name']]['options'][$key] = null;
-                            } else {
-                                $fields[$field['name']]['options'][$key] = $field['options'][$key];
-                            }
-                        } else if ($conf['type'] == "select") {
-                            if (!(isset($field['options'][$key]))) {
-                                $fields[$field['name']]['options'][$key] = null;
-                            } else {
-                                if (isset($conf['options'])) {
-                                    foreach ($conf['options'] as $option) {
-                                        if ((string) $option['value'] == (string) $field['options'][$key]) {
-                                            $fields[$field['name']]['options'][$key] = $field['options'][$key];
-                                            break;
+                                if ($conf['type'] == "text") {
+                                    if (!(isset($field['options'][$key]) and is_string(
+                                            $field['options'][$key]
+                                        ) and strlen($field['options'][$key]) > 0)) {
+                                        $fields[$field['name']]['options'][$key] = null;
+                                    } else {
+                                        $fields[$field['name']]['options'][$key] = $field['options'][$key];
+                                    }
+                                } else {
+                                    if ($conf['type'] == "select") {
+                                        if (!(isset($field['options'][$key]))) {
+                                            $fields[$field['name']]['options'][$key] = null;
+                                        } else {
+                                            if (isset($conf['options'])) {
+                                                foreach ($conf['options'] as $option) {
+                                                    if ((string)$option['value'] == (string)$field['options'][$key]) {
+                                                        $fields[$field['name']]['options'][$key] = $field['options'][$key];
+                                                        break;
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -384,6 +482,7 @@ class FormConfig {
         }
         if (count($fields) == 0) {
             \core\Notify::add(__("backend/forms.error_zero_fields"), "error");
+
             return false;
         }
 
@@ -395,19 +494,30 @@ class FormConfig {
         $newform->email = strtolower($post['email']);
         $newform->notify = "";
         $newform->type = $type;
+//
+//        $newform->save();
 
-        $newform->save();
+        $json_form = array();
+        $json_form['id'] = $id;
+        $json_form['fields'] = $fields;
+        $json_form['title'] = $newform->title;
+        $json_form['email'] = $newform->email;
+        $json_form['notify'] = '';
+        $json_form['type'] = $newform->type;
         if ($type == "mysql") {
-            FormConfig::createTable($newform);
+            //FormConfig::createTable($json_form);
+            FormConfig::makeMigration($json_form);
         }
 
 
         return true;
     }
 
-    static function deleteField($form, $field) {
+    static function deleteField($form, $field)
+    {
         if (count($form['fields']) == 1) {
             \core\Notify::add(__("backend/forms.error_field_cantdelete"));
+
             return false;
         }
         unset($form['fields'][$field]);
@@ -415,48 +525,110 @@ class FormConfig {
         $object->fields = json_encode($form['fields']);
 
         if ($form['type'] == "mysql") {
-            $sql = 'ALTER TABLE `' . $form['table'] . '` 
-DROP COLUMN `' . $field . '`;';
+            $sql = 'ALTER TABLE `'.$form['table'].'` 
+DROP COLUMN `'.$field.'`;';
             $result = \DB::statement($sql);
         }
         $object->save();
     }
 
-    static function createTable($form) {
+    static function makeMigration($json)
+    {
+
+        Artisan::call(
+            'make:migration',
+            [
+                'name' => 'crud_new_form_table'.time(),
+            ]
+        );
+
+        $path_to_migrations = base_path("database/migrations");
+        $files = scandir($path_to_migrations);
+        $file_migrate = null;
+        foreach ($files as $key => $file) {
+            $next_key = $key + 1;
+            if (!isset($files[$next_key])) {
+                $file_migrate = $files[$key];
+            }
+        }
+        $path_to_migration = base_path("database/migrations/".$file_migrate);
+        $content_migration = file_get_contents($path_to_migration);
+        $occurrence = strpos($content_migration, "//");
+        $content_migration = substr_replace(
+            $content_migration,
+            "[upcode]",
+            strpos($content_migration, "//"),
+            strlen("//")
+        );
+        $occurrence = strpos($content_migration, "//");
+        $content_migration = substr_replace(
+            $content_migration,
+            "[downcode]",
+            strpos($content_migration, "//"),
+            strlen("//")
+        );
+        //
+        $template_migration_up = config('admin.template_form_migration_up');
+        $template_migration_up = str_replace("[JSON_DATA]", "'".json_encode($json)."'", $template_migration_up);
+        $template_migration_down = config('admin.template_form_migration_down');
+        // $template_migration_down = str_replace("%name_table%", "'" . $json['name'] . "'", $template_migration_down);
+
+
+        $content_migration = str_replace("[upcode]", $template_migration_up, $content_migration);
+        $content_migration = str_replace("[downcode]", $template_migration_down, $content_migration);
+
+
+        $path_to_migrations = base_path("database/migrations");
+        file_put_contents($path_to_migration, $content_migration);
+
+        Artisan::call('migrate');
+
+        return true;
+
+
+    }
+
+    static function createTable($form)
+    {
+        $form = \db\JsonQuery::get((int)$form->id, "forms", "id");
 
         $fields = json_decode($form->fields, true);
 
         $additional_sql = "";
         foreach ($fields as $key => $field) {
-            $class = "\\content\\fields\\" . $field['type'];
+            $class = "\\content\\fields\\".$field['type'];
             $obj = new $class($key, $key);
-            $additional_sql .= $obj->_raw_create_sql() . ",";
+            $additional_sql .= $obj->_raw_create_sql().",";
         }
 
-        $sql = 'CREATE TABLE `forms' . $form->id . '` (
+        $sql = 'CREATE TABLE `forms'.$form->id.'` (
   `last_id` INT NOT NULL AUTO_INCREMENT,
-  ' . $additional_sql . '
+  '.$additional_sql.'
   `date_create` DATE NULL,
   PRIMARY KEY (`last_id`));';
 
         $result = \DB::statement($sql);
     }
 
-    static function isExist($id) {
+    static function isExist($id)
+    {
         $table = \db\JsonQuery::get($id, "forms", "id");
         if (is_object($table)) {
             return true;
         }
+
         return false;
     }
 
-    static function load($last_id, $uid, $row) {
-        
+    static function load($last_id, $uid, $row)
+    {
+
     }
 
-    static function get($id) {
-        $row = \db\JsonQuery::get((int) $id, "forms", "id");
-        if (!( is_object($row) and isset($row->id) and ! is_null($row->id))) {
+    static function get($id)
+    {
+        $row = \db\JsonQuery::get((int)$id, "forms", "id");
+        if (!(is_object($row) and isset($row->id) and !is_null($row->id))) {
             return null;
         } else {
 
@@ -469,10 +641,9 @@ DROP COLUMN `' . $field . '`;';
             $row = $array;
 
             //$row = array('type' => $row->type, 'notify' => $row->notify, 'id' => $row->id, 'email' => $row->email, 'title' => $row->title, 'fields' => $row->fields);
-            $row['table'] = "forms" . $row['id'];
+            $row['table'] = "forms".$row['id'];
 
             $row['fields'] = json_decode($row['fields'], true);
-
 
 
             foreach ($row['fields'] as $key => $field) {
@@ -501,16 +672,18 @@ DROP COLUMN `' . $field . '`;';
                 $row['fields'][$key]['config'] = $tmp['config'];
             }
         }
+
         return $row;
     }
 
-    static function getField($name) {
+    static function getField($name)
+    {
         $return = null;
         $result = TableConfig::fields();
         if (count($result)) {
             foreach ($result as $row) {
                 if ($row['name'] == $name) {
-                    $class = "\\content\\fields\\" . $name;
+                    $class = "\\content\\fields\\".$name;
                     $obj = new $class("test", "test");
                     $tmp = $obj->getConfigOptions();
                     $array = array();
@@ -522,17 +695,19 @@ DROP COLUMN `' . $field . '`;';
                 }
             }
         }
+
         return $return;
     }
 
-    static function getFieldMongodb($name) {
+    static function getFieldMongodb($name)
+    {
         $return = null;
         $result = \mg\core\CollectionModel::fields();
         if (count($result)) {
             foreach ($result as $row) {
 
                 if ($row['name'] == $name) {
-                    $class = "\\mg\\fields\\" . $name;
+                    $class = "\\mg\\fields\\".$name;
                     $obj = new $class("test", "test");
                     $tmp = $obj->getConfigOptions();
                     $array = array();
