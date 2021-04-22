@@ -65,4 +65,30 @@ return [
 
         $newtable->save();
   ',
+    "template_form_migration_down" => '$query = \Lazer\Classes\Database::table("forms")->orderBy("id", "DESC")->findAll();
+
+
+        if (count($query)) {
+            foreach ($query as $q) {
+                \forms\models\FormConfig::delete($q->id);
+                break;
+            }
+        }',
+    "template_form_migration_up" => '
+   $json_data = [JSON_DATA];
+
+        $table_data = json_decode($json_data, true);
+
+         $newform = \db\JsonQuery::insert("forms");
+        $newform->id=1;
+        $newform->fields = json_encode($table_data["fields"]);
+        $newform->title = $table_data["title"];
+        $newform->email = $table_data["email"];
+        $newform->notify = "";
+        $newform->type = $table_data["type"];
+        $newform->save();
+        \forms\models\FormConfig::createTable($newform);
+
+        
+  ',
 ];
